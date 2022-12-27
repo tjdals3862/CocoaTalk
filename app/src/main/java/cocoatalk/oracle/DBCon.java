@@ -12,7 +12,7 @@ public class DBCon {
     try {
       String user = "scott";
       String pw = "tiger";
-      String url = "jdbc:oracle:thin:@127.0.0.1:1521:orcl11";
+      String url = "jdbc:oracle:thin:@192.168.10.73:1521:orcl11";
 
       Class.forName("oracle.jdbc.driver.OracleDriver");
       connect = DriverManager.getConnection(url, user, pw);
