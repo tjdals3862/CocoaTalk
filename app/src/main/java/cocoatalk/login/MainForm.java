@@ -15,9 +15,9 @@ import javax.swing.JPanel;
 public class MainForm extends JFrame implements ActionListener {
 
   // 선언부
-  String imgPath = "C:\\TEMP\\";
+  String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
-  JPanel frinedPanel = new JPanel();
+  JPanel centerPanel = new JPanel();
   JPanel btnPanel = new JPanel();
   Font font = new Font("굴림체", Font.BOLD, 13);
 
@@ -53,9 +53,9 @@ public class MainForm extends JFrame implements ActionListener {
     // frinedPanel
 
     ////// 센터패널
-    this.add("Center", frinedPanel);
-    frinedPanel.setBounds(0, 95, 426, 380);
-    frinedPanel.setBackground(Color.red); // 투명
+    this.add("Center", centerPanel);
+    centerPanel.setBounds(0, 95, 426, 380);
+    centerPanel.setBackground(new Color(0, 0, 0, 0)); // 투명
 
     ///// 버튼
     jbtn_friend.setBounds(10, 470, 80, 80);
@@ -77,6 +77,7 @@ public class MainForm extends JFrame implements ActionListener {
     jbtn_setting.setContentAreaFilled(false);
 
     // 버튼액션
+    jbtn_friend.addActionListener(this);
     jbtn_home.addActionListener(this);
     jbtn_setting.addActionListener(this);
   }
@@ -93,7 +94,8 @@ public class MainForm extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_friend) {
-
+      TalkMain talkMain = new TalkMain();
+      talkMain.initDisplay();
     } else if (obj == jbtn_search) {
       this.setVisible(false);
 

@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 public class LoginForm extends JFrame implements ActionListener {
   // 선언부
   Register register = new Register(this);
-  String imgPath = "D:\\vscode-java\\cocoaTalk\\app\\bin\\main\\cocoatalk\\images\\";
+  String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
@@ -74,6 +74,16 @@ public class LoginForm extends JFrame implements ActionListener {
 
   // 메인메소드
   public static void main(String[] args) {
+
+    First first = new First();
+    first.firstDisplay();
+
+    try {
+      Thread.sleep(500);
+      first.dispose();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     LoginForm loginForm = new LoginForm();
     loginForm.initDisplay();
 
