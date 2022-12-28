@@ -84,7 +84,9 @@ public class LoginForm extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_login) {
-
+      MainForm MainFormcopy = new MainForm();
+      MainFormcopy.initDisplay();
+      this.setVisible(false);
     } else if (obj == jbtn_join) {
       register.set(true);
     }
