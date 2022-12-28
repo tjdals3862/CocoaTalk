@@ -14,10 +14,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import cocoatalk.oracle.DBCon;
+import cocoatalk.oracle.DbFunction;
 
 public class Register extends JFrame implements ActionListener {
   // 선언부
@@ -26,9 +28,10 @@ public class Register extends JFrame implements ActionListener {
   Connection conn = null;
   PreparedStatement pstm = null;
   ResultSet rs = null;
+  DbFunction dbf = null;
 
-  String imgPath = "D:\\vscode-java\\cocoaTalk\\app\\bin\\main\\cocoatalk\\images\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");
+  String imgPath = "D:\\TEMP\\";
+  ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
 
   JLabel jlb_name = new JLabel("이름");
   JLabel jlb_id = new JLabel("아이디");
@@ -174,38 +177,26 @@ public class Register extends JFrame implements ActionListener {
     } else if (obj == jbtn_join) {
 
       db = new DBCon();
-
-      String name = jtf_name.getText();
-      String id = jtf_id.getText();
-      String pw = jtf_pw.getText();
-      int birth = Integer.parseInt(jtf_birth.getText());
-      int phone = Integer.parseInt(jtf_phone.getText());
-      String nickName = jtf_nickName.getText();
+      dbf = new DbFunction();
 
       try {
+        String name = jtf_name.getText();
+        String id = jtf_id.getText();
+        String pw = jtf_pw.getText();
+
+        int birth = Integer.parseInt(jtf_birth.getText());
+        int phone = Integer.parseInt(jtf_phone.getText());
+        String nickName = jtf_nickName.getText();
         String query = "insert into member values ('" + name + "', '" + id
             + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
+        dbf.insert(query);
 
-        conn = db.getConnection();
-        pstm = conn.prepareStatement(query);
-        int r = pstm.executeUpdate();
-      } catch (SQLException sqle) {
-        System.out.println("예외 발생");
-        sqle.printStackTrace();
-      } finally {
-        try {
-          if (rs != null) {
-            rs.close();
-          }
-          if (pstm != null) {
-            pstm.close();
-          }
-          if (conn != null) {
-            conn.close();
-          }
-        } catch (Exception ie) {
-          throw new RuntimeException(ie.getMessage());
-        }
+      } catch (NumberFormatException ne) {
+        JOptionPane.showMessageDialog(null, "생년월일, 전화번호는 숫자만 입력하세요",
+            "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+      } catch (Exception se) {
+        JOptionPane.showMessageDialog(null, "아이디 중복검사 필요",
+            "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
       }
 
     } else if (obj == jbtn_cancel) {
