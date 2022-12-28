@@ -10,8 +10,8 @@ public class DBCon {
   public static Connection getConnection() {
     Connection connect = null;
     try {
-      String user = "scott";
-      String pw = "tiger";
+      String user = "ssbj";
+      String pw = "ssbj";
       String url = "jdbc:oracle:thin:@192.168.10.73:1521:orcl11";
 
       Class.forName("oracle.jdbc.driver.OracleDriver");
