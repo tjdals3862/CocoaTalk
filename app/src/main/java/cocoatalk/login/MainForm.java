@@ -22,9 +22,9 @@ public class MainForm extends JFrame implements ActionListener {
   Font font = new Font("굴림체", Font.BOLD, 13);
 
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnheart.png"));
-  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnheart.png"));
+  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnmsg.png"));
   JButton jbtn_home = new JButton(new ImageIcon(imgPath + "btnhome.png"));
-  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnmsg.png"));
+  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
 
   // 생성자
   MainForm() {
@@ -80,6 +80,7 @@ public class MainForm extends JFrame implements ActionListener {
     jbtn_friend.addActionListener(this);
     jbtn_home.addActionListener(this);
     jbtn_setting.addActionListener(this);
+    jbtn_search.addActionListener(this);
   }
 
   // 메인메소드
@@ -97,6 +98,8 @@ public class MainForm extends JFrame implements ActionListener {
       TalkMain talkMain = new TalkMain();
       talkMain.initDisplay();
     } else if (obj == jbtn_search) {
+      SearchMainForm searchMainForm = new SearchMainForm();
+      searchMainForm.Search_init();
       this.setVisible(false);
 
     } else if (obj == jbtn_home) {
