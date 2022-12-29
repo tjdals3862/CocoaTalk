@@ -10,10 +10,13 @@ import javax.swing.event.MouseInputListener;
 
 public class FriendProfile extends JDialog implements MouseInputListener {
   FriendList fl = null;
-
   JLabel jlbl_name;
   JButton chat_1to1;
-  JPanel pf_north;
+  JButton delete;
+  JPanel pf_south;
+
+  // ko
+  // JPanel grid_panel = new JPanel();
 
   public FriendProfile(FriendList fl) {
     this.fl = fl;
@@ -21,21 +24,33 @@ public class FriendProfile extends JDialog implements MouseInputListener {
 
   public void profileDisplay(boolean isOpen, String who) {
     new JDialog();
-    pf_north = new JPanel();
+    pf_south = new JPanel();
 
-    jlbl_name = new JLabel(who);
-    chat_1to1 = new JButton();
+    // ko - 버튼 생성
+    chat_1to1 = new JButton("1:1 채팅");
+    delete = new JButton("삭제");
 
-    chat_1to1.addMouseListener(this);
-    chat_1to1.setSize(30, 30);
+    jlbl_name = new JLabel(who);//
+    this.setLayout(null);
+    this.add(chat_1to1);
+    chat_1to1.setBounds(233, 428, 80, 80);
+    this.add(delete);
+    delete.setBounds(133, 428, 80, 80);
+    this.setResizable(false);
 
-    pf_north.add(chat_1to1);
+    // ko - JDialog 남쪽에 버튼추가
+    // this.add(chat_1to1, BorderLayout.SOUTH);
+    // this.pf_south.setLayout(new BorderLayout());
 
-    add(jlbl_name);
-    add(pf_north);
+    // chat_1to1.addMouseListener(this);
+    // chat_1to1.setSize(30, 30);
+
+    // pf_south.add(chat_1to1);
+    // add(jlbl_name);
+    // add("South", pf_south);
 
     setSize(330, 550);
-    setVisible(isOpen);
+    setVisible(isOpen);//
   }
 
   @Override
