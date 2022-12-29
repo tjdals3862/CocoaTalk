@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import cocoatalk.oracle.DBCon;
@@ -29,6 +29,7 @@ public class Register extends JFrame implements ActionListener {
   PreparedStatement pstm = null;
   ResultSet rs = null;
   DbFunction dbf = null;
+  boolean isTrue = false;
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
@@ -44,13 +45,13 @@ public class Register extends JFrame implements ActionListener {
   JLabel jlb_idNotAvble = new JLabel("중복된 아이디 입니다.");
   JLabel jlb_title = new JLabel("회원가입");
 
-  JTextField jtf_name = new JTextField(); // 이름
-  JTextField jtf_id = new JTextField(); // 아이디
-  JTextField jtf_pw = new JTextField(); // 비밀번호
-  JTextField jtf_pw2 = new JTextField(); // 비밀번호 확인
-  JTextField jtf_birth = new JTextField(); // 생년월일
-  JTextField jtf_phone = new JTextField(); // 폰번호
-  JTextField jtf_nickName = new JTextField(); // 닉네임
+  JTextField jtf_name = new JTextField(""); // 이름
+  JTextField jtf_id = new JTextField(""); // 아이디
+  JPasswordField jtf_pw = new JPasswordField(""); // 비밀번호
+  JPasswordField jtf_pw2 = new JPasswordField(""); // 비밀번호 확인
+  JTextField jtf_birth = new JTextField(""); // 생년월일
+  JTextField jtf_phone = new JTextField(""); // 폰번호
+  JTextField jtf_nickName = new JTextField(""); // 닉네임
 
   Font font = new Font("굴림체", Font.BOLD, 13);
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 25);
@@ -173,6 +174,11 @@ public class Register extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_idconfirm) {
+      db = new DBCon();
+      dbf = new DbFunction();
+      String id = jtf_id.getText();
+      String query = "select id from member where id = '" + id + "'";
+      dbf.idchk(query);
 
     } else if (obj == jbtn_join) {
 
@@ -183,19 +189,34 @@ public class Register extends JFrame implements ActionListener {
         String name = jtf_name.getText();
         String id = jtf_id.getText();
         String pw = jtf_pw.getText();
-
+        String pw2 = jtf_pw2.getText();
         int birth = Integer.parseInt(jtf_birth.getText());
         int phone = Integer.parseInt(jtf_phone.getText());
         String nickName = jtf_nickName.getText();
         String query = "insert into member values ('" + name + "', '" + id
             + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
-        dbf.insert(query);
+
+        if (isTrue) {
+          if (pw.equals(pw2)) {
+            if (name.equals("") || id.equals("") || pw.equals("")) {
+              JOptionPane.showMessageDialog(null, "공백 확인 하세요",
+                  "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+            } else {
+              dbf.insert(query);
+            }
+          } else {
+            JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
+                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+          }
+        } else {
+          JOptionPane.showMessageDialog(null, "사용할수 없는 id 입니다.",
+              "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // dbf.insert(query);
 
       } catch (NumberFormatException ne) {
         JOptionPane.showMessageDialog(null, "생년월일, 전화번호는 숫자만 입력하세요",
-            "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-      } catch (Exception se) {
-        JOptionPane.showMessageDialog(null, "아이디 중복검사 필요",
             "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
       }
 
