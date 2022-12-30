@@ -6,35 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class ChatServer {
+public class ChatServer extends Thread {
 
-  List<ServerSocket> serverList = new Vector<ServerSocket>(); // 채팅서버 리스트
-  List<String> roomtList = new ArrayList<String>(); // 방이름
-  List<Integer> port = new ArrayList<>(); // 포트번호
+  static List<Socket> socketList = new Vector<>(); // 소켓 리스트
+  List<Room> roomlist = new Vector<>(); // 채팅방 리스트
 
   Socket socket = null;
   ServerSocket server = null;
-  ChatServerThread cst = null;
-  List<ChatServerThread> Chatlist = null;
+  Room room = null;
 
   public ChatServer() {
 
   }
 
   public void init() {
-    boolean isStop = false;
-    Chatlist = new Vector<>();
 
     try {
       server = new ServerSocket(3000);
 
-      List<Socket> list = new Vector<>();
-      while (!isStop) {
+      while (true) {
         System.out.println("접속 대기중");
         socket = server.accept();
-        list.add(socket);
-        ChatServerThread cst = new ChatServerThread(this);
-        cst.start();
+        socketList.add(socket);
+        roomlist.add(room);
+        room = new Room(this);
+        room.start();
       }
 
     } catch (Exception e) {

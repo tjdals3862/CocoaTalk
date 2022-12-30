@@ -107,8 +107,31 @@ public class ChatClient extends JFrame implements ActionListener {
     }
   }
 
+  // 소켓 관련 초기화
+  public void init() {
+    try {
+      // 서버측의 ip주소 작성하기
+      // socket = new Socket("192.168.0.244",3000);
+      // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
+      socket = new Socket("127.0.0.1", 3000);
+      oos = new ObjectOutputStream(socket.getOutputStream());
+      ois = new ObjectInputStream(socket.getInputStream());
+      // initDisplay에서 닉네임이 결정된 후 init메소드가 호출되므로
+      // 서버에게 내가 입장한 사실을 알린다.(말하기)
+      String message = jtf_message.getText();
+      oos.writeObject(message);
+      ChatClientThread cct = new ChatClientThread(this);
+      cct.start();
+    } catch (Exception e) {
+      // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기
+      System.out.println(e.toString());
+    }
+  }
+
   public static void main(String[] args) {
     ChatClient cc = new ChatClient();
     cc.initDisplay();
+    cc.init();
+
   }
 }
