@@ -45,10 +45,11 @@ public class Room extends Thread {
       String msg = (String) ois.readObject(); // 채팅메세지
       chatName = "tomato"; // 채팅 이름 본인 name 호출
       System.out.println(chatName + "님이 입장");
-
+      System.out.println(msg);
       // 채팅메세지를 client에 전달
       for (Room room : cs.roomlist) {
-        oos.writeObject(msg);
+        System.out.println(room);
+        room.oos.writeObject(msg);
       }
 
     } catch (Exception e) {

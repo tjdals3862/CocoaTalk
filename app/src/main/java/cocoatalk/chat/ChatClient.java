@@ -93,6 +93,7 @@ public class ChatClient extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
+    // ChatClient chat = new ChatClient();
 
     // 채팅 이벤트 처리
     if (obj == jbtn_send || obj == jtf_message) {
@@ -101,9 +102,14 @@ public class ChatClient extends JFrame implements ActionListener {
 
       // jTextArea_display 텍스트 영역에 출력
       jta_display.append(message + "\n");
+      try {
+        oos.writeObject(message);
+        // jTextField_mesaage 텍스트 필드 초기화
+        jtf_message.setText("");
+      } catch (Exception e2) {
 
-      // jTextField_mesaage 텍스트 필드 초기화
-      jtf_message.setText("");
+      }
+
     }
   }
 
@@ -118,8 +124,8 @@ public class ChatClient extends JFrame implements ActionListener {
       ois = new ObjectInputStream(socket.getInputStream());
       // initDisplay에서 닉네임이 결정된 후 init메소드가 호출되므로
       // 서버에게 내가 입장한 사실을 알린다.(말하기)
-      String message = jtf_message.getText();
-      oos.writeObject(message);
+      // String message = jtf_message.getText();
+      // oos.writeObject(message);
       ChatClientThread cct = new ChatClientThread(this);
       cct.start();
     } catch (Exception e) {

@@ -23,13 +23,12 @@ public class ChatServer extends Thread {
 
     try {
       server = new ServerSocket(3000);
-
+      System.out.println("접속 대기중");
       while (true) {
-        System.out.println("접속 대기중");
         socket = server.accept();
         socketList.add(socket);
-        roomlist.add(room);
         room = new Room(this);
+        roomlist.add(room);
         room.start();
       }
 
