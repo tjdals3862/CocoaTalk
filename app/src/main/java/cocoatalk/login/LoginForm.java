@@ -18,7 +18,7 @@ public class LoginForm extends JFrame implements ActionListener {
   // 선언부
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalk.jpg");
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");

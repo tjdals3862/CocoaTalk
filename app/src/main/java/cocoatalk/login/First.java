@@ -8,7 +8,7 @@ import java.awt.Graphics;
 public class First extends JFrame {
 
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "first.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "loadingWalll.jpg");
 
   class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {

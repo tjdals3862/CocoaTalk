@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.Graphics;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,13 +19,18 @@ public class SearchMainForm extends JFrame implements ActionListener {
   public static final String content = null;
   // 선언
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon();
+  ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
 
   MainForm MainForm = new MainForm();
-  TalkMain talkMain = new TalkMain();
+  JPanel jpanel = new JPanel() {
+    public void paintComponent(Graphics g) {
+      g.drawImage(ig.getImage(), 0, 0, null);
+      setOpaque(false);
+      super.paintComponent(g);
+    } // end of MyPanel - 사용자 패널 정의 -
+    // LoginForm$1.class
 
-  JFrame jframe = new JFrame();
-  JPanel jpanel = new JPanel();
+  };
   JTextField searchTextField = new JTextField();
   JTextArea searchTextArea = new JTextArea();
   JButton searchBtn;
@@ -37,51 +43,56 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
   // 생성자
   SearchMainForm() {
-    Search_init();
   }
 
-  // 내부클래스로 배경 이미지 처리
-  class MyPanel extends JPanel {
-    public void paintComponent(Graphics g) {
-      g.drawImage(imageIcon.getImage(), 0, 0, null);
-      setOpaque(false);
-      super.paintComponent(g);
-    } // end of MyPanel - 사용자 패널 정의 - LoginForm$1.class
-  }
+  /*
+   * // 내부클래스로 배경 이미지 처리
+   * class MyPanel extends JPanel {
+   * public void paintComponent(Graphics g) {
+   * g.drawImage(ig.getImage(), 0, 0, null);
+   * setOpaque(false);
+   * super.paintComponent(g);
+   * } // end of MyPanel - 사용자 패널 정의 - LoginForm$1.class
+   * }
+   */
 
   public void Search_init() {
     // 창
-    jframe.setTitle("CocoaTalk_SearchPanel");
-    jframe.setBounds(50, 50, 410, 670);
-    jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    jframe.setVisible(true);
+    this.setTitle("SearchPanel");
+    this.setBounds(50, 50, 410, 670);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setVisible(true);
+    this.setSize(426, 688);
+    this.setLocation(500, 100);
+    this.setResizable(false);
     jpanel.setLayout(null);
-    jframe.add(jpanel);
-    jpanel.setBackground(new Color(51, 0, 0, 150));
+    this.add(jpanel);
+    jpanel.setBackground(new Color(51, 0, 0, 120));
 
     // 검색창
-    searchTextField.setBounds(80, 100, 220, 30);
+    searchTextField.setBounds(25, 100, 295, 30);
     jpanel.add(searchTextField);
     // label.setBounds(150, 100, 70, 30);
     // jpanel.add(label);
 
     JScrollPane jsp = new JScrollPane(searchTextArea);
-    jsp.setBounds(10, 145, 360, 250);
+    jsp.setBounds(25, 145, 360, 380);
     jpanel.add(jsp);
 
     // 검색버튼
     jpanel.add(searchBtn = new JButton("검색"));
-    searchBtn.setBounds(300, 100, 70, 31);
+    searchBtn.setBounds(320, 100, 70, 31);
     searchBtn.setBackground(Color.pink);
 
     // 메뉴버튼들
-    jbtn_friend.setBounds(10, 520, 80, 80);
+
+    jbtn_friend.setBounds(15, 565, 80, 80);
     jpanel.add(jbtn_friend);
-    jbtn_search.setBounds(100, 520, 80, 80);
+    jbtn_search.setBounds(110, 565, 80, 80);
     jpanel.add(jbtn_search);
-    jbtn_home.setBounds(200, 520, 80, 80);
+    jbtn_home.setBounds(205, 565, 80, 80);
     jpanel.add(jbtn_home);
-    jbtn_setting.setBounds(290, 520, 80, 80);
+    jbtn_setting.setBounds(300, 565, 80, 80);
     jpanel.add(jbtn_setting);
 
     jbtn_friend.setBorderPainted(false);
@@ -104,8 +115,8 @@ public class SearchMainForm extends JFrame implements ActionListener {
   }
 
   public static void main(String[] args) {
-    SearchMainForm serchMainForm = new SearchMainForm();
-    serchMainForm.Search_init();
+    SearchMainForm serchPanel1 = new SearchMainForm();
+    serchPanel1.Search_init();
 
   }
 
@@ -113,18 +124,26 @@ public class SearchMainForm extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    if (obj == jbtn_home) {
-      MainForm.initDisplay();
-      jframe.setVisible(false);
-
-    } else if (obj == jbtn_friend) {
+    if (obj == jbtn_friend) {
+      TalkMain talkMain = new TalkMain();
       talkMain.initDisplay();
 
-    } else if (obj == jbtn_setting) {
-
     } else if (obj == jbtn_search) {
+      SearchMainForm searchMainForm = new SearchMainForm();
+      searchMainForm.Search_init();
+      setVisible(true);
 
-    } else if (obj == searchBtn) {
+    } else if (obj == jbtn_home) {
+      MainForm mainForm = new MainForm();
+      mainForm.initDisplay();
+      setVisible(false);
+
+    } else if (obj == jbtn_setting) {
+      SettingForm settingForm = new SettingForm();
+      settingForm.initDisplay();
+      setVisible(false);
+    } // else if
+    else if (obj == searchBtn) {
 
     }
   } // 이벤트

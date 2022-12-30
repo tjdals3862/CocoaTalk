@@ -106,7 +106,9 @@ public class MainForm extends JFrame implements ActionListener {
       this.setVisible(true);
 
     } else if (obj == jbtn_setting) {
-
+      SettingForm settingForm = new SettingForm();
+      settingForm.initDisplay();
+      setVisible(false);
     }
   }
 }
