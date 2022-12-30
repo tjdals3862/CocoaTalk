@@ -18,6 +18,10 @@ import javax.swing.JTextField;
 public class SearchMainForm extends JFrame implements ActionListener {
   public static final String content = null;
   // 선언
+
+  FriendList fl = new FriendList(); // 승현
+  ChatList cl = new ChatList();
+
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
 
@@ -38,7 +42,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnheart.png"));
   JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnmsg.png"));
-  JButton jbtn_home = new JButton(new ImageIcon(imgPath + "btnhome.png"));
+  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnhome.png")); // >> 채팅버튼으로***
   JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
 
   // 생성자
@@ -88,10 +92,10 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
     jbtn_friend.setBounds(15, 565, 80, 80);
     jpanel.add(jbtn_friend);
-    jbtn_search.setBounds(110, 565, 80, 80);
+    jbtn_chat.setBounds(110, 565, 80, 80);
+    jpanel.add(jbtn_chat);
+    jbtn_search.setBounds(205, 565, 80, 80);
     jpanel.add(jbtn_search);
-    jbtn_home.setBounds(205, 565, 80, 80);
-    jpanel.add(jbtn_home);
     jbtn_setting.setBounds(300, 565, 80, 80);
     jpanel.add(jbtn_setting);
 
@@ -99,14 +103,14 @@ public class SearchMainForm extends JFrame implements ActionListener {
     jbtn_friend.setContentAreaFilled(false);
     jbtn_search.setBorderPainted(false);
     jbtn_search.setContentAreaFilled(false);
-    jbtn_home.setBorderPainted(false);
-    jbtn_home.setContentAreaFilled(false);
+    jbtn_chat.setBorderPainted(false);
+    jbtn_chat.setContentAreaFilled(false);
     jbtn_setting.setBorderPainted(false);
     jbtn_setting.setContentAreaFilled(false);
 
     jbtn_friend.addActionListener(this);
     jbtn_search.addActionListener(this);
-    jbtn_home.addActionListener(this);
+    jbtn_chat.addActionListener(this);
     jbtn_setting.addActionListener(this);
     searchBtn.addActionListener(this);
 
@@ -124,26 +128,47 @@ public class SearchMainForm extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
+    // if (obj == jbtn_friend) {
+    // TalkMain talkMain = new TalkMain();
+    // talkMain.initDisplay();
+
+    // } else if (obj == jbtn_search) {
+    // SearchMainForm searchMainForm = new SearchMainForm();
+    // searchMainForm.Search_init();
+    // setVisible(true);
+
+    // } else if (obj == jbtn_home) {
+    // MainForm mainForm = new MainForm();
+    // mainForm.initDisplay();
+    // setVisible(false);
+
+    // } else if (obj == jbtn_setting) {
+    // SettingForm settingForm = new SettingForm();
+    // settingForm.initDisplay();
+    // setVisible(false);
+    // } // else if
+
     if (obj == jbtn_friend) {
-      TalkMain talkMain = new TalkMain();
-      talkMain.initDisplay();
+      MainForm mf = new MainForm();
+      mf.initDisplay();
+      this.dispose();
+
+    } else if (obj == jbtn_chat) {
+      MainForm mf = new MainForm();
+      mf.initDisplay();
+      mf.clearCenter(mf.cl);
+      this.dispose();
 
     } else if (obj == jbtn_search) {
       SearchMainForm searchMainForm = new SearchMainForm();
       searchMainForm.Search_init();
-      setVisible(true);
-
-    } else if (obj == jbtn_home) {
-      MainForm mainForm = new MainForm();
-      mainForm.initDisplay();
-      setVisible(false);
+      this.dispose();
 
     } else if (obj == jbtn_setting) {
       SettingForm settingForm = new SettingForm();
       settingForm.initDisplay();
-      setVisible(false);
-    } // else if
-    else if (obj == searchBtn) {
+      this.dispose();
+    } else if (obj == searchBtn) {
 
     }
   } // 이벤트

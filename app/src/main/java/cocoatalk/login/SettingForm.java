@@ -22,8 +22,8 @@ public class SettingForm extends JFrame implements ActionListener {
       new ImageIcon(imgPath + "btnheart.png"));// 하트버튼
   JButton jbtn_search = new JButton(
       new ImageIcon(imgPath + "btnmsg.png"));// 하트버튼2
-  JButton jbtn_home = new JButton(
-      new ImageIcon(imgPath + "btnhome.png"));// 홈 버튼
+  JButton jbtn_chat = new JButton(
+      new ImageIcon(imgPath + "btnhome.png"));// 홈 버튼 >> 채팅버튼으로***
   JButton jbtn_setting = new JButton(
       new ImageIcon(imgPath + "btnsetting.png"));// 메시지 버튼
 
@@ -61,10 +61,10 @@ public class SettingForm extends JFrame implements ActionListener {
 
     jbtn_friend.setBounds(15, 565, 80, 80);
     this.add(jbtn_friend);
-    jbtn_search.setBounds(110, 565, 80, 80);
+    jbtn_chat.setBounds(110, 565, 80, 80);
+    this.add(jbtn_chat);
+    jbtn_search.setBounds(205, 565, 80, 80);
     this.add(jbtn_search);
-    jbtn_home.setBounds(205, 565, 80, 80);
-    this.add(jbtn_home);
     jbtn_setting.setBounds(300, 565, 80, 80);
     this.add(jbtn_setting);
 
@@ -72,8 +72,8 @@ public class SettingForm extends JFrame implements ActionListener {
     jbtn_friend.setContentAreaFilled(false);
     jbtn_search.setBorderPainted(false);
     jbtn_search.setContentAreaFilled(false);
-    jbtn_home.setBorderPainted(false);
-    jbtn_home.setContentAreaFilled(false);
+    jbtn_chat.setBorderPainted(false);
+    jbtn_chat.setContentAreaFilled(false);
     jbtn_setting.setBorderPainted(false);
     jbtn_setting.setContentAreaFilled(false);
 
@@ -90,7 +90,7 @@ public class SettingForm extends JFrame implements ActionListener {
 
     jbtn_friend.addActionListener(this);
     jbtn_search.addActionListener(this);
-    jbtn_home.addActionListener(this);
+    jbtn_chat.addActionListener(this);
     jbtn_setting.addActionListener(this);
 
   }////////////////////////////////////////////////////////////////////////////////// 화면그리기
@@ -106,23 +106,25 @@ public class SettingForm extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_friend) {
-      TalkMain talkMain = new TalkMain();
-      talkMain.initDisplay();
+      MainForm mf = new MainForm();
+      mf.initDisplay();
+      this.dispose();
+
+    } else if (obj == jbtn_chat) {
+      MainForm mf = new MainForm();
+      mf.initDisplay();
+      mf.clearCenter(mf.cl);
+      this.dispose();
 
     } else if (obj == jbtn_search) {
       SearchMainForm searchMainForm = new SearchMainForm();
       searchMainForm.Search_init();
-      setVisible(false);
-
-    } else if (obj == jbtn_home) {
-      MainForm mainForm = new MainForm();
-      mainForm.initDisplay();
-      setVisible(false);
+      this.dispose();
 
     } else if (obj == jbtn_setting) {
       SettingForm settingForm = new SettingForm();
       settingForm.initDisplay();
-      setVisible(true);
+      this.dispose();
     } // else if
 
   }

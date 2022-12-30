@@ -9,11 +9,11 @@ import java.util.Vector;
 public class ChatServer extends Thread {
 
   static List<Socket> socketList = new Vector<>(); // 소켓 리스트
-  List<Room> roomlist = new Vector<>(); // 채팅방 리스트
+  List<ChatServerThread> cstlist = new Vector<>(); // 채팅방 리스트
 
   Socket socket = null;
   ServerSocket server = null;
-  Room room = null;
+  ChatServerThread cst = null;
 
   public ChatServer() {
 
@@ -27,9 +27,9 @@ public class ChatServer extends Thread {
       while (true) {
         socket = server.accept();
         socketList.add(socket);
-        room = new Room(this);
-        roomlist.add(room);
-        room.start();
+        cst = new ChatServerThread(this);
+        cstlist.add(cst);
+        cst.start();
       }
 
     } catch (Exception e) {

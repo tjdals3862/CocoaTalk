@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class Room extends Thread {
+public class ChatServerThread extends Thread {
 
   ChatServer cs = null;
 
@@ -16,7 +16,7 @@ public class Room extends Thread {
   // 현재 서버에 입장한 클라이언트 스레드의 닉네임 저장
   String chatName = null;
 
-  public Room(ChatServer cs) {
+  public ChatServerThread(ChatServer cs) {
     this.cs = cs;
     this.client = cs.socket;
   }
@@ -47,8 +47,8 @@ public class Room extends Thread {
       System.out.println(chatName + "님이 입장");
       System.out.println(msg);
       // 채팅메세지를 client에 전달
-      for (Room room : cs.roomlist) {
-        System.out.println(room);
+      for (ChatServerThread cst : cs.cstlist) {
+        System.out.println(cst);
         room.oos.writeObject(msg);
       }
 

@@ -21,9 +21,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class FriendList extends JPanel implements MouseInputListener {
+public class ChatList extends JPanel implements MouseInputListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
-  FriendProfile fp = new FriendProfile(this);
 
   String name = null;
   String userID = null;
@@ -37,7 +36,7 @@ public class FriendList extends JPanel implements MouseInputListener {
   JList jl;
   List<String[]> fr_list;
 
-  public FriendList() {
+  public ChatList() {
     // getDB();
     InitDisplay();
   }
@@ -84,16 +83,17 @@ public class FriendList extends JPanel implements MouseInputListener {
   }
 
   public static void main(String[] args) {
-    new FriendList();
+    new ChatList();
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
     jl = (JList) e.getSource();
     if (e.getClickCount() == 2) {
-      int who = jl.locationToIndex(e.getPoint());
-      String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서 index가 거꾸로 잡힘
-      fp.profileDisplay(true, data[0]);
+      // int who = jl.locationToIndex(e.getPoint());
+      // String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
+      // index가 거꾸로 잡힘
+      // fp.profileDisplay(true, data[0]);
     }
 
   }
