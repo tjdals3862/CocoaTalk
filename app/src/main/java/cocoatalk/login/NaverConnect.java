@@ -16,13 +16,16 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 //import org.json.simple.JSONArray;
 
 public class NaverConnect {
 
   public static void main(String[] args) {
-    String clientId = "pW6gMRMwLM1fFjOfFoeK"; // 애플리케이션 클라이언트 아이디
-    String clientSecret = "v0ezCWbMbF"; // 애플리케이션 클라이언트 시크릿
+    String clientId = "8MVmqhDdydQc37JR89Zm"; // 애플리케이션 클라이언트 아이디
+    String clientSecret = "lTO9ptwKR8"; // 애플리케이션 클라이언트 시크릿
 
     String text = null;
 
@@ -42,6 +45,7 @@ public class NaverConnect {
     String responseBody = get(apiURL, requestHeaders);
 
     System.out.println(responseBody);
+
   }
 
   private static String get(String apiUrl, Map<String, String> requestHeaders) {
