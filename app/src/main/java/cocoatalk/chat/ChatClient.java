@@ -119,7 +119,7 @@ public class ChatClient extends JFrame implements ActionListener {
       // 서버측의 ip주소 작성하기
       // socket = new Socket("192.168.0.244",3000);
       // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
-      socket = new Socket("127.0.0.1", 3000);
+      socket = new Socket("192.168.10.74", 3000);
       oos = new ObjectOutputStream(socket.getOutputStream());
       ois = new ObjectInputStream(socket.getInputStream());
       // initDisplay에서 닉네임이 결정된 후 init메소드가 호출되므로
