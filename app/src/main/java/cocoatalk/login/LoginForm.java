@@ -5,26 +5,32 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import cocoatalk.oracle.DBCon;
 
 public class LoginForm extends JFrame implements ActionListener {
   // 선언부
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalk.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
-
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
   JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
 
@@ -94,11 +100,45 @@ public class LoginForm extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_login) {
-      MainForm MainFormcopy = new MainForm();
-      MainFormcopy.initDisplay();
-      this.setVisible(false);
+      String id_data = jtf_id.getText();
+      String pw_data = jpf_pw.getText();
+
+      String sql = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data);
+      DBCon db = new DBCon();
+      System.out.println(id_data);
+      System.out.println(pw_data);
+
+      try {
+
+        Connection conn = db.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rset = stmt.executeQuery(sql);
+
+        String password = "";
+
+        while (rset.next()) {
+          password = rset.getString("password");
+        }
+
+        if (!password.equals("") && password.equals(pw_data)) {
+          JOptionPane.showMessageDialog(this, "Login Success", "로그인 성공", 1);
+          MainForm MainFormcopy = new MainForm();
+          MainFormcopy.initDisplay();
+          this.dispose();
+        } else {
+          JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
+        }
+
+      } catch (SQLException ex) {
+
+        JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
+        System.out.println("SQLException" + ex);
+
+      }
+
     } else if (obj == jbtn_join) {
       register.set(true);
     }
+
   }
 }
