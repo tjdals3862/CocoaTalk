@@ -18,7 +18,7 @@ public class MainForm extends JFrame implements ActionListener {
   // 선언부
   CocoaVO cVO = null;
   FriendList fl = null;
-  ChatList cl = new ChatList();
+  ChatList cl = null;
   LoginForm lf = new LoginForm();
 
   String id = null;
@@ -134,6 +134,7 @@ public class MainForm extends JFrame implements ActionListener {
       clearCenter(fl);
 
     } else if (obj == jbtn_chat) {
+      cl = new ChatList(cVO);
       clearCenter(cl);
 
     } else if (obj == jbtn_search) {

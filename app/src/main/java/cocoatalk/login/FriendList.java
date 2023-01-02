@@ -41,10 +41,6 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   DBCon db = new DBCon();
 
-  // JList jl_frnd;
-  // List<String[]> fr_list;
-  // DefaultListModel<String> dlm_frnd;
-
   JPanel frnd_north;
   JTextField jtf_search;
   JButton fr_search;
@@ -58,14 +54,6 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
   public void InitDisplay() {
     dlm_frnd = new DefaultListModel<>();
     getDB();
-
-    // for (int i = 0; i < fr_list.size(); i++) {
-    // int a = fr_list.size();
-    // String[] data = new String[a];
-    // data = fr_list.get(i);
-
-    // dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
-    // }
 
     frnd_north = new JPanel();
     jtf_search = new JTextField(23);
@@ -103,7 +91,8 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     fr_list = new Vector<>();
 
     try {
-      String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name like '%s'", cVO.getId(), str);
+      String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name like '%s'", cVO.getId(),
+          str);
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
@@ -173,8 +162,8 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     Object obj = e.getSource();
     if (fr_search == obj) { // 검색 버튼 클릭
       if (jtf_search.getText() == null) {
+        System.out.println(jtf_search.getText());
         getDB();
-        InitDisplay();
       } else {
         searchFriend(jtf_search.getText());
         jtf_search.setText("");
@@ -199,14 +188,6 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   @Override
   public void mouseExited(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseDragged(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseMoved(MouseEvent e) {
   }
 
 }
