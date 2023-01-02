@@ -1,5 +1,7 @@
 package cocoatalk.login;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
@@ -8,8 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-public class FriendProfile extends JDialog implements MouseInputListener {
+import cocoatalk.chat.ChatClient;
+
+public class FriendProfile extends JDialog implements MouseInputListener, ActionListener {
   FriendList fl = null;
+  ChatClient cc = null;
   JLabel jlbl_name;
   JButton jbtn_chat = new JButton("1:1 채팅");
   JButton jbtn_del = new JButton("삭제");
@@ -33,6 +38,8 @@ public class FriendProfile extends JDialog implements MouseInputListener {
 
     jbtn_chat.setBounds(233, 428, 80, 80);
     jbtn_del.setBounds(133, 428, 80, 80);
+    jbtn_chat.addActionListener(this);
+    jbtn_del.addActionListener(this);
 
     this.setResizable(false);
 
@@ -73,5 +80,16 @@ public class FriendProfile extends JDialog implements MouseInputListener {
 
   @Override
   public void mouseMoved(MouseEvent e) {
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    Object obj = e.getSource();
+    if (jbtn_chat == obj) {
+      cc = new ChatClient();
+      cc.initDisplay();
+    } else if (jbtn_del == obj) {
+
+    }
   }
 }

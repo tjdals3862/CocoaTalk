@@ -20,7 +20,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
   // 선언
   CocoaVO cVO = null;
   FriendList fl = new FriendList(cVO);
-  ChatList cl = new ChatList();
+  ChatList cl = new ChatList(cVO);
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");

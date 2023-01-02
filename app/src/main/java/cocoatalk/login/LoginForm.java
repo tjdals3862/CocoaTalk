@@ -6,9 +6,9 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,6 +34,10 @@ public class LoginForm extends JFrame implements ActionListener {
   Font font = new Font("굴림체", Font.BOLD, 13);
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
   JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+
+  Connection conn = null;
+  PreparedStatement pstm = null;
+  ResultSet rs = null;
 
   // 생성자
   LoginForm() {
@@ -105,25 +109,22 @@ public class LoginForm extends JFrame implements ActionListener {
       String id_data = jtf_id.getText();
       String pw_data = jpf_pw.getText();
 
-      String sql = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data);
+      String query = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data);
       DBCon db = new DBCon();
-      System.out.println(id_data);
-      System.out.println(pw_data);
 
       try {
 
-        Connection conn = db.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rset = stmt.executeQuery(sql);
+        conn = db.getConnection();
+        pstm = conn.prepareStatement(query);
+        rs = pstm.executeQuery();
 
         String password = "";
 
-        while (rset.next()) {
-          password = rset.getString("password");
+        while (rs.next()) {
+          password = rs.getString("password");
         }
 
         if (!password.equals("") && password.equals(pw_data)) {
-          JOptionPane.showMessageDialog(this, "Login Success", "로그인 성공", 1);
           MainForm MainFormcopy = new MainForm(cVO);
           cVO.setId(id_data);
           MainFormcopy.initDisplay();
@@ -137,6 +138,20 @@ public class LoginForm extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
         System.out.println("SQLException" + ex);
 
+      } finally {
+        try {
+          if (rs != null) {
+            rs.close();
+          }
+          if (pstm != null) {
+            pstm.close();
+          }
+          if (conn != null) {
+            conn.close();
+          }
+        } catch (Exception ie) {
+          throw new RuntimeException(ie.getMessage());
+        }
       }
 
     } else if (obj == jbtn_join) {

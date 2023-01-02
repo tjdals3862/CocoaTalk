@@ -196,20 +196,15 @@ public class Register extends JFrame implements ActionListener {
         String query = "insert into member values ('" + name + "', '" + id
             + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
 
-        if (isTrue) {
-          if (pw.equals(pw2)) {
-            if (name.equals("") || id.equals("") || pw.equals("")) {
-              JOptionPane.showMessageDialog(null, "공백 확인 하세요",
-                  "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-            } else {
-              dbf.insert(query);
-            }
-          } else {
-            JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
+        if (pw.equals(pw2)) {
+          if (name.equals("") || id.equals("") || pw.equals("")) {
+            JOptionPane.showMessageDialog(null, "공백 확인 하세요",
                 "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+          } else {
+            dbf.insert(query);
           }
         } else {
-          JOptionPane.showMessageDialog(null, "사용할수 없는 id 입니다.",
+          JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
               "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
         }
 

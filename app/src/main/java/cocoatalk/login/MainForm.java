@@ -24,7 +24,7 @@ public class MainForm extends JFrame implements ActionListener {
   String id = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
-  JPanel centerPanel = new JPanel();
+  JPanel centerPanel = null;
   JPanel btnPanel = new JPanel();
   JLabel jlb_id = null;
   // JLabel jlb_id = new JLabel("아이디");
@@ -68,7 +68,8 @@ public class MainForm extends JFrame implements ActionListener {
 
     ////// 센터패널
     this.add("Center", centerPanel);
-    centerPanel.setBounds(-10, 95, 426, 380);
+    centerPanel.setBounds(-10, 88, 426, 380);
+    // centerPanel.setBounds(-10, 95, 426, 380);
     centerPanel.setBackground(new Color(0, 0, 0, 0)); // 투명
 
     ///// 버튼
@@ -108,12 +109,15 @@ public class MainForm extends JFrame implements ActionListener {
     Container cont = this.getContentPane();
     if (centerPanel != null) {
       cont.remove(centerPanel);
+      cont.revalidate();
+      cont.repaint();
+      // cont.remove(centerPanel);
     }
     centerPanel = new JPanel();
     this.add("Center", centerPanel);
     centerPanel.setBounds(-10, 90, 426, 380);
     centerPanel.setBackground(new Color(0, 0, 0, 0));
-    cont.revalidate();
+    // cont.revalidate();
     cont.setLayout(new BorderLayout());
     centerPanel.add(jp);
 
