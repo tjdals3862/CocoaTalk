@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 public class FriendList extends JPanel implements MouseInputListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
   FriendProfile fp = new FriendProfile(this);
+  CocoaVO cVO = null;
 
   String name = null;
   String userID = null;
@@ -38,8 +39,8 @@ public class FriendList extends JPanel implements MouseInputListener {
   List<String[]> fr_list;
   DefaultListModel<String> dlm_frnd;
 
-  public FriendList() {
-    // getDB();
+  public FriendList(CocoaVO cVO) {
+    this.cVO = cVO;
     InitDisplay();
   }
 
@@ -99,13 +100,13 @@ public class FriendList extends JPanel implements MouseInputListener {
     fr_list = new Vector<>();
     // data = new String[1][2];
     try {
-      String sql = "SELECT * FROM MEMBER";
+      String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'";
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
       while (rs.next()) {
-        String name = rs.getString("NAME");
-        String ID = rs.getString("ID");
+        String name = rs.getString("FR_NAME");
+        String ID = rs.getString("FR_ID");
         String[] data = { name, ID };
         fr_list.add(data);
       }
@@ -114,9 +115,9 @@ public class FriendList extends JPanel implements MouseInputListener {
     // System.out.println(nameList);
   }
 
-  public static void main(String[] args) {
-    new FriendList();
-  }
+  // public static void main(String[] args) {
+  // new FriendList();
+  // }
 
   @Override
   public void mouseClicked(MouseEvent e) {

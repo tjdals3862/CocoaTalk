@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class MainForm extends JFrame implements ActionListener {
   // 선언부
   CocoaVO cVO = null;
-  FriendList fl = new FriendList();
+  FriendList fl = null;
   ChatList cl = new ChatList();
   LoginForm lf = new LoginForm();
 
@@ -127,6 +127,7 @@ public class MainForm extends JFrame implements ActionListener {
     Object obj = e.getSource();
 
     if (obj == jbtn_friend) {
+      fl = new FriendList(cVO);
       clearCenter(fl);
 
     } else if (obj == jbtn_chat) {
