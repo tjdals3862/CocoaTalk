@@ -12,16 +12,20 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.event.MouseInputListener;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class FriendList extends JPanel implements MouseInputListener {
+public class FriendList extends JPanel implements MouseListener, ActionListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
   FriendProfile fp = new FriendProfile(this);
   CocoaVO cVO = null;
@@ -38,15 +42,24 @@ public class FriendList extends JPanel implements MouseInputListener {
   JList jl_frnd;
   List<String[]> fr_list;
   DefaultListModel<String> dlm_frnd;
+  JPanel frnd_north;
+  JTextField jtf_search;
+  JButton fr_search;
+  JButton fr_add;
 
   public FriendList(CocoaVO cVO) {
     this.cVO = cVO;
+    getDB();
     InitDisplay();
   }
 
   public void InitDisplay() {
     dlm_frnd = new DefaultListModel<>();
-    getDB();
+    frnd_north = new JPanel();
+    jtf_search = new JTextField(23);
+    fr_search = new JButton("검색");
+    fr_add = new JButton("추가");
+
     for (int i = 0; i < fr_list.size(); i++) {
       int a = fr_list.size();
       String[] data = new String[a];
@@ -54,13 +67,22 @@ public class FriendList extends JPanel implements MouseInputListener {
 
       dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
     }
+
+    this.setLayout(new BorderLayout());
     jl_frnd = new JList(dlm_frnd);
     jl_frnd.addMouseListener(this);
+    fr_search.addActionListener(this);
     JScrollPane jsp = new JScrollPane(jl_frnd);
-    jl_frnd.setFixedCellWidth(390);
+    jl_frnd.setFixedCellWidth(380);
     jl_frnd.setFixedCellHeight(50);
     jl_frnd.setSize(390, 200);
-    this.add(jsp);
+
+    this.add("North", frnd_north);
+    frnd_north.add("North", jtf_search);
+    frnd_north.add("North", fr_search);
+    frnd_north.add("North", fr_add);
+
+    this.add("Center", jsp);
     this.setSize(426, 380);
     this.setVisible(true);
 
@@ -70,7 +92,8 @@ public class FriendList extends JPanel implements MouseInputListener {
     fr_list = new Vector<>();
     // data = new String[1][2];
     try {
-      String sql = "SELECT * FROM MEMBER WHERE ID = ?;";
+      String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'" + "&& FR_NAME = '"
+          + jtf_frnd.getText();
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
       pstm.setString(1, str);
@@ -94,6 +117,7 @@ public class FriendList extends JPanel implements MouseInputListener {
     }
     jl_frnd = new JList(dlm_frnd);
     JScrollPane jsp = new JScrollPane(jl_frnd);
+    this.add("Center", jsp);
   }
 
   public void getDB() {
@@ -121,12 +145,26 @@ public class FriendList extends JPanel implements MouseInputListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    jl_frnd = (JList) e.getSource();
-    if (e.getClickCount() == 2) {
-      int who = jl_frnd.locationToIndex(e.getPoint());
-      String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
-      // index가 거꾸로 잡힘
-      fp.profileDisplay(true, data[0]);
+    Object obj = e.getSource();
+    if (obj == jl_frnd) {
+      if (e.getClickCount() == 2) {
+        int who = jl_frnd.locationToIndex(e.getPoint());
+        String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
+        // index가 거꾸로 잡힘
+        fp.profileDisplay(true, data[0]);
+      }
+    }
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    Object obj = e.getSource(); // 검색 버튼 클릭
+    System.out.println("click");
+    if (fr_search == obj) {
+      searchFriend(jtf_search.getText());
+      jtf_search.setText("");
+      System.out.println(fr_list.toString());
     }
 
   }
@@ -154,4 +192,5 @@ public class FriendList extends JPanel implements MouseInputListener {
   @Override
   public void mouseMoved(MouseEvent e) {
   }
+
 }

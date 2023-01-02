@@ -61,6 +61,7 @@ public class LoginForm extends JFrame implements ActionListener {
     this.add(jtf_id);
     jlb_pw.setBounds(70, 400, 80, 40);
     jlb_pw.setFont(font);
+
     jlb_pw.setForeground(Color.white);
     jpf_pw.setBounds(135, 400, 185, 40);
     this.add(jlb_pw);
