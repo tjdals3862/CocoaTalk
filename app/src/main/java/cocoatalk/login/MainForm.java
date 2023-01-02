@@ -1,28 +1,33 @@
 package cocoatalk.login;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainForm extends JFrame implements ActionListener {
   // 선언부
+  CocoaVO cVO = null;
   FriendList fl = new FriendList();
   ChatList cl = new ChatList();
+  LoginForm lf = new LoginForm();
 
+  String id = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
   JPanel centerPanel = new JPanel();
   JPanel btnPanel = new JPanel();
+  JLabel jlb_id = null;
+  // JLabel jlb_id = new JLabel("아이디");
   Font font = new Font("굴림체", Font.BOLD, 13);
 
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnheart.png"));
@@ -31,7 +36,8 @@ public class MainForm extends JFrame implements ActionListener {
   JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
 
   // 생성자
-  MainForm() {
+  MainForm(CocoaVO cVO) {
+    this.cVO = cVO;
   }
 
   // 내부클래스로 배경 이미지 처리
@@ -54,6 +60,7 @@ public class MainForm extends JFrame implements ActionListener {
     this.setResizable(false);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
+
     // frinedPanel
 
     ////// 센터패널
@@ -80,6 +87,13 @@ public class MainForm extends JFrame implements ActionListener {
     jbtn_setting.setBorderPainted(false);
     jbtn_setting.setContentAreaFilled(false);
 
+    // id 라벨
+    jlb_id = new JLabel("ID : " + cVO.getId());
+    jlb_id.setBounds(330, 60, 80, 40);
+    jlb_id.setBackground(Color.BLACK);
+    jlb_id.setForeground(Color.WHITE);
+    this.add(jlb_id);
+
     // 버튼액션
     jbtn_friend.addActionListener(this);
     jbtn_chat.addActionListener(this);
@@ -94,7 +108,7 @@ public class MainForm extends JFrame implements ActionListener {
     }
     centerPanel = new JPanel();
     this.add("Center", centerPanel);
-    centerPanel.setBounds(0, 95, 426, 380);
+    centerPanel.setBounds(-10, 90, 426, 380);
     centerPanel.setBackground(new Color(0, 0, 0, 0));
     cont.revalidate();
     cont.setLayout(new BorderLayout());
@@ -119,12 +133,12 @@ public class MainForm extends JFrame implements ActionListener {
       clearCenter(cl);
 
     } else if (obj == jbtn_search) {
-      SearchMainForm searchMainForm = new SearchMainForm();
+      SearchMainForm searchMainForm = new SearchMainForm(cVO);
       searchMainForm.Search_init();
       this.setVisible(false);
 
     } else if (obj == jbtn_setting) {
-      SettingForm settingForm = new SettingForm();
+      SettingForm settingForm = new SettingForm(cVO);
       settingForm.initDisplay();
       setVisible(false);
     }

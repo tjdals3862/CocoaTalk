@@ -23,6 +23,7 @@ import cocoatalk.oracle.DBCon;
 
 public class LoginForm extends JFrame implements ActionListener {
   // 선언부
+  CocoaVO cVO = new CocoaVO();
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
@@ -122,7 +123,8 @@ public class LoginForm extends JFrame implements ActionListener {
 
         if (!password.equals("") && password.equals(pw_data)) {
           JOptionPane.showMessageDialog(this, "Login Success", "로그인 성공", 1);
-          MainForm MainFormcopy = new MainForm();
+          MainForm MainFormcopy = new MainForm(cVO);
+          cVO.setId(id_data);
           MainFormcopy.initDisplay();
           this.dispose();
         } else {

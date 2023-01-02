@@ -18,14 +18,14 @@ import javax.swing.JTextField;
 public class SearchMainForm extends JFrame implements ActionListener {
   public static final String content = null;
   // 선언
-
+  CocoaVO cVO = null;
   FriendList fl = new FriendList(); // 승현
   ChatList cl = new ChatList();
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
 
-  MainForm MainForm = new MainForm();
+  MainForm MainForm = new MainForm(cVO);
   JPanel jpanel = new JPanel() {
     public void paintComponent(Graphics g) {
       g.drawImage(ig.getImage(), 0, 0, null);
@@ -46,7 +46,8 @@ public class SearchMainForm extends JFrame implements ActionListener {
   JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
 
   // 생성자
-  SearchMainForm() {
+  SearchMainForm(CocoaVO cVO) {
+    this.cVO = cVO;
   }
 
   /*
@@ -118,11 +119,11 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
   }
 
-  public static void main(String[] args) {
-    SearchMainForm serchPanel1 = new SearchMainForm();
-    serchPanel1.Search_init();
+  // public static void main(String[] args) {
+  // SearchMainForm serchPanel1 = new SearchMainForm(cVO);
+  // serchPanel1.Search_init();
 
-  }
+  // }
 
   @Override
   public void actionPerformed(ActionEvent e) {
@@ -149,23 +150,23 @@ public class SearchMainForm extends JFrame implements ActionListener {
     // } // else if
 
     if (obj == jbtn_friend) {
-      MainForm mf = new MainForm();
+      MainForm mf = new MainForm(cVO);
       mf.initDisplay();
       this.dispose();
 
     } else if (obj == jbtn_chat) {
-      MainForm mf = new MainForm();
+      MainForm mf = new MainForm(cVO);
       mf.initDisplay();
       mf.clearCenter(mf.cl);
       this.dispose();
 
     } else if (obj == jbtn_search) {
-      SearchMainForm searchMainForm = new SearchMainForm();
+      SearchMainForm searchMainForm = new SearchMainForm(cVO);
       searchMainForm.Search_init();
       this.dispose();
 
     } else if (obj == jbtn_setting) {
-      SettingForm settingForm = new SettingForm();
+      SettingForm settingForm = new SettingForm(cVO);
       settingForm.initDisplay();
       this.dispose();
     } else if (obj == searchBtn) {

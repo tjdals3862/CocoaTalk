@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SettingForm extends JFrame implements ActionListener {
+  CocoaVO cVO = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
 
@@ -28,8 +29,8 @@ public class SettingForm extends JFrame implements ActionListener {
       new ImageIcon(imgPath + "btnsetting.png"));// 메시지 버튼
 
   // 생성자
-  SettingForm() {
-
+  SettingForm(CocoaVO cVO) {
+    this.cVO = cVO;
   }
 
   class MyPanel extends JPanel {
@@ -95,34 +96,34 @@ public class SettingForm extends JFrame implements ActionListener {
 
   }////////////////////////////////////////////////////////////////////////////////// 화면그리기
 
-  public static void main(String[] args) {
-    SettingForm settingForm = new SettingForm();
-    settingForm.initDisplay();
+  // public static void main(String[] args) {
+  // SettingForm settingForm = new SettingForm();
+  // settingForm.initDisplay();
 
-  }
+  // }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
     if (obj == jbtn_friend) {
-      MainForm mf = new MainForm();
+      MainForm mf = new MainForm(cVO);
       mf.initDisplay();
       this.dispose();
 
     } else if (obj == jbtn_chat) {
-      MainForm mf = new MainForm();
+      MainForm mf = new MainForm(cVO);
       mf.initDisplay();
       mf.clearCenter(mf.cl);
       this.dispose();
 
     } else if (obj == jbtn_search) {
-      SearchMainForm searchMainForm = new SearchMainForm();
+      SearchMainForm searchMainForm = new SearchMainForm(cVO);
       searchMainForm.Search_init();
       this.dispose();
 
     } else if (obj == jbtn_setting) {
-      SettingForm settingForm = new SettingForm();
+      SettingForm settingForm = new SettingForm(cVO);
       settingForm.initDisplay();
       this.dispose();
     } // else if

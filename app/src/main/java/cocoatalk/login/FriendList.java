@@ -36,6 +36,7 @@ public class FriendList extends JPanel implements MouseInputListener {
 
   JList jl;
   List<String[]> fr_list;
+  DefaultListModel<String> dlm = null;
 
   public FriendList() {
     // getDB();
@@ -43,7 +44,7 @@ public class FriendList extends JPanel implements MouseInputListener {
   }
 
   public void InitDisplay() {
-    DefaultListModel<String> dlm = new DefaultListModel<String>();
+    dlm = new DefaultListModel<>();
     getDB();
     for (int i = 0; i < fr_list.size(); i++) {
       int a = fr_list.size();
@@ -52,15 +53,14 @@ public class FriendList extends JPanel implements MouseInputListener {
 
       dlm.add(0, data[0]); // data[0] : name, data[1] : ID
     }
-
     jl = new JList(dlm);
-    JScrollPane jsp = new JScrollPane(jl);
     jl.addMouseListener(this);
+    JScrollPane jsp = new JScrollPane(jl);
     jl.setFixedCellWidth(390);
     jl.setFixedCellHeight(50);
-    jl.setSize(380, 200);
+    jl.setSize(390, 200);
     this.add(jsp);
-    this.setSize(390, 200);
+    this.setSize(426, 380);
     this.setVisible(true);
 
   }
@@ -99,7 +99,7 @@ public class FriendList extends JPanel implements MouseInputListener {
     fr_list = new Vector<>();
     // data = new String[1][2];
     try {
-      String sql = "SELECT * FROM MEMBER;";
+      String sql = "SELECT * FROM MEMBER";
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
@@ -123,7 +123,8 @@ public class FriendList extends JPanel implements MouseInputListener {
     jl = (JList) e.getSource();
     if (e.getClickCount() == 2) {
       int who = jl.locationToIndex(e.getPoint());
-      String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서 index가 거꾸로 잡힘
+      String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
+      // index가 거꾸로 잡힘
       fp.profileDisplay(true, data[0]);
     }
 
