@@ -36,7 +36,7 @@ public class FriendList extends JPanel implements MouseInputListener {
 
   JList jl;
   List<String[]> fr_list;
-  DefaultListModel<String> dlm = null;
+  DefaultListModel<String> dlm;
 
   public FriendList() {
     // getDB();
