@@ -33,8 +33,9 @@ public class ChatList extends JPanel implements MouseInputListener {
 
   DBCon db = new DBCon();
 
-  JList jl;
+  JList jl_chat;
   List<String[]> fr_list;
+  DefaultListModel<String> dlm_chat;
 
   public ChatList() {
     // getDB();
@@ -42,21 +43,21 @@ public class ChatList extends JPanel implements MouseInputListener {
   }
 
   public void InitDisplay() {
-    DefaultListModel<String> dlm = new DefaultListModel<String>();
+    dlm_chat = new DefaultListModel<String>();
     getDB();
     for (int i = 0; i < fr_list.size(); i++) {
       int a = fr_list.size();
       String[] data = new String[a];
       data = fr_list.get(i);
 
-      dlm.add(0, data[0]); // data[0] : name, data[1] : ID
+      dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
     }
-    jl = new JList(dlm);
-    jl.addMouseListener(this);
-    JScrollPane jsp = new JScrollPane(jl);
-    jl.setFixedCellWidth(390);
-    jl.setFixedCellHeight(50);
-    jl.setSize(380, 200);
+    jl_chat = new JList(dlm_chat);
+    jl_chat.addMouseListener(this);
+    JScrollPane jsp = new JScrollPane(jl_chat);
+    jl_chat.setFixedCellWidth(390);
+    jl_chat.setFixedCellHeight(50);
+    jl_chat.setSize(380, 200);
     this.add(jsp);
     this.setSize(390, 200);
     this.setVisible(true);
@@ -88,9 +89,9 @@ public class ChatList extends JPanel implements MouseInputListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    jl = (JList) e.getSource();
+    jl_chat = (JList) e.getSource();
     if (e.getClickCount() == 2) {
-      // int who = jl.locationToIndex(e.getPoint());
+      // int who = jl_chat.locationToIndex(e.getPoint());
       // String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
       // index가 거꾸로 잡힘
       // fp.profileDisplay(true, data[0]);

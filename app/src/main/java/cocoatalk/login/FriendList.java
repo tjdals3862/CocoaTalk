@@ -34,9 +34,9 @@ public class FriendList extends JPanel implements MouseInputListener {
 
   DBCon db = new DBCon();
 
-  JList jl;
+  JList jl_frnd;
   List<String[]> fr_list;
-  DefaultListModel<String> dlm;
+  DefaultListModel<String> dlm_frnd;
 
   public FriendList() {
     // getDB();
@@ -44,21 +44,21 @@ public class FriendList extends JPanel implements MouseInputListener {
   }
 
   public void InitDisplay() {
-    dlm = new DefaultListModel<>();
+    dlm_frnd = new DefaultListModel<>();
     getDB();
     for (int i = 0; i < fr_list.size(); i++) {
       int a = fr_list.size();
       String[] data = new String[a];
       data = fr_list.get(i);
 
-      dlm.add(0, data[0]); // data[0] : name, data[1] : ID
+      dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
     }
-    jl = new JList(dlm);
-    jl.addMouseListener(this);
-    JScrollPane jsp = new JScrollPane(jl);
-    jl.setFixedCellWidth(390);
-    jl.setFixedCellHeight(50);
-    jl.setSize(390, 200);
+    jl_frnd = new JList(dlm_frnd);
+    jl_frnd.addMouseListener(this);
+    JScrollPane jsp = new JScrollPane(jl_frnd);
+    jl_frnd.setFixedCellWidth(390);
+    jl_frnd.setFixedCellHeight(50);
+    jl_frnd.setSize(390, 200);
     this.add(jsp);
     this.setSize(426, 380);
     this.setVisible(true);
@@ -89,10 +89,10 @@ public class FriendList extends JPanel implements MouseInputListener {
       String[] data = new String[a];
       data = fr_list.get(i);
 
-      dlm.add(0, data[0]); // data[0] : name, data[1] : ID
+      dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
     }
-    jl = new JList(dlm);
-    JScrollPane jsp = new JScrollPane(jl);
+    jl_frnd = new JList(dlm_frnd);
+    JScrollPane jsp = new JScrollPane(jl_frnd);
   }
 
   public void getDB() {
@@ -120,9 +120,9 @@ public class FriendList extends JPanel implements MouseInputListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    jl = (JList) e.getSource();
+    jl_frnd = (JList) e.getSource();
     if (e.getClickCount() == 2) {
-      int who = jl.locationToIndex(e.getPoint());
+      int who = jl_frnd.locationToIndex(e.getPoint());
       String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
       // index가 거꾸로 잡힘
       fp.profileDisplay(true, data[0]);
