@@ -1,33 +1,29 @@
 package cocoatalk.login;
 
-import cocoatalk.oracle.DBCon;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import cocoatalk.oracle.DBCon;
 
 public class FriendList extends JPanel implements MouseListener, ActionListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
   FriendProfile fp = new FriendProfile(this);
+  FriendAdd fa = null;
   CocoaVO cVO = null;
 
   String name = null;
@@ -59,6 +55,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     jtf_search = new JTextField(23);
     fr_search = new JButton("검색");
     fr_add = new JButton("추가");
+    fr_add.addActionListener(this);
 
     for (int i = 0; i < fr_list.size(); i++) {
       int a = fr_list.size();
@@ -165,6 +162,8 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
       searchFriend(jtf_search.getText());
       jtf_search.setText("");
       System.out.println(fr_list.toString());
+    } else if (fr_add == obj) {
+      fa = new FriendAdd(cVO);
     }
 
   }

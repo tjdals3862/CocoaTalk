@@ -51,6 +51,9 @@ public class MainForm extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
+
+    fl = new FriendList(cVO);
+    clearCenter(fl);
     // 창
     this.setTitle("COCOA TALK");
     this.setLocation(500, 100);
@@ -65,7 +68,7 @@ public class MainForm extends JFrame implements ActionListener {
 
     ////// 센터패널
     this.add("Center", centerPanel);
-    centerPanel.setBounds(0, 95, 426, 380);
+    centerPanel.setBounds(-10, 95, 426, 380);
     centerPanel.setBackground(new Color(0, 0, 0, 0)); // 투명
 
     ///// 버튼
