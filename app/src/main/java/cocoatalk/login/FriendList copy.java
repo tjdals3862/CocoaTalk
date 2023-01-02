@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
@@ -27,11 +26,6 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
   FriendAdd fa = null;
   CocoaVO cVO = null;
 
-  List<String[]> fr_list;
-  DefaultListModel<String> dlm_frnd;
-  JScrollPane jsp;
-  JList jl_frnd;
-
   String name = null;
   String userID = null;
 
@@ -41,10 +35,9 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   DBCon db = new DBCon();
 
-  // JList jl_frnd;
-  // List<String[]> fr_list;
-  // DefaultListModel<String> dlm_frnd;
-
+  JList jl_frnd;
+  List<String[]> fr_list;
+  DefaultListModel<String> dlm_frnd;
   JPanel frnd_north;
   JTextField jtf_search;
   JButton fr_search;
@@ -52,85 +45,81 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   public FriendList(CocoaVO cVO) {
     this.cVO = cVO;
+    getDB();
     InitDisplay();
   }
 
   public void InitDisplay() {
     dlm_frnd = new DefaultListModel<>();
-    getDB();
-
-    // for (int i = 0; i < fr_list.size(); i++) {
-    // int a = fr_list.size();
-    // String[] data = new String[a];
-    // data = fr_list.get(i);
-
-    // dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
-    // }
-
     frnd_north = new JPanel();
     jtf_search = new JTextField(23);
     fr_search = new JButton("검색");
     fr_add = new JButton("추가");
     fr_add.addActionListener(this);
 
-    jl_frnd = new JList(dlm_frnd);
-    jsp = new JScrollPane(jl_frnd);
+    for (int i = 0; i < fr_list.size(); i++) {
+      int a = fr_list.size();
+      String[] data = new String[a];
+      data = fr_list.get(i);
+
+      dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
+    }
 
     this.setLayout(new BorderLayout());
-
-    fr_search.addActionListener(this);
-
+    jl_frnd = new JList(dlm_frnd);
     jl_frnd.addMouseListener(this);
+    fr_search.addActionListener(this);
+    JScrollPane jsp = new JScrollPane(jl_frnd);
     jl_frnd.setFixedCellWidth(380);
     jl_frnd.setFixedCellHeight(50);
-    jl_frnd.setVisibleRowCount(6);
     jl_frnd.setSize(390, 200);
 
+    this.add("North", frnd_north);
     frnd_north.add("North", jtf_search);
     frnd_north.add("North", fr_search);
     frnd_north.add("North", fr_add);
 
-    this.add("North", frnd_north);
     this.add("Center", jsp);
-
     this.setSize(426, 380);
     this.setVisible(true);
 
   }
 
   public void searchFriend(String str) {
-    dlm_frnd.clear();
     fr_list = new Vector<>();
-
+    // data = new String[1][2];
     try {
-      String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name like '%s'", cVO.getId(), str);
+      String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'" + "&& FR_NAME = '"
+          + jtf_frnd.getText();
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
+      pstm.setString(1, str);
       rs = pstm.executeQuery();
 
       while (rs.next()) {
-        String name = rs.getString("FR_NAME");
-        String ID = rs.getString("FR_ID");
+        String name = rs.getString("NAME");
+        String ID = rs.getString("ID");
         String[] data = { name, ID };
         fr_list.add(data);
       }
-
-      for (int i = 0; i < fr_list.size(); i++) {
-        int a = fr_list.size();
-        String[] data = new String[a];
-        data = fr_list.get(i);
-
-        dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
     }
+
+    for (int i = 0; i < fr_list.size(); i++) {
+      int a = fr_list.size();
+      String[] data = new String[a];
+      data = fr_list.get(i);
+
+      dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
+    }
+    jl_frnd = new JList(dlm_frnd);
+    JScrollPane jsp = new JScrollPane(jl_frnd);
+    this.add("Center", jsp);
   }
 
   public void getDB() {
-    dlm_frnd.clear();
     fr_list = new Vector<>();
-
+    // data = new String[1][2];
     try {
       String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'";
       conn = DBCon.getConnection();
@@ -142,17 +131,14 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
         String[] data = { name, ID };
         fr_list.add(data);
       }
-
-      for (int i = 0; i < fr_list.size(); i++) {
-        int a = fr_list.size();
-        String[] data = new String[a];
-        data = fr_list.get(i);
-
-        dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
-      }
     } catch (Exception e) {
     }
+    // System.out.println(nameList);
   }
+
+  // public static void main(String[] args) {
+  // new FriendList();
+  // }
 
   @Override
   public void mouseClicked(MouseEvent e) {
@@ -170,16 +156,11 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    Object obj = e.getSource();
-    if (fr_search == obj) { // 검색 버튼 클릭
-      if (jtf_search.getText() == null) {
-        getDB();
-        InitDisplay();
-      } else {
-        searchFriend(jtf_search.getText());
-        jtf_search.setText("");
-      }
-    } else if (fr_add == obj) { // 추가 버튼 클릭
+    Object obj = e.getSource(); // 검색 버튼 클릭
+    if (fr_search == obj) {
+      searchFriend(jtf_search.getText());
+      jtf_search.setText("");
+    } else if (fr_add == obj) {
       fa = new FriendAdd(cVO);
     }
 
