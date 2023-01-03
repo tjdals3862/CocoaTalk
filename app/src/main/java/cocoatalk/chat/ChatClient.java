@@ -104,16 +104,20 @@ public class ChatClient extends JFrame implements ActionListener {
     String message = jtf_message.getText();
     // ChatClient chat = new ChatClient();
 
-    // 채팅 이벤트 처리
-    if (obj == jbtn_send || obj == jtf_message) {
-      // 입력된 메시지 얻기
-
-      // jTextArea_display 텍스트 영역에 출력
-      jta_display.append(message + "\n");
+    if (jtf_message == obj) {
       try {
         oos.writeObject(message);
-        // System.out.println("msg :" + message);
-        // jTextField_mesaage 텍스트 필드 초기화
+        jtf_message.setText("");
+      } catch (Exception e2) {
+
+      }
+    }
+
+    // 채팅 이벤트 처리
+    else if (obj == jbtn_send || obj == jtf_message) {
+      // 입력된 메시지 얻기
+      try {
+        oos.writeObject(message);
         jtf_message.setText("");
       } catch (Exception e2) {
 
@@ -129,6 +133,7 @@ public class ChatClient extends JFrame implements ActionListener {
       // socket = new Socket("192.168.0.244",3000);
       // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
       socket = new Socket("192.168.10.74", 3000);
+      // socket = new Socket("localhost", 3000);
       oos = new ObjectOutputStream(socket.getOutputStream());
       ois = new ObjectInputStream(socket.getInputStream());
       // initDisplay에서 닉네임이 결정된 후 init메소드가 호출되므로
