@@ -26,14 +26,14 @@ public class LoginForm extends JFrame implements ActionListener {
   CocoaVO cVO = new CocoaVO();
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalk.jpg");
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
-  JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
-  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+  JButton jbtn_join = new JButton(new ImageIcon(imgPath + "registerBtn.png"));
+  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginBtn.jpg"));
 
   Connection conn = null;
   PreparedStatement pstm = null;

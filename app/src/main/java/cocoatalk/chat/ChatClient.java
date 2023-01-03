@@ -28,22 +28,27 @@ public class ChatClient extends JFrame implements ActionListener {
   String nickName = null;// 닉네임 등록
 
   // 선언부
+
   // 이미지 경로 선언
   String imgPath = "D:\\TEMP\\";
   ImageIcon imgIcon = new ImageIcon(imgPath + "wallPaper.jpg");
+
   JTable jtb = new JTable();
   JScrollPane jsp = new JScrollPane(jtb);
   JPanel jp = new JPanel();
   JPanel jp_behind = new JPanel();
   JButton jbtn_send = new JButton("보내기");
   JTextField jtf_message = new JTextField();
-  JTextArea jta_display = new JTextArea() {
+  JTextArea jta_display = new JTextArea()
+
+  {
     public void paintComponent(Graphics g) {
       g.drawImage(imgIcon.getImage(), 0, 0, null);
       setOpaque(false);
       super.paintComponent(g);
     }
   };
+
   JScrollPane jsp_display = new JScrollPane(jta_display, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
   Font f = new Font("Paryrus", Font.BOLD, 40);
@@ -66,6 +71,9 @@ public class ChatClient extends JFrame implements ActionListener {
 
     // 종료 버튼 누리면 꺼짐
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    // 창 사이즈 변경 불가
+    this.setResizable(false);
 
     // 레이아웃 설정
     this.setLayout(new BorderLayout());

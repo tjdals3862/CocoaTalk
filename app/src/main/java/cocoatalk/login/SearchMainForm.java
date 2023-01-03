@@ -40,10 +40,10 @@ public class SearchMainForm extends JFrame implements ActionListener {
   JButton searchBtn;
   // JLabel label = new JLabel("검색 : ");
 
-  JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnheart.png"));
-  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnmsg.png"));
-  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnhome.png")); // >> 채팅버튼으로***
-  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
+  JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
+  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
+  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnsearch.png")); // 세번째버튼 (검색-돋보기)
+  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴)
 
   // 생성자
   SearchMainForm(CocoaVO cVO) {

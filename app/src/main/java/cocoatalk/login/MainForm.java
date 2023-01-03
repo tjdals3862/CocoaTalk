@@ -30,10 +30,10 @@ public class MainForm extends JFrame implements ActionListener {
   // JLabel jlb_id = new JLabel("아이디");
   Font font = new Font("굴림체", Font.BOLD, 13);
 
-  JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnheart.png"));
-  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnmsg.png"));
-  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnhome.png"));
-  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png"));
+  JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
+  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
+  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnsearch.png")); // 세번째버튼 (검색-돋보기)
+  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴)
 
   // 생성자
   MainForm(CocoaVO cVO) {
