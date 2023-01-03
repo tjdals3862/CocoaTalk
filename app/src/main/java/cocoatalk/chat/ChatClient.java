@@ -31,7 +31,7 @@ public class ChatClient extends JFrame implements ActionListener {
 
   // 이미지 경로 선언
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imgIcon = new ImageIcon(imgPath + "wallPaper.jpg");
+  ImageIcon imgIcon = new ImageIcon(imgPath + "join.jpg");
 
   JTable jtb = new JTable();
   JScrollPane jsp = new JScrollPane(jtb);
@@ -101,17 +101,18 @@ public class ChatClient extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
+    String message = jtf_message.getText();
     // ChatClient chat = new ChatClient();
 
     // 채팅 이벤트 처리
     if (obj == jbtn_send || obj == jtf_message) {
       // 입력된 메시지 얻기
-      String message = jtf_message.getText();
 
       // jTextArea_display 텍스트 영역에 출력
       jta_display.append(message + "\n");
       try {
         oos.writeObject(message);
+        // System.out.println("msg :" + message);
         // jTextField_mesaage 텍스트 필드 초기화
         jtf_message.setText("");
       } catch (Exception e2) {
@@ -142,10 +143,10 @@ public class ChatClient extends JFrame implements ActionListener {
     }
   }
 
-  // public static void main(String[] args) {
-  // ChatClient cc = new ChatClient();
-  // cc.initDisplay();
-  // cc.init();
+  public static void main(String[] args) {
+    ChatClient cc = new ChatClient();
+    cc.initDisplay();
+    cc.init();
 
-  // }
+  }
 }

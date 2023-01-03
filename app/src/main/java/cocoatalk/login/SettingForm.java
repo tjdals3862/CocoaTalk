@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
 public class SettingForm extends JFrame implements ActionListener {
+  LoginForm loginForm = null;
   CocoaVO cVO = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
@@ -160,7 +161,9 @@ public class SettingForm extends JFrame implements ActionListener {
       settingForm.fontchange();
 
     } else if (obj == jbtn_c) { // 로그아웃
-
+      this.dispose();
+      loginForm = new LoginForm();
+      loginForm.initDisplay();
     } // else if
 
   }

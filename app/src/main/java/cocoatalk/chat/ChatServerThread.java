@@ -49,7 +49,7 @@ public class ChatServerThread extends Thread {
       // 채팅메세지를 client에 전달
       for (ChatServerThread cst : cs.cstlist) {
         System.out.println(cst);
-        room.oos.writeObject(msg);
+        oos.writeObject(msg);
       }
 
     } catch (Exception e) {

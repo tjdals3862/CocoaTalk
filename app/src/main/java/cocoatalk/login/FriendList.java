@@ -23,9 +23,11 @@ import cocoatalk.oracle.DBCon;
 
 public class FriendList extends JPanel implements MouseListener, ActionListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
-  FriendProfile fp = new FriendProfile(this);
+
   FriendAdd fa = null;
+  MainForm mf = null;
   CocoaVO cVO = null;
+  FriendProfile fp = null;
 
   List<String[]> fr_list;
   DefaultListModel<String> dlm_frnd;
@@ -152,6 +154,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
         int who = jl_frnd.locationToIndex(e.getPoint());
         String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
         // index가 거꾸로 잡힘
+        fp = new FriendProfile(this);
         fp.profileDisplay(true, data[0]);
       }
     }

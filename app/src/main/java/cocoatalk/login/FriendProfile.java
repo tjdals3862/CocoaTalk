@@ -7,18 +7,27 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import cocoatalk.chat.ChatClient;
+import cocoatalk.oracle.DBCon;
+import cocoatalk.oracle.DbFunction;
 
 public class FriendProfile extends JDialog implements MouseInputListener, ActionListener {
   FriendList fl = null;
+  CocoaVO cVO = null;
   ChatClient cc = null;
+  MainForm mf = null;
   JLabel jlbl_name;
   JButton jbtn_chat = new JButton("1:1 채팅");
   JButton jbtn_del = new JButton("삭제");
   JPanel pf_south;
+  String name = null;
+
+  DBCon db = null;
+  DbFunction dbf = null;
 
   // ko
   // JPanel grid_panel = new JPanel();
@@ -31,6 +40,7 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
     new JDialog();
     pf_south = new JPanel();
     jlbl_name = new JLabel(who);//
+    name = who;
 
     this.setLayout(null);
     this.add(jbtn_chat);
@@ -42,6 +52,7 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
     jbtn_del.addActionListener(this);
 
     this.setResizable(false);
+    this.setTitle(who);
 
     setSize(330, 550);
     setVisible(isOpen);//
@@ -90,6 +101,14 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
       cc.initDisplay();
     } else if (jbtn_del == obj) {
 
+      String query = "delete from friend where fr_name = '" + name + "'";
+      db = new DBCon();
+      dbf = new DbFunction();
+      dbf.insert(query);
+      JOptionPane.showMessageDialog(null, "삭제되었습니다.",
+          "INFO_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+
+      this.dispose();
     }
   }
 }
