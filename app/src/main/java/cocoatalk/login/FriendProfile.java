@@ -3,63 +3,60 @@ package cocoatalk.login;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
+import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import cocoatalk.chat.ChatClient;
-import cocoatalk.oracle.DBCon;
-import cocoatalk.oracle.DbFunction;
 
 public class FriendProfile extends JDialog implements MouseInputListener, ActionListener {
   FriendList fl = null;
-  CocoaVO cVO = null;
   ChatClient cc = null;
-  MainForm mf = null;
+  String imgPath = "D:\\TEMP\\";
+ // ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");
+  
+  ///////////////////////////////////////////////////////////////////// 이미지 삽입
+
+  JButton jbtn_del = new JButton(new ImageIcon(imgPath + "delbtn.png"));// 삭제버튼
+  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "1on1btn.png"));// 1:1채팅버튼
+  /////////////////////////////////////////////////////////////////////////////버튼이미지  
   JLabel jlbl_name;
-  JButton jbtn_chat = new JButton("1:1 채팅");
-  JButton jbtn_del = new JButton("삭제");
   JPanel pf_south;
-  String name = null;
-
-  DBCon db = null;
-  DbFunction dbf = null;
-
-  // ko
-  // JPanel grid_panel = new JPanel();
 
   public FriendProfile(FriendList fl) {
     this.fl = fl;
   }
-
   public void profileDisplay(boolean isOpen, String who) {
     new JDialog();
-    pf_south = new JPanel();
-    jlbl_name = new JLabel(who);//
-    name = who;
-
-    this.setLayout(null);
+    JPanel jp = new JPanel();//패널 객체생성
+    jlbl_name = new JLabel(who);
+    
+    jp.setLayout(null);
     this.add(jbtn_chat);
     this.add(jbtn_del);
-
-    jbtn_chat.setBounds(233, 428, 80, 80);
-    jbtn_del.setBounds(133, 428, 80, 80);
-    jbtn_chat.addActionListener(this);
-    jbtn_del.addActionListener(this);
-
-    this.setResizable(false);
-    this.setTitle(who);
-
-    setSize(330, 550);
-    setVisible(isOpen);//
+    this.add(jp);//패널추가 
+    jp.setBackground(new Color(55,38,30));// 패널 배경 
+    jbtn_chat.setBounds(160, 440, 80, 40);// 1:1채팅버튼 
+    jbtn_del.setBounds(70, 440, 80, 40);//삭제버튼 
+    jbtn_chat.addActionListener(this); // 1:1 버튼 실행시
+    jbtn_del.addActionListener(this); // 삭제 버튼 실행시 
+    
+    setResizable(false); //창크기 수정불가
+    setSize(330, 550); //화면사이즈 
+    setVisible(isOpen);
+    setTitle(who);// 채팅창 이름(사용자 별로 다름) 
+    
   }
+ 
+      
+    
 
   @Override
-  public void mouseClicked(MouseEvent e) {
+  public void mouseClicked(MouseEvent e) { //마우스이벤트
     Object obj = e.getSource();
     if (obj == jbtn_chat) {
       dispose();
@@ -101,14 +98,6 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
       cc.initDisplay();
     } else if (jbtn_del == obj) {
 
-      String query = "delete from friend where fr_name = '" + name + "'";
-      db = new DBCon();
-      dbf = new DbFunction();
-      dbf.insert(query);
-      JOptionPane.showMessageDialog(null, "삭제되었습니다.",
-          "INFO_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-
-      this.dispose();
     }
   }
 }
