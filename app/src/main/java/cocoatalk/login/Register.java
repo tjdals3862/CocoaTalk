@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,7 +90,7 @@ public class Register extends JFrame implements ActionListener {
     jbtn_join.addActionListener(this);
     jbtn_cancel.addActionListener(this);
 
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
 
@@ -167,6 +168,7 @@ public class Register extends JFrame implements ActionListener {
     this.setLocation(500, 100);
     this.setSize(410, 650);
     this.setVisible(false);
+
   }
 
   @Override
