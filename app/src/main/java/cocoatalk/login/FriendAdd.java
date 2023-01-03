@@ -53,7 +53,7 @@ public class FriendAdd extends JFrame implements ActionListener {
 
   public void initDisplay() {
     jbtn_add.addActionListener(this);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
 
