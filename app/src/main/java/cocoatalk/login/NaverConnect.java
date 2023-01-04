@@ -13,40 +13,28 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 //import org.json.simple.JSONArray;
 
 public class NaverConnect {
 
-  public static void main(String[] args) {
-    String clientId = "8MVmqhDdydQc37JR89Zm"; // 애플리케이션 클라이언트 아이디
-    String clientSecret = "lTO9ptwKR8"; // 애플리케이션 클라이언트 시크릿
-
-    String text = null;
-
-    try {
-      text = URLEncoder.encode("고종훈", "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("검색어 인코딩 실패", e);
-    }
-
-    String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text; // JSON 결과
-    // String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text;
-    // // XML 결과
-
-    Map<String, String> requestHeaders = new HashMap<>();
-    requestHeaders.put("X-Naver-Client-Id", clientId);
-    requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-    String responseBody = get(apiURL, requestHeaders);
-
-    System.out.println(responseBody);
-
-  }
+  JSONParser parser = new JSONParser();
+  JSONObject jsonObj = null;
+  JSONArray jsonArray = null;
+  String clientId = "8MVmqhDdydQc37JR89Zm"; // 애플리케이션 클라이언트 아이디
+  String clientSecret = "lTO9ptwKR8"; // 애플리케이션 클라이언트 시크릿
+  String text = null;
+  int display = 5;
+  ArrayList<String> titlelist = null;
+  ArrayList<String> catelist = null;
+  ArrayList<String> addlist = null;
 
   private static String get(String apiUrl, Map<String, String> requestHeaders) {
     HttpURLConnection con = connect(apiUrl);
@@ -80,8 +68,9 @@ public class NaverConnect {
     }
   }
 
-  private static String readBody(InputStream body) {
-    InputStreamReader streamReader = new InputStreamReader(body);
+  private static String readBody(InputStream body) throws UnsupportedEncodingException {
+    // InputStreamReader streamReader = new InputStreamReader(body);
+    InputStreamReader streamReader = new InputStreamReader(body, "UTF-8");
 
     try (BufferedReader lineReader = new BufferedReader(streamReader)) {
       StringBuilder responseBody = new StringBuilder();
@@ -96,5 +85,49 @@ public class NaverConnect {
       throw new RuntimeException("API 응답을 읽는 데 실패했습니다.", e);
     }
 
-  } // main
+  }
+
+  public void search(String msg) {
+
+    try {
+      text = URLEncoder.encode(msg, "UTF-8");
+
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("검색어 인코딩 실패", e);
+    }
+
+    String apiURL = "https://openapi.naver.com/v1/search/local.json?display=5&query=" + text; // JSON 결과
+
+    Map<String, String> requestHeaders = new HashMap<>();
+    requestHeaders.put("X-Naver-Client-Id", clientId);
+    requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+    // String responseBody = get(apiURL, requestHeaders);
+    String responseBody = get(apiURL, requestHeaders);
+
+    titlelist = new ArrayList<>();
+    catelist = new ArrayList<>();
+    addlist = new ArrayList<>();
+
+    // json parser로 title, category, address 추출
+    try {
+      jsonObj = (JSONObject) parser.parse(responseBody);
+      jsonArray = (JSONArray) jsonObj.get("items");
+      for (int i = 0; i < jsonArray.size(); i++) {
+        JSONObject getObj = (JSONObject) jsonArray.get(i);
+        titlelist.add((String) getObj.get("title"));
+        catelist.add((String) getObj.get("category"));
+        addlist.add((String) getObj.get("address"));
+      }
+
+    } catch (Exception e) {
+
+    }
+  }
+
+  public static void main(String[] args) {
+    NaverConnect nc = new NaverConnect();
+    nc.search("역삼 맛집");
+    System.out.println(nc.titlelist.get(0));
+  }
+
 }

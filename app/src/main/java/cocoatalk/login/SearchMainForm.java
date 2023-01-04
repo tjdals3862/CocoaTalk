@@ -21,6 +21,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
   CocoaVO cVO = null;
   FriendList fl = new FriendList(cVO);
   ChatList cl = new ChatList(cVO);
+  NaverConnect nc = new NaverConnect();
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
@@ -35,6 +36,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
     // LoginForm$1.class
 
   };
+  JScrollPane jsp = null;
   JTextField searchTextField = new JTextField();
   JTextArea searchTextArea = new JTextArea();
   JButton searchBtn;
@@ -80,7 +82,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
     // label.setBounds(150, 100, 70, 30);
     // jpanel.add(label);
 
-    JScrollPane jsp = new JScrollPane(searchTextArea);
+    jsp = new JScrollPane(searchTextArea);
     jsp.setBounds(25, 145, 360, 380);
     jpanel.add(jsp);
 
@@ -170,6 +172,21 @@ public class SearchMainForm extends JFrame implements ActionListener {
       settingForm.initDisplay();
       this.dispose();
     } else if (obj == searchBtn) {
+      String msg = searchTextField.getText();
+
+      if (msg.equals("")) {
+        System.out.println("빈값입니다.");
+      } else {
+        nc.search(msg);
+        searchTextArea.setText(null);
+
+        for (int i = 0; i < nc.titlelist.size(); i++) {
+          searchTextArea.append(nc.titlelist.get(i) + "\n");
+          searchTextArea.append(nc.catelist.get(i) + "\n");
+          searchTextArea.append(nc.addlist.get(i) + "\n");
+          searchTextArea.append("================================================" + "\n");
+        }
+      }
 
     }
   } // 이벤트
