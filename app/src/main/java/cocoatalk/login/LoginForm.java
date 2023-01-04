@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import cocoatalk.oracle.DBCon;
 
 public class LoginForm extends JFrame implements ActionListener {
@@ -26,15 +30,16 @@ public class LoginForm extends JFrame implements ActionListener {
   CocoaVO cVO = new CocoaVO();
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalk.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
-  JButton jbtn_join = new JButton(new ImageIcon(imgPath + "registerBtn.png"));
-  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginBtn.jpg"));
-
+  JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
+  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+  JLabel jlb_find = new JLabel();
+  Font f_join = new Font("맑은 고딕", Font.PLAIN, 12);
   Connection conn = null;
   PreparedStatement pstm = null;
   ResultSet rs = null;
@@ -82,6 +87,22 @@ public class LoginForm extends JFrame implements ActionListener {
 
     jbtn_join.addActionListener(this);
     jbtn_login.addActionListener(this);
+
+    this.add(jlb_find); //아이디/패스워드 찾기 추가
+    jlb_find.setText("아이디/비밀번호 찾기");
+    jlb_find.setForeground(Color.WHITE);
+    jlb_find.setFont(f_join);
+    jlb_find.setBounds(140, 520, 200, 20);
+    jlb_find.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        super.mousePressed(e);
+        FindIdPwView fipv = new FindIdPwView();
+        fipv.initDisplay();
+      }
+
+    });
   }
 
   // 메인메소드
@@ -157,6 +178,5 @@ public class LoginForm extends JFrame implements ActionListener {
     } else if (obj == jbtn_join) {
       register.set(true);
     }
-
   }
 }
