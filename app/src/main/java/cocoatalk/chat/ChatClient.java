@@ -148,10 +148,10 @@ public class ChatClient extends JFrame implements ActionListener {
     }
   }
 
-  public static void main(String[] args) {
-    ChatClient cc = new ChatClient();
-    cc.initDisplay();
-    cc.init();
+  // public static void main(String[] args) {
+  // ChatClient cc = new ChatClient();
+  // cc.initDisplay();
+  // cc.init();
 
-  }
+  // }
 }

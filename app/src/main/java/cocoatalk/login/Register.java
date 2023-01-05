@@ -5,10 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -198,12 +198,22 @@ public class Register extends JFrame implements ActionListener {
         String query = "insert into member values ('" + name + "', '" + id
             + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
 
+        // id 중복체크 예외처리 필요
         if (pw.equals(pw2)) {
           if (name.equals("") || id.equals("") || pw.equals("")) {
             JOptionPane.showMessageDialog(null, "공백 확인 하세요",
                 "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
           } else {
+            StringBuilder sql = new StringBuilder();
+            sql.append("CREATE TABLE frlist_" + id + "   ( ");
+            sql.append("id      VARCHAR2(10) NOT NULL, ");
+            sql.append("fr_id   VARCHAR2(30) primary key, ");
+            sql.append("fr_name VARCHAR2(30) NOT NULL) ");
+
+            dbf.create(sql.toString());
+
             dbf.insert(query);
+            this.dispose();
           }
         } else {
           JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
