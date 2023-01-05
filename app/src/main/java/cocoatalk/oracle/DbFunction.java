@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -12,6 +13,7 @@ public class DbFunction {
   DBCon db = null;
   Connection conn = null;
   PreparedStatement pstm = null;
+  Statement stmt = null;
   ResultSet rs = null;
 
   public DbFunction() {
@@ -44,6 +46,34 @@ public class DbFunction {
         throw new RuntimeException(ie.getMessage());
       }
     }
+  }
+
+  public void create(String query) {
+
+    db = new DBCon();
+    try {
+      conn = db.getConnection();
+      stmt = conn.createStatement();
+      stmt.executeQuery(query);
+
+    } catch (Exception se) {
+      se.printStackTrace();
+    } finally {
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+        if (stmt != null) {
+          stmt.close();
+        }
+        if (conn != null) {
+          conn.close();
+        }
+      } catch (Exception ie) {
+        throw new RuntimeException(ie.getMessage());
+      }
+    }
+
   }
 
   public void idchk(String query) {

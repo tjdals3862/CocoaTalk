@@ -93,7 +93,8 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     fr_list = new Vector<>();
 
     try {
-      String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name like '%%%s%%' ",
+      String sql = String.format("SELECT * FROM frlist_%s WHERE id = '%s' AND fr_name like '%%%s%%' ",
+          cVO.getId(),
           cVO.getId(),
           str);
       conn = DBCon.getConnection();
@@ -124,7 +125,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     fr_list = new Vector<>();
 
     try {
-      String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'";
+      String sql = "SELECT FR_ID, FR_NAME FROM frlist_" + cVO.getId() + " where ID = '" + cVO.getId() + "'";
       conn = DBCon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();

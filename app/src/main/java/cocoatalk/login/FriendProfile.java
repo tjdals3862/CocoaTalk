@@ -17,46 +17,44 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
   FriendList fl = null;
   ChatClient cc = null;
   String imgPath = "D:\\TEMP\\";
- // ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");
-  
+  // ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");
+
   ///////////////////////////////////////////////////////////////////// 이미지 삽입
 
   JButton jbtn_del = new JButton(new ImageIcon(imgPath + "delbtn.png"));// 삭제버튼
   JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "1on1btn.png"));// 1:1채팅버튼
-  /////////////////////////////////////////////////////////////////////////////버튼이미지  
+  ///////////////////////////////////////////////////////////////////////////// 버튼이미지
   JLabel jlbl_name;
   JPanel pf_south;
 
   public FriendProfile(FriendList fl) {
     this.fl = fl;
   }
+
   public void profileDisplay(boolean isOpen, String who) {
     new JDialog();
-    JPanel jp = new JPanel();//패널 객체생성
+    JPanel jp = new JPanel();// 패널 객체생성
     jlbl_name = new JLabel(who);
-    
+
     jp.setLayout(null);
     this.add(jbtn_chat);
     this.add(jbtn_del);
-    this.add(jp);//패널추가 
-    jp.setBackground(new Color(55,38,30));// 패널 배경 
-    jbtn_chat.setBounds(160, 440, 80, 40);// 1:1채팅버튼 
-    jbtn_del.setBounds(70, 440, 80, 40);//삭제버튼 
+    this.add(jp);// 패널추가
+    jp.setBackground(new Color(55, 38, 30));// 패널 배경
+    jbtn_chat.setBounds(160, 440, 80, 40);// 1:1채팅버튼
+    jbtn_del.setBounds(70, 440, 80, 40);// 삭제버튼
     jbtn_chat.addActionListener(this); // 1:1 버튼 실행시
-    jbtn_del.addActionListener(this); // 삭제 버튼 실행시 
-    
-    setResizable(false); //창크기 수정불가
-    setSize(330, 550); //화면사이즈 
+    jbtn_del.addActionListener(this); // 삭제 버튼 실행시
+
+    setResizable(false); // 창크기 수정불가
+    setSize(330, 550); // 화면사이즈
     setVisible(isOpen);
-    setTitle(who);// 채팅창 이름(사용자 별로 다름) 
-    
+    setTitle(who);// 채팅창 이름(사용자 별로 다름)
+
   }
- 
-      
-    
 
   @Override
-  public void mouseClicked(MouseEvent e) { //마우스이벤트
+  public void mouseClicked(MouseEvent e) { // 마우스이벤트
     Object obj = e.getSource();
     if (obj == jbtn_chat) {
       dispose();
@@ -96,6 +94,7 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
     if (jbtn_chat == obj) {
       cc = new ChatClient();
       cc.initDisplay();
+      cc.init();
     } else if (jbtn_del == obj) {
 
     }

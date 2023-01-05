@@ -98,7 +98,7 @@ public class FriendAdd extends JFrame implements ActionListener {
       } else {
 
         try {
-          String query = "select fr_name from friend where id = '" + id + "' and fr_id = '" + fr_id + "' ";
+          String query = "select fr_name from frlist_" + id + " where id = '" + id + "' and fr_id = '" + fr_id + "' ";
           db = new DBCon();
           dbf = new DbFunction();
           conn = db.getConnection();
@@ -124,7 +124,7 @@ public class FriendAdd extends JFrame implements ActionListener {
               fr_name = rs.getString("name");
             }
 
-            String query3 = "insert into friend values ('" + id + "','" + fr_id + "','" + fr_name + "')";
+            String query3 = "insert into frlist_" + id + " values ('" + id + "','" + fr_id + "','" + fr_name + "')";
             dbf.insert(query3);
             JOptionPane.showMessageDialog(null, "추가 완료",
                 "Success", JOptionPane.INFORMATION_MESSAGE);
