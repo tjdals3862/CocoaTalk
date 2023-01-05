@@ -4,13 +4,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
-
+//프로그램 실행시 첫 화면
 public class First extends JFrame {
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "loadingWalll.jpg");
 
   class MyPanel extends JPanel {
+    // 내부클래스로 배경 이미지 처리
     public void paintComponent(Graphics g) {
       g.drawImage(imageIcon.getImage(), 0, 0, null);
       setOpaque(false);

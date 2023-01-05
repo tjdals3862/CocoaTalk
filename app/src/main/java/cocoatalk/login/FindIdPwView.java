@@ -211,16 +211,43 @@ public class FindIdPwView extends JFrame {
             jbtn_idmiss.setBackground(Color.white);
          }
       });
-      // 1번도화지 "아이디 찾기"버튼
-      jbtn_idsearch.addActionListener(new ActionListener() {
+      jbtn_idsearch.addActionListener(new ActionListener() {// 아이디 찾기 눌렀을때 나오는 화면의 밑에있는 아이디찾기 버튼 눌렀을때 이벤트 처리
          public void actionPerformed(ActionEvent e) {
 
-            String name_data = jtf_name.getText();
-            String phone_data = jtf_phone.getText();
+            String name_data = jtf_name.getText(); // 사용자가 name textfield에 입력한 값을 name_data에 저장
+            String phone_data = jtf_phone.getText(); // 사용자가 phone textfield에 입력한 값을 phone_data에 저장
 
-            String query1 = String.format("SELECT id FROM member WHERE name = '%s' AND phone = '%s'", name_data,
+            String query1 = String.format("SELECT id FROM member WHERE name = '%s' AND phone = '%s'", name_data, // 사용자가
+                                                                                                                 // 입력한
+                                                                                                                 // name과
+                                                                                                                 // phone의
+                                                                                                                 // 값과
+                                                                                                                 // 같은
+                                                                                                                 // 데이터를
+                                                                                                                 // 가진
+                                                                                                                 // id
+                                                                                                                 // 값을
+                                                                                                                 // member
+                                                                                                                 // 테이블에서
+                                                                                                                 // 가져오는
+                                                                                                                 // 쿼리문
+                                                                                                                 // 1
                   phone_data);
-            String query2 = String.format("SELECT name FROM member WHERE name = '%s' AND phone = '%s'", name_data,
+            String query2 = String.format("SELECT name FROM member WHERE name = '%s' AND phone = '%s'", name_data, // 사용자가
+                                                                                                                   // 입력한
+                                                                                                                   // name과
+                                                                                                                   // phone의
+                                                                                                                   // 값과
+                                                                                                                   // 같은
+                                                                                                                   // 데이터를
+                                                                                                                   // 가진
+                                                                                                                   // name
+                                                                                                                   // 값을
+                                                                                                                   // member
+                                                                                                                   // 테이블에서
+                                                                                                                   // 가져오는
+                                                                                                                   // 쿼리문
+                                                                                                                   // 2
                   phone_data);
             DBCon db = new DBCon();
 
@@ -235,15 +262,16 @@ public class FindIdPwView extends JFrame {
                String id = "";
                String name = "";
 
-               while (rs1.next() && rs2.next()) {
+               while (rs1.next() && rs2.next()) { // 쿼리문에서 가져온 id와 name값을 각각 id와 name 변수에 저장
                   id = rs1.getString("id");
                   name = rs2.getString("name");
                }
 
-               if (!name.equals("") && name.equals(name_data)) {
+               if (!name.equals("") && name.equals(name_data)) {// name의 값이 null이아니고, 입력한 name_data와 같을때 그에 해당하는 id값을
+                                                                // 팝업으로 출력
                   JOptionPane.showMessageDialog(null, "회원님의 아이디는 " + id + " 입니다.", "아이디 찾기", 1);
 
-               } else {
+               } else {// 그 외에는 찾기 실패
                   JOptionPane.showMessageDialog(null, "일치하는 정보가 없습니다", "아이디 찾기 실패", 1);
                   System.out.println(name);
                }
@@ -277,11 +305,11 @@ public class FindIdPwView extends JFrame {
          }
       });
       // 3번도화지 "비밀번호 찾기"버튼
-      jbtn_pwsearch.addActionListener(new ActionListener() {
+      jbtn_pwsearch.addActionListener(new ActionListener() {// 비밀번호 찾기 상단버튼 눌렀을때 나오는 화면 하단에 있는 비밀번호 찾기를 눌렀을때의 이벤트처리
          public void actionPerformed(ActionEvent e) {
 
-            id_data = jtf_id.getText();
-            String name_data = jtf_name2.getText();
+            id_data = jtf_id.getText(); // 사용자가 id textfield에 입력한 값을 전역변수 id_data에 저장
+            String name_data = jtf_name2.getText(); // 사용자가 name textfield에 입력한 값을 name_data에 저장
 
             String query = String.format("SELECT id FROM member WHERE id = '%s' AND name = '%s'", id_data,
                   name_data);
@@ -375,10 +403,5 @@ public class FindIdPwView extends JFrame {
             }
          }
       });
-   }
-
-   public static void main(String[] args) {
-      FindIdPwView minfo = new FindIdPwView();
-      minfo.initDisplay();
    }
 }
