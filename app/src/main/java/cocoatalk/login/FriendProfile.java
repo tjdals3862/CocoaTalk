@@ -13,7 +13,7 @@ import javax.swing.event.MouseInputListener;
 
 import cocoatalk.chat.ChatClient;
 
-public class FriendProfile extends JDialog implements MouseInputListener, ActionListener {
+public class FriendProfile extends JDialog implements ActionListener {
   FriendList fl = null;
   ChatClient cc = null;
   String imgPath = "D:\\TEMP\\";
@@ -54,48 +54,12 @@ public class FriendProfile extends JDialog implements MouseInputListener, Action
   }
 
   @Override
-  public void mouseClicked(MouseEvent e) { // 마우스이벤트
-    Object obj = e.getSource();
-    if (obj == jbtn_chat) {
-      dispose();
-    } else if (obj == jbtn_del) {
-
-    }
-
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseDragged(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseMoved(MouseEvent e) {
-  }
-
-  @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
-    if (jbtn_chat == obj) {
-      cc = new ChatClient();
-      cc.initDisplay();
-      cc.init();
-    } else if (jbtn_del == obj) {
+    if (obj == jbtn_chat) {
+      cc.enter(fl.cVO.getId(), jlbl_name.getText());
+      this.dispose();
+    } else if (obj == jbtn_del) {
 
     }
   }

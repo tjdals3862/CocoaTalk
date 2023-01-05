@@ -130,9 +130,9 @@ public class ChatClient extends JFrame implements ActionListener {
   public void init() {
     try {
       // 서버측의 ip주소 작성하기
-      // socket = new Socket("192.168.0.244",3000);
+      socket = new Socket("localhost",3000);
       // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
-      socket = new Socket("192.168.10.74", 3000);
+      // socket = new Socket("192.168.10.74", 3000);
       // socket = new Socket("localhost", 3000);
       oos = new ObjectOutputStream(socket.getOutputStream());
       ois = new ObjectInputStream(socket.getInputStream());
@@ -146,6 +146,11 @@ public class ChatClient extends JFrame implements ActionListener {
       // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기
       System.out.println(e.toString());
     }
+  }
+
+  public void enter(String myName, String frName) {
+    initDisplay();
+    init();
   }
 
   // public static void main(String[] args) {
