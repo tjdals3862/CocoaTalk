@@ -11,12 +11,12 @@ import java.net.Socket;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import java.awt.Font;
 import java.awt.Dimension;
 
@@ -26,8 +26,6 @@ public class ChatClient extends JFrame implements ActionListener {
   ObjectOutputStream oos = null;// 말 하고 싶을 때
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
-
-  // 선언부
 
   // 이미지 경로 선언
   String imgPath = "D:\\TEMP\\";
@@ -130,7 +128,7 @@ public class ChatClient extends JFrame implements ActionListener {
   public void init() {
     try {
       // 서버측의 ip주소 작성하기
-      socket = new Socket("localhost",3000);
+      socket = new Socket("localhost", 3000);
       // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
       // socket = new Socket("192.168.10.74", 3000);
       // socket = new Socket("localhost", 3000);
@@ -151,6 +149,7 @@ public class ChatClient extends JFrame implements ActionListener {
   public void enter(String myName, String frName) {
     initDisplay();
     init();
+    jtf_message.setText("나:" + myName + ", 너:" + frName);
   }
 
   // public static void main(String[] args) {

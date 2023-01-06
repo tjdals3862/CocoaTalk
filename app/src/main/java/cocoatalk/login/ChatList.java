@@ -28,7 +28,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
   ChatAdd ca = null;
   CocoaVO cVO = null;
 
-  List<String[]> chat_list;
+  List<String> chat_list;
   DefaultListModel<String> dlm_chat;
   JScrollPane jsp;
   JList jl_chat;
@@ -54,7 +54,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
 
   public void InitDisplay() {
     dlm_chat = new DefaultListModel<>();
-    getDB();
+    getRoom();
 
     chat_north = new JPanel();
     jtf_search = new JTextField(23);
@@ -87,58 +87,58 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
 
   }
 
-  public void searchFriend(String str) {
+  // public void searchFriend(String str) {
+  // dlm_chat.clear();
+  // chat_list = new Vector<>();
+
+  // try {
+  // String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name
+  // like '%s'", cVO.getId(),
+  // str);
+  // conn = DBCon.getConnection();
+  // pstm = conn.prepareStatement(sql);
+  // rs = pstm.executeQuery();
+
+  // while (rs.next()) {
+  // String room = rs.getString("ROOM")
+  // // String[] data = { name, ID };
+  // chat_list.add(room);
+  // }
+
+  // for (int i = 0; i < chat_list.size(); i++) {
+  // int a = chat_list.size();
+  // // String[] data = new String[a];
+
+  // data = chat_list.get(i);
+
+  // dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
+  // }
+  // } catch (SQLException e) {
+  // e.printStackTrace();
+  // }
+  // }
+
+  private void getRoom() {
     dlm_chat.clear();
     chat_list = new Vector<>();
 
     try {
-      String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name like '%s'", cVO.getId(),
-          str);
       conn = DBCon.getConnection();
-      pstm = conn.prepareStatement(sql);
-      rs = pstm.executeQuery();
-
-      while (rs.next()) {
-        String name = rs.getString("FR_NAME");
-        String ID = rs.getString("FR_ID");
-        String[] data = { name, ID };
-        chat_list.add(data);
-      }
-
-      for (int i = 0; i < chat_list.size(); i++) {
-        int a = chat_list.size();
-        String[] data = new String[a];
-        data = chat_list.get(i);
-
-        dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void getDB() {
-    dlm_chat.clear();
-    chat_list = new Vector<>();
-
-    try {
-      String sql = "SELECT FR_ID, FR_NAME FROM friend where ID = '" + cVO.getId() + "'";
-      conn = DBCon.getConnection();
+      String sql = String.format("SELECT room FROM room_mem WHERE id = '%s'",
+          cVO.getId());
+      // String sql = "SELECT * FROM room_mem WHERE id = '?'";
+      // pstm.setString(1, cVO.getId());
+      // System.out.println(cVO.getId());
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
       while (rs.next()) {
-        String name = rs.getString("FR_NAME");
-        String ID = rs.getString("FR_ID");
-        String[] data = { name, ID };
-        chat_list.add(data);
+        String room = rs.getString("ROOM");
+        chat_list.add(room);
       }
 
       for (int i = 0; i < chat_list.size(); i++) {
-        int a = chat_list.size();
-        String[] data = new String[a];
-        data = chat_list.get(i);
-
-        dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
+        String room = chat_list.get(i);
+        dlm_chat.addElement(room); // data[0] : name, data[1] : ID
       }
     } catch (Exception e) {
     }
@@ -150,9 +150,10 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
     if (obj == jl_chat) {
       if (e.getClickCount() == 2) {
         int who = jl_chat.locationToIndex(e.getPoint());
-        String[] data = chat_list.get((chat_list.size() - 1) - who); // JList에 역순으로 들어가서
-        // index가 거꾸로 잡힘
-        fp.profileDisplay(true, data[0]);
+        // String[] data = chat_list.get((chat_list.size() - 1) - who); // JList에 역순으로
+        // 들어가서
+        // // index가 거꾸로 잡힘
+        // fp.profileDisplay(true, data[0]);
       }
     }
 
