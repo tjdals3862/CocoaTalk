@@ -51,8 +51,8 @@ public class MainForm extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
-
     fl = new FriendList(cVO);
+    cl = new ChatList(cVO);
     clearCenter(fl);
     // 창
     this.setTitle("COCOA TALK");

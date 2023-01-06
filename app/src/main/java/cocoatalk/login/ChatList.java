@@ -131,11 +131,11 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
       // System.out.println(cVO.getId());
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
+
       while (rs.next()) {
-        String room = rs.getString("ROOM");
+        String room = rs.getString("room");
         chat_list.add(room);
       }
-
       for (int i = 0; i < chat_list.size(); i++) {
         String room = chat_list.get(i);
         dlm_chat.addElement(room); // data[0] : name, data[1] : ID
