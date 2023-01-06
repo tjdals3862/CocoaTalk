@@ -27,7 +27,7 @@ public class Room {
       e.printStackTrace();
     }
     for (;;) {
-      if (1 == 1) { // 채팅방이 존재하면
+      if (1 == 1) { // 채팅방이 존재하면 (1:1 이면 1000번대 조회 1:다 2000번대 조회)
 
       } else { // 존재하지 않으면
         roomCreate();
@@ -40,7 +40,7 @@ public class Room {
     try {
       conn = DBCon.getConnection();
       StringBuilder sql = new StringBuilder();
-      sql.append("insert into room_mem values ((                          ");
+      sql.append("insert into room_mem values ((                       ");
       sql.append("     select /*+index_desc(m room_idx)*/              ");
       sql.append("            room+1                                   ");
       sql.append("       from room_mem m                               ");

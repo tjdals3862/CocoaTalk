@@ -164,10 +164,10 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
     Object obj = e.getSource();
     if (chat_search == obj) { // 검색 버튼 클릭
       if (jtf_search.getText() == null) {
-        getDB();
+        getRoom();
         InitDisplay();
       } else {
-        searchFriend(jtf_search.getText());
+        // roomSearch(jtf_search.getText());
         jtf_search.setText("");
       }
     } else if (chat_add == obj) { // 추가 버튼 클릭
