@@ -46,13 +46,13 @@ public class Register extends JFrame implements ActionListener {
   JLabel jlb_idNotAvble = new JLabel("중복된 아이디 입니다.");
   JLabel jlb_title = new JLabel("회원가입");
 
-  JTextField jtf_name = new JTextField(""); // 이름
-  JTextField jtf_id = new JTextField(""); // 아이디
-  JPasswordField jtf_pw = new JPasswordField(""); // 비밀번호
-  JPasswordField jtf_pw2 = new JPasswordField(""); // 비밀번호 확인
-  JTextField jtf_birth = new JTextField(""); // 생년월일
-  JTextField jtf_phone = new JTextField(""); // 폰번호
-  JTextField jtf_nickName = new JTextField(""); // 닉네임
+  JTextField jtf_name = null; // 이름
+  JTextField jtf_id = null; // 아이디
+  JPasswordField jtf_pw = null; // 비밀번호
+  JPasswordField jtf_pw2 = null; // 비밀번호 확인
+  JTextField jtf_birth = null; // 생년월일
+  JTextField jtf_phone = null; // 폰번호
+  JTextField jtf_nickName = null; // 닉네임
 
   Font font = new Font("굴림체", Font.BOLD, 13);
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 25);
@@ -85,6 +85,14 @@ public class Register extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
+
+    jtf_name = new JTextField(""); // 이름
+    jtf_id = new JTextField(""); // 아이디
+    jtf_pw = new JPasswordField(""); // 비밀번호
+    jtf_pw2 = new JPasswordField(""); // 비밀번호 확인
+    jtf_birth = new JTextField(""); // 생년월일
+    jtf_phone = new JTextField(""); // 폰번호
+    jtf_nickName = new JTextField(""); // 닉네임
 
     jbtn_idconfirm.addActionListener(this);
     jbtn_join.addActionListener(this);
@@ -168,6 +176,7 @@ public class Register extends JFrame implements ActionListener {
     this.setLocation(500, 100);
     this.setSize(410, 650);
     this.setVisible(false);
+    this.setResizable(false);
 
   }
 
@@ -188,36 +197,64 @@ public class Register extends JFrame implements ActionListener {
       dbf = new DbFunction();
 
       try {
-        String name = jtf_name.getText();
-        String id = jtf_id.getText();
-        String pw = jtf_pw.getText();
-        String pw2 = jtf_pw2.getText();
-        int birth = Integer.parseInt(jtf_birth.getText());
-        int phone = Integer.parseInt(jtf_phone.getText());
-        String nickName = jtf_nickName.getText();
-        String query = "insert into member values ('" + name + "', '" + id
-            + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
 
-        // id 중복체크 예외처리 필요
-        if (pw.equals(pw2)) {
+        while (true) {
+          String name = jtf_name.getText();
+          String id = jtf_id.getText();
+          String pw = jtf_pw.getText();
+          String pw2 = jtf_pw2.getText();
+          int birth = Integer.parseInt(jtf_birth.getText());
+          int phone = Integer.parseInt(jtf_phone.getText());
+          String nickName = jtf_nickName.getText();
+          String query = "insert into member values ('" + name + "', '" + id
+              + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
+
+          // name, id, pw 가 공백인지 체크
           if (name.equals("") || id.equals("") || pw.equals("")) {
             JOptionPane.showMessageDialog(null, "공백 확인 하세요",
                 "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-          } else {
-            StringBuilder sql = new StringBuilder();
-            sql.append("CREATE TABLE frlist_" + id + "   ( ");
-            sql.append("id      VARCHAR2(10) NOT NULL, ");
-            sql.append("fr_id   VARCHAR2(30) primary key, ");
-            sql.append("fr_name VARCHAR2(30) NOT NULL) ");
-
-            dbf.create(sql.toString());
-
-            dbf.insert(query);
-            this.dispose();
+            break;
           }
-        } else {
-          JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
-              "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+
+          // id 중복 체크
+          StringBuilder sql2 = new StringBuilder();
+          sql2.append("select id from member where id ='" + id + "'");
+          String result = dbf.idchk2(sql2.toString());
+          if (id.equals(result)) {
+            JOptionPane.showMessageDialog(null, "id 중복 확인 하세요",
+                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+            break;
+          }
+
+          // 패스워드 확인 - 2가지가 같은지 체크
+          if (!pw.equals(pw2)) {
+            JOptionPane.showMessageDialog(null, "비밀번호를 확인하세요",
+                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+            break;
+          }
+
+          StringBuilder sql = new StringBuilder();
+          sql.append("CREATE TABLE frlist_" + id + "   ( ");
+          sql.append("id      VARCHAR2(10) NOT NULL, ");
+          sql.append("fr_id   VARCHAR2(30) primary key, ");
+          sql.append("fr_name VARCHAR2(30) NOT NULL) ");
+
+          dbf.create(sql.toString());
+          System.out.println("테이블 생성 완료");
+
+          dbf.insert(query);
+
+          jtf_name.setText("");
+          jtf_id.setText("");
+          jtf_pw.setText("");
+          jtf_pw2.setText("");
+          jtf_birth.setText("");
+          jtf_phone.setText("");
+          jtf_nickName.setText("");
+          JOptionPane.showMessageDialog(null, "회원가입 완료했습니다.",
+              "SUCCESS_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+          this.dispose();
+          break;
         }
 
         // dbf.insert(query);

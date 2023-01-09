@@ -45,6 +45,7 @@ public class DbFunction {
   public void create(String query) {
 
     db = new DBCon();
+    dfc = new DbFreeCon();
     try {
       conn = db.getConnection();
       stmt = conn.createStatement();
@@ -65,7 +66,7 @@ public class DbFunction {
 
   public void idchk(String query) {
     db = new DBCon();
-
+    dfc = new DbFreeCon();
     try {
       ArrayList<String> list = new ArrayList<>();
       conn = db.getConnection();
@@ -90,10 +91,44 @@ public class DbFunction {
       System.out.println("예외 발생");
     } finally {
       try {
-        dfc.freeConnection(conn, stmt, rs);
+        dfc.freeConnection(conn, pstm, rs);
       } catch (Exception ie) {
         throw new RuntimeException(ie.getMessage());
       }
     }
   }
+
+  public String idchk2(String query) {
+    db = new DBCon();
+    dfc = new DbFreeCon();
+    ArrayList<String> list = new ArrayList<>();
+    try {
+
+      conn = db.getConnection();
+      pstm = conn.prepareStatement(query);
+      rs = pstm.executeQuery();
+      while (rs.next()) {
+        list.add(rs.getString(1));
+      }
+
+    } catch (Exception se) {
+      se.printStackTrace();
+    } finally {
+      try {
+        dfc.freeConnection(conn, pstm, rs);
+      } catch (Exception ie) {
+        throw new RuntimeException(ie.getMessage());
+      }
+    }
+
+    try {
+      String result = list.get(0);
+      return result;
+    } catch (IndexOutOfBoundsException e) {
+      String result = "";
+      return result;
+    }
+
+  }
+
 }

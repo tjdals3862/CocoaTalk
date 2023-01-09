@@ -27,7 +27,8 @@ public class ChatServer extends Thread {
       while (true) {
         socket = server.accept();
         // socketList.add(socket);
-        ChatServerThread cst = new ChatServerThread(this);
+        cst = new ChatServerThread(this);
+
         // cstlist.add(cst);
         cst.start();
       }

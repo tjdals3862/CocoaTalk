@@ -38,7 +38,7 @@ public class LoginForm extends JFrame implements ActionListener {
   Font font = new Font("굴림체", Font.BOLD, 13);
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
   JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
-  JLabel jlb_find = new JLabel(); //아이디/비밀번호 찾기 라벨
+  JLabel jlb_find = new JLabel(); // 아이디/비밀번호 찾기 라벨
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 12);
   Connection conn = null;
   PreparedStatement pstm = null;
@@ -88,18 +88,18 @@ public class LoginForm extends JFrame implements ActionListener {
     jbtn_join.addActionListener(this);
     jbtn_login.addActionListener(this);
 
-    this.add(jlb_find); //아이디/패스워드 찾기 추가
+    this.add(jlb_find); // 아이디/패스워드 찾기 추가
     jlb_find.setText("아이디/비밀번호 찾기");
     jlb_find.setForeground(Color.WHITE);
     jlb_find.setFont(f_join);
     jlb_find.setBounds(140, 520, 200, 20);
-    jlb_find.addMouseListener(new MouseAdapter() {//아이디/비밀번호 찾기 마우스 이벤트 처리
+    jlb_find.addMouseListener(new MouseAdapter() {// 아이디/비밀번호 찾기 마우스 이벤트 처리
       @Override
       public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
         super.mousePressed(e);
         FindIdPwView fipv = new FindIdPwView();
-        fipv.initDisplay(); //마우스 이벤트 발생시 아이디/비밀번호 찾기창 띄우기
+        fipv.initDisplay(); // 마우스 이벤트 발생시 아이디/비밀번호 찾기창 띄우기
       }
 
     });
@@ -109,28 +109,29 @@ public class LoginForm extends JFrame implements ActionListener {
   public static void main(String[] args) {
 
     First first = new First();
-    first.firstDisplay();//첫화면 불러오기
+    first.firstDisplay();// 첫화면 불러오기
 
-    try {//0.5초뒤에 꺼짐
+    try {// 0.5초뒤에 꺼짐
       Thread.sleep(500);
       first.dispose();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     LoginForm loginForm = new LoginForm();
-    loginForm.initDisplay();//첫화면 꺼지고 바로 로그인창 띄우기
+    loginForm.initDisplay();// 첫화면 꺼지고 바로 로그인창 띄우기
 
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) { //버튼 이벤트 처리
+  public void actionPerformed(ActionEvent e) { // 버튼 이벤트 처리
     Object obj = e.getSource();
 
-    if (obj == jbtn_login) { //로그인 버튼 눌렀을때 이벤트 처리
-      String id_data = jtf_id.getText(); //id textfield에 사용자가 입력한 값을 id_data에 저장
-      String pw_data = jpf_pw.getText(); //password field에 사용자가 입력한 값을 pw_data에 저장
+    if (obj == jbtn_login) { // 로그인 버튼 눌렀을때 이벤트 처리
+      String id_data = jtf_id.getText(); // id textfield에 사용자가 입력한 값을 id_data에 저장
+      String pw_data = jpf_pw.getText(); // password field에 사용자가 입력한 값을 pw_data에 저장
 
-      String query = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data); //사용자가 입력한 id, password와 같은 값을 가지는 password 값을 member 테이블에서 가져온다는 쿼리문
+      String query = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data);
+      // 사용자가 입력한 id, password와 같은 값을 가지는 password 값을 member 테이블에서 가져온다는 쿼리문
       DBCon db = new DBCon();
 
       try {
@@ -139,18 +140,18 @@ public class LoginForm extends JFrame implements ActionListener {
         pstm = conn.prepareStatement(query);
         rs = pstm.executeQuery();
 
-        String password = ""; 
+        String password = "";
 
         while (rs.next()) {
-          password = rs.getString("password"); //쿼리문으로 불러온 password값을 password변수에 저장
+          password = rs.getString("password"); // 쿼리문으로 불러온 password값을 password변수에 저장
         }
 
-        if (!password.equals("") && password.equals(pw_data)) {//password의 값이 null이아니고, 입력한 pw_data와 같을때 로그인 성공
+        if (!password.equals("") && password.equals(pw_data)) {// password의 값이 null이아니고, 입력한 pw_data와 같을때 로그인 성공
           MainForm MainFormcopy = new MainForm(cVO);
           cVO.setId(id_data);
           MainFormcopy.initDisplay();
           this.dispose();
-        } else {//그 외에는 로그인 실패
+        } else {// 그 외에는 로그인 실패
           JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
         }
 
