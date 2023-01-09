@@ -27,9 +27,9 @@ public class Room {
       sql.append(" where room in (select room         ");
       sql.append("                  from room_mem     ");
       sql.append("                 where id = ?)      ");
-      sql.append("   and (room between 1000 and 1999);");
-      pstmt.setString(1, myID);
+      sql.append("   and (room between 1000 and 1999)");
       pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, myID);
       rs = pstmt.executeQuery();
       int i = 0;
       while (rs.next()) {
@@ -39,7 +39,7 @@ public class Room {
         }
       }
       if (i == 0) {
-        roomCreate();
+        roomCreate(myID, frID);
       }
 
     } catch (Exception e) {
@@ -49,7 +49,7 @@ public class Room {
   }
 
   // room create
-  public void roomCreate() {
+  public void roomCreate(String myID, String frID) {
     try {
       conn = DBCon.getConnection();
       StringBuilder sql = new StringBuilder();
@@ -59,9 +59,9 @@ public class Room {
       sql.append("       from room_mem m                               ");
       sql.append("      where (room between 1 and 1000) AND rownum = 1)");
       sql.append("            ,?,?)                                    ");
-      pstmt.setString(1, null); // id
-      pstmt.setString(2, null); // name
       pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, myID); // id
+      pstmt.setString(2, frID); // name
       rs = pstmt.executeQuery();
     } catch (Exception e) {
       e.printStackTrace();

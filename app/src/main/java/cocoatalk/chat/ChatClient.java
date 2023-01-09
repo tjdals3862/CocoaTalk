@@ -27,6 +27,8 @@ public class ChatClient extends JFrame implements ActionListener {
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
 
+  Room r = new Room();
+
   // 이미지 경로 선언
   String imgPath = "D:\\TEMP\\";
   ImageIcon imgIcon = new ImageIcon(imgPath + "join.jpg");
@@ -128,7 +130,7 @@ public class ChatClient extends JFrame implements ActionListener {
   public void init() {
     try {
       // 서버측의 ip주소 작성하기
-      socket = new Socket("localhost", 3000);
+      socket = new Socket("192.168.10.74", 3000);
       // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
       // socket = new Socket("192.168.10.74", 3000);
       // socket = new Socket("localhost", 3000);
@@ -146,10 +148,11 @@ public class ChatClient extends JFrame implements ActionListener {
     }
   }
 
-  public void chatOpen(String myName, String frName) {
+  public void chatOpen(String myID, String frID) {
+    r.roomSearch(myID, frID);
     initDisplay();
     init();
-    jtf_message.setText("나:" + myName + ", 너:" + frName);
+    jtf_message.setText("나:" + myID + ", 너:" + frID);
   }
 
   public void loadChat() {

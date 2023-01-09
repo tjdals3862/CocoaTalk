@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 public class ChatServerThread extends Thread {
   ChatServer cs = null;
@@ -12,6 +16,8 @@ public class ChatServerThread extends Thread {
   ObjectInputStream ois = null;
   // 현재 서버에 입장한 클라이언트 스레드의 닉네임 저장
   String chatName = null;
+  String nickname = null;
+  List<ChatServerThread> keyList = new Vector<>();
 
   public ChatServerThread() {
 
@@ -29,8 +35,6 @@ public class ChatServerThread extends Thread {
       chatName = "tomato"; // 채팅 이름 본인 name 호출
       System.out.println(chatName + "님이 입장");
       System.out.println(msg);
-      // 현재 서버에 입장한 클라이언트 스레드 추가하기
-      cs.cstlist.add(this);
       this.broadCasting(msg);
 
     } catch (Exception e) {
@@ -47,11 +51,16 @@ public class ChatServerThread extends Thread {
     // } catch (IOException ex) {
     // }
     // }
+    Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
+    while (it.hasNext()) {
+      ChatServerThread key = it.next();
+      keyList.add(key);
+    }
   }
 
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
-    for (ChatServerThread cst : cs.cstlist) {
+    for (ChatServerThread cst : keyList) {
       cst.send(msg);
     }
   }
@@ -95,35 +104,6 @@ public class ChatServerThread extends Thread {
     } catch (Exception e) {
       // TODO: handle exception
     }
-
-    // try {
-    // System.out.println(client + " : 연결됨");
-    // oos = new ObjectOutputStream(client.getOutputStream());// 말하기
-    // ois = new ObjectInputStream(client.getInputStream());// 듣기
-
-    // String msg = (String) ois.readObject(); // 채팅메세지
-    // chatName = "tomato"; // 채팅 이름 본인 name 호출
-    // System.out.println(chatName + "님이 입장");
-    // System.out.println(msg);
-    // // 채팅메세지를 client에 전달
-    // for (ChatServerThread cst : cs.cstlist) {
-    // System.out.println(cst);
-    // oos.writeObject(msg);
-    // }
-
-    // } catch (Exception e) {
-    // } finally {
-    // try {
-    // if (client != null) {
-    // client.close();
-    // // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
-    // remove(client);
-    // }
-    // ois = null;
-    // oos = null;
-    // } catch (IOException ex) {
-    // }
-    // }
 
   }
 
