@@ -146,12 +146,15 @@ public class ChatClient extends JFrame implements ActionListener {
     }
   }
 
-  public void enter(String myName, String frName) {
+  public void chatOpen(String myName, String frName) {
     initDisplay();
     init();
     jtf_message.setText("나:" + myName + ", 너:" + frName);
   }
 
+  public void loadChat() {
+
+  }
   // public static void main(String[] args) {
   // ChatClient cc = new ChatClient();
   // cc.initDisplay();

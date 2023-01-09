@@ -3,6 +3,7 @@ package cocoatalk.chat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 import cocoatalk.oracle.DBCon;
 
@@ -17,22 +18,34 @@ public class Room {
 
   }
 
-  public void roomSearch() {
+  public void roomSearch(String myID, String frID) {
     try {
       conn = DBCon.getConnection();
-      String sql = String.format("");
-      pstmt = conn.prepareStatement(sql);
+      StringBuilder sql = new StringBuilder();
+      sql.append("select id, room                     ");
+      sql.append("  from room_mem                     ");
+      sql.append(" where room in (select room         ");
+      sql.append("                  from room_mem     ");
+      sql.append("                 where id = ?)      ");
+      sql.append("   and (room between 1000 and 1999);");
+      pstmt.setString(1, myID);
+      pstmt = conn.prepareStatement(sql.toString());
       rs = pstmt.executeQuery();
+      int i = 0;
+      while (rs.next()) {
+        if (frID == rs.getString("id")) {
+          // enter(rs.getString("room"))
+          i++;
+        }
+      }
+      if (i == 0) {
+        roomCreate();
+      }
+
     } catch (Exception e) {
       e.printStackTrace();
     }
-    for (;;) {
-      if (1 == 1) { // 채팅방이 존재하면 (1:1 이면 1000번대 조회 1:다 2000번대 조회)
 
-      } else { // 존재하지 않으면
-        roomCreate();
-      }
-    }
   }
 
   // room create
