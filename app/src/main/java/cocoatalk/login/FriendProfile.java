@@ -58,7 +58,7 @@ public class FriendProfile extends JDialog implements ActionListener {
     Object obj = e.getSource();
     if (obj == jbtn_chat) {
       cc = new ChatClient();
-      cc.enter(fl.cVO.getId(), jlbl_name.getText());
+      cc.chatOpen(fl.cVO.getId(), jlbl_name.getText());
       this.dispose();
     } else if (obj == jbtn_del) {
 
