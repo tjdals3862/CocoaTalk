@@ -12,7 +12,7 @@ public class ChatServer extends Thread {
   // static List<Socket> socketList = new Vector<>(); // 소켓 리스트
   // List<ChatServerThread> cstlist = null; // 채팅방 리스트
   List<Map<ChatServerThread, String>> cstlist = null;
-  Map<ChatServerThread, String> cstMap = null;
+  Map<ChatServerThread, String> cstMap = new HashMap<>();;
   Socket socket = null;
   ServerSocket server = null;
   ChatServerThread cst = null;
@@ -30,10 +30,9 @@ public class ChatServer extends Thread {
       while (true) {
         socket = server.accept();
         // socketList.add(socket);
-        cst = new ChatServerThread(this);
-        cstMap = new HashMap<>();
-        cstMap.put(cst, "id");
-        cstlist.add(cstMap);
+        ChatServerThread cst = new ChatServerThread(this);
+        // cstMap.put(cst, "id");
+        // cstlist.add(cstMap);
         cst.start();
       }
 
