@@ -5,13 +5,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +24,7 @@ import javax.swing.JTextField;
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFunction;
 
-public class Register extends JFrame implements ActionListener {
+public class Register extends JFrame implements ActionListener, ItemListener {
   // 선언부
   LoginForm loginForm = null;
   DBCon db = null;
@@ -31,6 +33,7 @@ public class Register extends JFrame implements ActionListener {
   ResultSet rs = null;
   DbFunction dbf = null;
   boolean isTrue = false;
+  boolean check = false;
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
@@ -44,7 +47,7 @@ public class Register extends JFrame implements ActionListener {
   JLabel jlb_nickName = new JLabel("닉네임");
   JLabel jlb_idAvble = new JLabel("사용가능한 아이디 입니다.");
   JLabel jlb_idNotAvble = new JLabel("중복된 아이디 입니다.");
-  JLabel jlb_title = new JLabel("회원가입");
+  JLabel jlb_title = new JLabel();
 
   JTextField jtf_name = null; // 이름
   JTextField jtf_id = null; // 아이디
@@ -111,13 +114,13 @@ public class Register extends JFrame implements ActionListener {
     jbtn_join.setBorderPainted(false); // 아이디 중복검사 버튼 외곽 라인 없애기
     jbtn_join.setForeground(Color.WHITE); // 아이디 중복검사 버튼 텍스트 색깔 (흰색)
     jbtn_join.setBackground(new Color(64, 64, 64)); // 아이디 중복검사 버튼 색깔 넣기 (갈색)
-    jbtn_join.setBounds(42, 450, 110, 35);
+    jbtn_join.setBounds(80, 500, 110, 35);
     this.add(jbtn_join);
 
     jbtn_cancel.setBorderPainted(false); // 아이디 중복검사 버튼 외곽 라인 없애기
     jbtn_cancel.setForeground(Color.WHITE); // 아이디 중복검사 버튼 텍스트 색깔 (흰색)
     jbtn_cancel.setBackground(new Color(64, 64, 64)); // 아이디 중복검사 버튼 색깔 넣기 (갈색)
-    jbtn_cancel.setBounds(165, 450, 110, 35);
+    jbtn_cancel.setBounds(205, 500, 110, 35);
     this.add(jbtn_cancel);
 
     jtf_name.setBounds(95, 100, 180, 35);
@@ -178,6 +181,21 @@ public class Register extends JFrame implements ActionListener {
     this.setVisible(false);
     this.setResizable(false);
 
+    JCheckBox cb = new JCheckBox(" 개인정보 수집을 동의하십니까? ");// 개인정보 활용 동의
+    this.add(cb);// 개인정보동의 체크박스 추가
+    cb.setBounds(90, 445, 218, 40);// 개인정보동의 체크박스 위치 및 크기 //웅식
+    cb.addItemListener(this);
+  }
+
+  @Override
+  public void itemStateChanged(ItemEvent e) {
+    if (e.getStateChange() == ItemEvent.SELECTED) {
+      check = true;
+      System.out.println("체크");
+    } else {
+      check = false;
+      System.out.println("체크해제");
+    }
   }
 
   @Override
@@ -232,6 +250,12 @@ public class Register extends JFrame implements ActionListener {
                 "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
             break;
           }
+          // 체크박스 체크 유무
+          if (check == false) {
+            JOptionPane.showMessageDialog(null, "개인정보 이용에 동의해주세요.",
+                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+            break;
+          }
 
           StringBuilder sql = new StringBuilder();
           sql.append("CREATE TABLE frlist_" + id + "   ( ");
@@ -268,4 +292,5 @@ public class Register extends JFrame implements ActionListener {
       this.dispose();
     }
   }
+
 }
