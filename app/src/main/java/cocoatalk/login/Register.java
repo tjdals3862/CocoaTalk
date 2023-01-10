@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -224,6 +225,7 @@ public class Register extends JFrame implements ActionListener, ItemListener {
           int birth = Integer.parseInt(jtf_birth.getText());
           int phone = Integer.parseInt(jtf_phone.getText());
           String nickName = jtf_nickName.getText();
+          String pwPattern = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,32}$";// 이거
           String query = "insert into member values ('" + name + "', '" + id
               + "', '" + pw + "', '" + birth + "', '" + phone + "', '" + nickName + "')";
 
@@ -240,6 +242,12 @@ public class Register extends JFrame implements ActionListener, ItemListener {
           String result = dbf.idchk2(sql2.toString());
           if (id.equals(result)) {
             JOptionPane.showMessageDialog(null, "id 중복 확인 하세요",
+                "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
+            break;
+          }
+          // 비밀번호 제한 여기
+          if (!Pattern.matches(pwPattern, pw)) {
+            JOptionPane.showMessageDialog(null, "비밀번호는 영문, 숫자, 특수문자를 하나씩 포함 8자리 이상만 가능합니다.",
                 "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
             break;
           }

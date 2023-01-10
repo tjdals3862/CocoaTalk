@@ -6,9 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.Font;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class SettingForm extends JFrame implements ActionListener {
   LoginForm loginForm = null;
@@ -16,10 +17,24 @@ public class SettingForm extends JFrame implements ActionListener {
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
 
-  // 환경설정버튼
-  JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면 버튼
-  JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정 버튼
-  JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); // 로그아웃버튼
+  // 폰트 폰트
+  Font f1 = new Font("고딕체", Font.PLAIN, 20);
+  Font f2 = new Font("궁서", Font.PLAIN, 20);
+  Font f3 = new Font("굴림", Font.PLAIN, 10);
+  Font f5 = new Font("바탕", Font.PLAIN, 10);
+
+  // 환경설정버튼1
+  // JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
+  // 버튼
+  // JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
+  // 버튼
+  // JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
+  // 로그아웃버튼
+
+  // 환경설정버튼2(폰트수정용)
+  JButton jbtn_a = new JButton("배 경 화 면"); // (new ImageIcon(imgPath + "backBtn.png"));// 배경화면 버튼
+  JButton jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
+  JButton jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
 
   // 하단고정버튼
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
@@ -54,6 +69,7 @@ public class SettingForm extends JFrame implements ActionListener {
     this.setVisible(true);
 
     //// 환경설정 버튼
+
     jbtn_a.setBounds(65, 120, 280, 60);
     this.add(jbtn_a);
     jbtn_b.setBounds(65, 240, 280, 60);
@@ -61,12 +77,14 @@ public class SettingForm extends JFrame implements ActionListener {
     jbtn_c.setBounds(65, 360, 280, 60);
     this.add(jbtn_c);
 
-    jbtn_a.setBorderPainted(true);
-    jbtn_a.setContentAreaFilled(false);
-    jbtn_b.setBorderPainted(false);
-    jbtn_b.setContentAreaFilled(false);
-    jbtn_c.setBorderPainted(false);
-    jbtn_c.setContentAreaFilled(false);
+    /*
+     * jbtn_a.setBorderPainted(true);
+     * jbtn_a.setContentAreaFilled(false);
+     * jbtn_b.setBorderPainted(false);
+     * jbtn_b.setContentAreaFilled(false);
+     * jbtn_c.setBorderPainted(false);
+     * jbtn_c.setContentAreaFilled(false);
+     */
 
     // 하단 고정 버튼 4개
 
@@ -103,18 +121,52 @@ public class SettingForm extends JFrame implements ActionListener {
 
   // 폰트변경메소드 =============================작업중===============================
   public void fontchange() {
-    String[] font1 = { "땡글땡글굴림체", "맑은고딩같은고딕체", "나진지하다궁서체" };
-    JOptionPane.showInputDialog(null, "궁서체 좋죠 고딕체도 좋죠", "font setting", JOptionPane.QUESTION_MESSAGE, null, font1, "c");
-    // if(){}
+    String[] font1 = { "나진지하다궁서체", "땡글땡글굴림체", "맑은고딩같은고딕체" };
+    Object fonttype = JOptionPane.showInputDialog(null, "궁서체 좋죠 고딕체도 좋죠", "font setting",
+        JOptionPane.QUESTION_MESSAGE,
+        null, font1, font1[0]);
+    if (fonttype.equals(font1[0])) {
+      initDisplay();
+      jbtn_a.setFont(f2);
+      jbtn_b.setFont(f2);
+      jbtn_c.setFont(f2);
+      System.out.println("궁서체됐긔 changed");
+
+    } else if (fonttype.equals(font1[1])) {
+      initDisplay();
+      jbtn_a.setFont(f3);
+      jbtn_b.setFont(f3);
+      jbtn_c.setFont(f3);
+      System.out.println("굴림font changed");
+
+    } else if (fonttype.equals(font1[2])) {
+      initDisplay();
+      jbtn_a.setFont(f1);
+      jbtn_b.setFont(f1);
+      jbtn_c.setFont(f1);
+      System.out.println("고딕font changed");
+    }
 
   } // 폰트변경 메소드 끝
 
   // 배경 변경 메소드=============================작업중===============================
   public void backchange() {
     String[] back1 = { "바나나는 원래 하얀색", "치키차카 초코색" };
-    JOptionPane.showInputDialog(null, "원하는 배경 색을 선택하세요.", "background color setting", JOptionPane.PLAIN_MESSAGE,
-        null, back1, "c");
-    // if(){}
+    Object backtype = JOptionPane.showInputDialog(null, "원하는 배경 색을 선택하세요.", "background color setting",
+        JOptionPane.PLAIN_MESSAGE,
+        null, back1, back1[0]);
+
+    if (backtype.equals(back1[0])) {
+      initDisplay();
+      ig = new ImageIcon(imgPath + "yellowback.png");
+      System.out.println("하얀색 됐긔 changed");
+
+    } else if (backtype.equals(back1[1])) {
+      initDisplay();
+      ig = new ImageIcon(imgPath + "chocoback.png");
+      System.out.println("초코색 됐긔font changed");
+
+    }
 
   }
 

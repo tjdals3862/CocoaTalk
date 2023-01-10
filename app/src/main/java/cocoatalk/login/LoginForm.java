@@ -37,7 +37,7 @@ public class LoginForm extends JFrame implements ActionListener {
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
-  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.jpg"));
   JLabel jlb_find = new JLabel(); // 아이디/비밀번호 찾기 라벨
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 12);
   Connection conn = null;
