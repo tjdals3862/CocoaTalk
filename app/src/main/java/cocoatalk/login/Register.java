@@ -186,16 +186,15 @@ public class Register extends JFrame implements ActionListener, ItemListener {
     this.add(cb);// 개인정보동의 체크박스 추가
     cb.setBounds(90, 445, 218, 40);// 개인정보동의 체크박스 위치 및 크기 //웅식
     cb.addItemListener(this);
+    cb.setOpaque(false);
   }
 
   @Override
   public void itemStateChanged(ItemEvent e) {
     if (e.getStateChange() == ItemEvent.SELECTED) {
       check = true;
-      System.out.println("체크");
     } else {
       check = false;
-      System.out.println("체크해제");
     }
   }
 
