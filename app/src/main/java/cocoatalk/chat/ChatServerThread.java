@@ -35,19 +35,14 @@ public class ChatServerThread extends Thread {
       chatName = "tomato"; // 채팅 이름 본인 name 호출
       System.out.println(chatName + "님이 입장");
 
-      cs.cstMap.put(this, "id");
-      cs.cstlist.add(cs.cstMap);
-
       keyList = new Vector<>();
       Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
-
-      // keyList.add(this);
-
       while (it.hasNext()) {
         ChatServerThread key = it.next();
-        System.out.println("server thread" + key);
+        System.out.println(key);
         keyList.add(key);
       }
+      keyList.add(this);
 
       this.broadCasting(msg);
 
@@ -71,10 +66,7 @@ public class ChatServerThread extends Thread {
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
     for (ChatServerThread cst : keyList) {
-      System.out.println("broadcast : " + msg);
-      System.out.println("cst : " + cst);
       cst.send(msg);
-
     }
   }
 
@@ -82,7 +74,6 @@ public class ChatServerThread extends Thread {
   public void send(String msg) {
     try {
       oos.writeObject(msg);
-      System.out.println("send : " + msg);
     } catch (Exception e) {
       e.printStackTrace();// stack에 쌓여 있는 에러메시지 이력 출력함
     }
@@ -110,9 +101,10 @@ public class ChatServerThread extends Thread {
         msg = (String) ois.readObject();
         // for (ChatServerThread cst : cs.cstlist) {
         // cst.send(msg);
-        System.out.println("run : " + msg);
         broadCasting(msg);
-        // break run_start;
+        System.out.println(msg);
+
+        // break run_start
         // cst.oos.writeObject(msg);
         // }
       }

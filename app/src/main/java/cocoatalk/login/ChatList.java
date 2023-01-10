@@ -87,36 +87,40 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
 
   }
 
-  // public void searchFriend(String str) {
-  // dlm_chat.clear();
-  // chat_list = new Vector<>();
+  public void searchChatList(String str) {
+    // dlm_chat.clear();
+    // chat_list = new Vector<>();
 
-  // try {
-  // String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name
-  // like '%s'", cVO.getId(),
-  // str);
-  // conn = DBCon.getConnection();
-  // pstm = conn.prepareStatement(sql);
-  // rs = pstm.executeQuery();
+    // try {
+    // String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name
+    // like '%s'", cVO.getId(),
+    // str);
+    // conn = DBCon.getConnection();
+    // pstm = conn.prepareStatement(sql);
+    // rs = pstm.executeQuery();
 
-  // while (rs.next()) {
-  // String room = rs.getString("ROOM")
-  // // String[] data = { name, ID };
-  // chat_list.add(room);
-  // }
+    // while (rs.next()) {
+    // String room = rs.getString("ROOM")
+    // // String[] data = { name, ID };
+    // chat_list.add(room);
+    // }
 
-  // for (int i = 0; i < chat_list.size(); i++) {
-  // int a = chat_list.size();
-  // // String[] data = new String[a];
+    // for (int i = 0; i < chat_list.size(); i++) {
+    // int a = chat_list.size();
+    // // String[] data = new String[a];
 
-  // data = chat_list.get(i);
+    // data = chat_list.get(i);
 
-  // dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
-  // }
-  // } catch (SQLException e) {
-  // e.printStackTrace();
-  // }
-  // }
+    // dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
+    // }
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+  }
+
+  public void addChatList() {
+
+  }
 
   private void getRoom() {
     dlm_chat.clear();
