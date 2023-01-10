@@ -1,12 +1,11 @@
 package cocoatalk.chat;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class ChatServerThread extends Thread {
@@ -32,10 +31,13 @@ public class ChatServerThread extends Thread {
       ois = new ObjectInputStream(client.getInputStream());// 듣기
 
       String msg = (String) ois.readObject(); // 채팅메세지
-      chatName = "tomato"; // 채팅 이름 본인 name 호출
+      StringTokenizer st = new StringTokenizer(msg, "#");
+      chatName = st.nextToken();
+      msg = st.nextToken();
+
       System.out.println(chatName + "님이 입장");
 
-      cs.cstMap.put(this, "id");
+      cs.cstMap.put(this, chatName);
       cs.cstlist.add(cs.cstMap);
 
       keyList = new Vector<>();
@@ -49,6 +51,7 @@ public class ChatServerThread extends Thread {
         keyList.add(key);
       }
 
+      // 입장용 테스트 메세지 ( id 가 입장했습니다.)
       this.broadCasting(msg);
 
     } catch (Exception e) {
@@ -71,8 +74,7 @@ public class ChatServerThread extends Thread {
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
     for (ChatServerThread cst : keyList) {
-      System.out.println("broadcast : " + msg);
-      System.out.println("cst : " + cst);
+
       cst.send(msg);
 
     }
@@ -108,13 +110,16 @@ public class ChatServerThread extends Thread {
     try {
       while (true) {
         msg = (String) ois.readObject();
-        // for (ChatServerThread cst : cs.cstlist) {
-        // cst.send(msg);
-        System.out.println("run : " + msg);
-        broadCasting(msg);
-        // break run_start;
-        // cst.oos.writeObject(msg);
-        // }
+        StringTokenizer st = null;
+        if (msg != null) {
+          st = new StringTokenizer(msg, "#");
+        }
+        String nickName = st.nextToken();
+        String message = st.nextToken();
+
+        System.out.println("run : " + message);
+        broadCasting(message);
+
       }
     } catch (Exception e) {
       // TODO: handle exception

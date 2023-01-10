@@ -26,6 +26,7 @@ public class ChatClient extends JFrame implements ActionListener {
   ObjectOutputStream oos = null;// 말 하고 싶을 때
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
+  String id = null;
 
   ChatClientThread cct = null;
 
@@ -103,7 +104,7 @@ public class ChatClient extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
-    String message = jtf_message.getText();
+    String message = id + "#" + jtf_message.getText();
     // ChatClient chat = new ChatClient();
 
     if (jtf_message == obj) {
@@ -151,6 +152,7 @@ public class ChatClient extends JFrame implements ActionListener {
   }
 
   public void chatOpen(String myID, String frID) {
+    id = myID;
     r.roomSearch(myID, frID);
     initDisplay();
     init();
