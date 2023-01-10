@@ -27,6 +27,8 @@ public class ChatClient extends JFrame implements ActionListener {
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
 
+  ChatClientThread cct = null;
+
   Room r = new Room();
 
   // 이미지 경로 선언
@@ -140,7 +142,7 @@ public class ChatClient extends JFrame implements ActionListener {
       // 서버에게 내가 입장한 사실을 알린다.(말하기)
       // String message = jtf_message.getText();
       // oos.writeObject(message);
-      ChatClientThread cct = new ChatClientThread(this);
+      cct = new ChatClientThread(this);
       cct.start();
     } catch (Exception e) {
       // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기

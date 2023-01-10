@@ -17,7 +17,7 @@ public class ChatServerThread extends Thread {
   // 현재 서버에 입장한 클라이언트 스레드의 닉네임 저장
   String chatName = null;
   String nickname = null;
-  List<ChatServerThread> keyList = new Vector<>();
+  List<ChatServerThread> keyList = null;
 
   public ChatServerThread() {
 
@@ -35,6 +35,16 @@ public class ChatServerThread extends Thread {
       chatName = "tomato"; // 채팅 이름 본인 name 호출
       System.out.println(chatName + "님이 입장");
       System.out.println(msg);
+
+      keyList = new Vector<>();
+      Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
+
+      while (it.hasNext()) {
+        ChatServerThread key = it.next();
+        System.out.println(key);
+        keyList.add(key);
+      }
+
       this.broadCasting(msg);
 
     } catch (Exception e) {
@@ -51,11 +61,7 @@ public class ChatServerThread extends Thread {
     // } catch (IOException ex) {
     // }
     // }
-    Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
-    while (it.hasNext()) {
-      ChatServerThread key = it.next();
-      keyList.add(key);
-    }
+
   }
 
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
