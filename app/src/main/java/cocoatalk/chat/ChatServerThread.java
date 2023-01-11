@@ -1,12 +1,12 @@
 package cocoatalk.chat;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -21,6 +21,8 @@ public class ChatServerThread extends Thread {
   String nickname = null;
   List<ChatServerThread> keyList = null;
   List<ChatServerThread> memlist = null;
+
+  Iterator<ChatServerThread> it = null;
 
   public ChatServerThread() {
 
@@ -46,22 +48,9 @@ public class ChatServerThread extends Thread {
       System.out.println(chatName + "님이 입장");
       System.out.println(frName + "님과 채팅방에 입장");
 
-      // Map에 key, value를 가져온다.
-      keyList = new Vector<>();
-      memlist = new Vector<>();
-      Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
-
-      while (it.hasNext()) {
-        ChatServerThread key = it.next();
-        String value = cs.cstMap.get(key);
-        keyList.add(key);
-
-        if (value.equals(chatName)) {
-          memlist.add(key);
-        }
-      }
-      // 입장용 테스트 메세지 ( id 가 입장했습니다.)
-      this.broadCasting(msg);
+      cs.cstMap.put(this, chatName);
+      cs.cstlist.add(cs.cstMap);
+      this.send(msg);
 
     } catch (
 
@@ -71,9 +60,13 @@ public class ChatServerThread extends Thread {
 
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
-    for (ChatServerThread cst : keyList) {
 
-      cst.send(msg);
+    for (ChatServerThread cst : keyList) {
+      for (int i = 0; i < memlist.size(); i++) {
+        if (cst.equals(memlist.get(i))) {
+          cst.send(msg);
+        }
+      }
     }
   }
 
@@ -94,6 +87,29 @@ public class ChatServerThread extends Thread {
 
     try {
       while (true) {
+        // Map에 key, value를 가져온다.
+        keyList = new Vector<>();
+        memlist = new Vector<>();
+
+        Map<ChatServerThread, String> map = new HashMap<>();
+        map = cs.cstMap;
+
+        Iterator<ChatServerThread> it = map.keySet().iterator();
+        // it = cs.cstMap.keySet().iterator();
+
+        while (it.hasNext()) {
+          ChatServerThread key = it.next();
+          String value = cs.cstMap.get(key);
+          keyList.add(key);
+          System.out.println(chatName + " 의 value : " + value + "추가되어야하는 + " + frName);
+          if (value.equals(chatName) || value.equals(frName)) {
+            memlist.add(key);
+            System.out.println("추가되는 : " + value);
+          }
+        }
+        System.out.println(chatName + "의 리스트 사이즈 : " + memlist.size());
+        // this.broadCasting(msg);
+
         msg = (String) ois.readObject();
         StringTokenizer st = null;
         if (msg != null) {

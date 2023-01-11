@@ -157,7 +157,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
         String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
         // index가 거꾸로 잡힘
         fp = new FriendProfile(this);
-        fp.profileDisplay(true, data[0]);
+        fp.profileDisplay(true, data[1]);
       }
     }
 
