@@ -1,5 +1,6 @@
 package cocoatalk.chat;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -55,19 +56,18 @@ public class ChatServerThread extends Thread {
       this.broadCasting(msg);
 
     } catch (Exception e) {
+    } finally {
+      try {
+        if (client != null) {
+          client.close();
+          // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
+          // remove(client);
+        }
+        // ois = null;
+        // oos = null;
+      } catch (IOException ex) {
+      }
     }
-    // finally {
-    // try {
-    // if (client != null) {
-    // client.close();
-    // // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
-    // remove(client);
-    // }
-    // ois = null;
-    // oos = null;
-    // } catch (IOException ex) {
-    // }
-    // }
 
   }
 
@@ -95,6 +95,7 @@ public class ChatServerThread extends Thread {
   // 접속 후 나가버리는 경우 클릉 쓸 때 오류가 발생
   // ------------------------------------
   // public void remove(Socket socketList) {
+
   // for (Socket s : ChatServer.socketList) {
   // if (client == s) {
   // ChatServer.socketList.remove(client);

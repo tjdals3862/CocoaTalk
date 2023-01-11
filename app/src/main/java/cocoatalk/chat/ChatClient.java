@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Dimension;
 
-public class ChatClient extends JFrame implements ActionListener {
+public class ChatClient extends JFrame implements ActionListener, Runnable {
   //////////////// 통신과 관련한 전역변수 추가 시작//////////////
   Socket socket = null;
   ObjectOutputStream oos = null;// 말 하고 싶을 때
@@ -125,12 +125,26 @@ public class ChatClient extends JFrame implements ActionListener {
       } catch (Exception e2) {
 
       }
-
     }
   }
 
   // 소켓 관련 초기화
   public void init() {
+    Thread th = new Thread(this);
+    th.start();
+  }
+
+  public void chatOpen(String myID, String frID) {
+    id = myID;
+    r.roomSearch(myID, frID);
+    initDisplay();
+    init();
+    jtf_message.setText("나:" + myID + ", 너:" + frID);
+  }
+
+  @Override
+  public void run() {
+    System.out.println("run start");
     try {
       // 서버측의 ip주소 작성하기
       socket = new Socket("192.168.10.74", 3000);
@@ -150,22 +164,4 @@ public class ChatClient extends JFrame implements ActionListener {
       System.out.println(e.toString());
     }
   }
-
-  public void chatOpen(String myID, String frID) {
-    id = myID;
-    r.roomSearch(myID, frID);
-    initDisplay();
-    init();
-    jtf_message.setText("나:" + myID + ", 너:" + frID);
-  }
-
-  public void loadChat() {
-
-  }
-  // public static void main(String[] args) {
-  // ChatClient cc = new ChatClient();
-  // cc.initDisplay();
-  // cc.init();
-
-  // }
 }
