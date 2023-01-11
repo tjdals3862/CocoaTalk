@@ -98,7 +98,7 @@ public class FindIdPwView extends JFrame {
       jbtn_pwmiss.setBackground(Color.white);
       jbtn_pwmiss.setFont(f);
       jbtn_idmiss.setBorderPainted(false);
-      jbtn_idmiss.setBackground(new Color(253, 220, 81));
+      jbtn_idmiss.setBackground(new Color(155, 138, 124));
       jbtn_idmiss.setFont(f);
       jp_north.add(jbtn_idmiss);
       jp_north.add(jbtn_pwmiss);
@@ -197,7 +197,7 @@ public class FindIdPwView extends JFrame {
             jp_idfind.setVisible(false);
             jp_idmiss.setVisible(true);
             jbtn_pwmiss.setBackground(Color.white);
-            jbtn_idmiss.setBackground(new Color(253, 220, 81));
+            jbtn_idmiss.setBackground(new Color(155, 138, 124));
          }
       });
       // 상단메뉴 "비밀번호 찾기" 버튼
@@ -207,7 +207,7 @@ public class FindIdPwView extends JFrame {
             jp_idfind.setVisible(false);
             jp_pwfind.setVisible(false);
             jp_pwmiss.setVisible(true);
-            jbtn_pwmiss.setBackground(new Color(253, 220, 81));// 비밀번호 찾기 버튼 색깔
+            jbtn_pwmiss.setBackground(new Color(155, 138, 124));// 비밀번호 찾기 버튼 색깔
             jbtn_idmiss.setBackground(Color.white);
          }
       });

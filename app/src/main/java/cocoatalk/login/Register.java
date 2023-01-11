@@ -2,6 +2,7 @@ package cocoatalk.login;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +39,8 @@ public class Register extends JFrame implements ActionListener, ItemListener {
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
 
   JLabel jlb_name = new JLabel("이름");
   JLabel jlb_id = new JLabel("아이디");
@@ -89,7 +92,7 @@ public class Register extends JFrame implements ActionListener, ItemListener {
 
   // 화면그리기
   public void initDisplay() {
-
+    this.setIconImage(img);// 로고삽입
     jtf_name = new JTextField(""); // 이름
     jtf_id = new JTextField(""); // 아이디
     jtf_pw = new JPasswordField(""); // 비밀번호

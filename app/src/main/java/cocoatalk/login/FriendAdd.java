@@ -1,6 +1,7 @@
 package cocoatalk.login;
 
 import java.awt.Color;
+import java.awt.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,8 @@ public class FriendAdd extends JFrame implements ActionListener {
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
 
   CocoaVO cVO = null;
   DBCon db = null;
@@ -52,6 +55,7 @@ public class FriendAdd extends JFrame implements ActionListener {
   }
 
   public void initDisplay() {
+    this.setIconImage(img);// 로고삽입
     jbtn_add.addActionListener(this);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.setContentPane(new MyPanel());
