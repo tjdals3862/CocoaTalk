@@ -23,40 +23,12 @@ public class ChatServerThread extends Thread {
 
   }
 
-  public ChatServerThread(ChatServer cs) {
+  public ChatServerThread(ChatServer cs, Socket socket) {
     this.cs = cs;
-    this.client = cs.socket;
-    try {
-      System.out.println(client + " : 연결됨");
-      oos = new ObjectOutputStream(client.getOutputStream());// 말하기
-      ois = new ObjectInputStream(client.getInputStream());// 듣기
+    this.client = socket;
 
-      String msg = (String) ois.readObject(); // 채팅메세지
-      StringTokenizer st = new StringTokenizer(msg, "#");
-      chatName = st.nextToken();
-      msg = st.nextToken();
+    System.out.println("map size : " + cs.cstMap.size());
 
-      System.out.println(chatName + "님이 입장");
-
-      cs.cstMap.put(this, chatName);
-      cs.cstlist.add(cs.cstMap);
-
-      keyList = new Vector<>();
-      Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
-
-      // keyList.add(this);
-
-      while (it.hasNext()) {
-        ChatServerThread key = it.next();
-        System.out.println("server thread : " + key);
-        keyList.add(key);
-      }
-
-      // 입장용 테스트 메세지 ( id 가 입장했습니다.)
-      this.broadCasting(msg);
-
-    } catch (Exception e) {
-    }
     // finally {
     // try {
     // if (client != null) {
@@ -72,12 +44,43 @@ public class ChatServerThread extends Thread {
 
   }
 
+  public void con() {
+    try {
+      System.out.println(client + " : 연결됨");
+      oos = new ObjectOutputStream(client.getOutputStream());// 말하기
+      ois = new ObjectInputStream(client.getInputStream());// 듣기
+
+      String msg = (String) ois.readObject(); // 채팅메세지
+      System.out.println(msg);
+      StringTokenizer st = new StringTokenizer(msg, "#");
+      chatName = st.nextToken();
+      msg = st.nextToken();
+
+      System.out.println(chatName + "님이 입장");
+
+      // cs.cstMap.put(this, chatName);
+      // cs.cstlist.add(cs.cstMap);
+
+      keyList = new Vector<>();
+      Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
+
+      while (it.hasNext()) {
+        ChatServerThread key = it.next();
+        System.out.println("server thread" + key);
+        keyList.add(key);
+      }
+
+      // 입장용 테스트 메세지 ( id 가 입장했습니다.)
+      this.broadCasting(msg);
+
+    } catch (Exception e) {
+    }
+  }
+
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
     for (ChatServerThread cst : keyList) {
-
       cst.send(msg);
-
     }
   }
 
@@ -107,6 +110,7 @@ public class ChatServerThread extends Thread {
 
   @Override
   public void run() {
+    con();
     String msg = null;
 
     try {
