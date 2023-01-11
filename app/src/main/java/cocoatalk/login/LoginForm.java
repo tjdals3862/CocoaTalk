@@ -1,7 +1,6 @@
 package cocoatalk.login;
 
 import java.awt.Color;
-import java.awt.*;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -32,16 +31,14 @@ public class LoginForm extends JFrame implements ActionListener {
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
-  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
-  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
-  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.jpg"));
-  JLabel jlb_find = new JLabel(); // 아이디/비밀번호 찾기 라벨
+  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+  JLabel jlb_find = new JLabel();
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 12);
   Connection conn = null;
   PreparedStatement pstm = null;
@@ -62,11 +59,6 @@ public class LoginForm extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
-    this.setIconImage(img);// 로고삽입
-    jbtn_join.setBorderPainted(false);// 버튼 테두리 변경
-    jbtn_join.setContentAreaFilled(false);
-    jbtn_login.setBorderPainted(false);
-    jbtn_login.setContentAreaFilled(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
@@ -96,18 +88,18 @@ public class LoginForm extends JFrame implements ActionListener {
     jbtn_join.addActionListener(this);
     jbtn_login.addActionListener(this);
 
-    this.add(jlb_find); // 아이디/패스워드 찾기 추가
+    this.add(jlb_find); //아이디/패스워드 찾기 추가
     jlb_find.setText("아이디/비밀번호 찾기");
     jlb_find.setForeground(Color.WHITE);
     jlb_find.setFont(f_join);
     jlb_find.setBounds(140, 520, 200, 20);
-    jlb_find.addMouseListener(new MouseAdapter() {// 아이디/비밀번호 찾기 마우스 이벤트 처리
+    jlb_find.addMouseListener(new MouseAdapter() {
       @Override
       public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
         super.mousePressed(e);
         FindIdPwView fipv = new FindIdPwView();
-        fipv.initDisplay(); // 마우스 이벤트 발생시 아이디/비밀번호 찾기창 띄우기
+        fipv.initDisplay();
       }
 
     });
@@ -117,29 +109,28 @@ public class LoginForm extends JFrame implements ActionListener {
   public static void main(String[] args) {
 
     First first = new First();
-    first.firstDisplay();// 첫화면 불러오기
+    first.firstDisplay();
 
-    try {// 0.5초뒤에 꺼짐
+    try {
       Thread.sleep(500);
       first.dispose();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     LoginForm loginForm = new LoginForm();
-    loginForm.initDisplay();// 첫화면 꺼지고 바로 로그인창 띄우기
+    loginForm.initDisplay();
 
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) { // 버튼 이벤트 처리
+  public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    if (obj == jbtn_login) { // 로그인 버튼 눌렀을때 이벤트 처리
-      String id_data = jtf_id.getText(); // id textfield에 사용자가 입력한 값을 id_data에 저장
-      String pw_data = jpf_pw.getText(); // password field에 사용자가 입력한 값을 pw_data에 저장
+    if (obj == jbtn_login) {
+      String id_data = jtf_id.getText();
+      String pw_data = jpf_pw.getText();
 
       String query = String.format("SELECT password FROM member WHERE id = '%s' AND password ='%s'", id_data, pw_data);
-      // 사용자가 입력한 id, password와 같은 값을 가지는 password 값을 member 테이블에서 가져온다는 쿼리문
       DBCon db = new DBCon();
 
       try {
@@ -151,15 +142,15 @@ public class LoginForm extends JFrame implements ActionListener {
         String password = "";
 
         while (rs.next()) {
-          password = rs.getString("password"); // 쿼리문으로 불러온 password값을 password변수에 저장
+          password = rs.getString("password");
         }
 
-        if (!password.equals("") && password.equals(pw_data)) {// password의 값이 null이아니고, 입력한 pw_data와 같을때 로그인 성공
+        if (!password.equals("") && password.equals(pw_data)) {
           MainForm MainFormcopy = new MainForm(cVO);
           cVO.setId(id_data);
           MainFormcopy.initDisplay();
           this.dispose();
-        } else {// 그 외에는 로그인 실패
+        } else {
           JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
         }
 

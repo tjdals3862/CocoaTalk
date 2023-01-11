@@ -4,7 +4,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Container;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.CardLayout;
 
+import javax.swing.JComponent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -14,13 +19,16 @@ import javax.swing.JPanel;
 
 public class SettingForm extends JPanel implements ActionListener {
 
-  JPanel jp_color;
-  JPanel jp_font;
-  JPanel jp_logout;
+  JPanel jp_setting = null;
+  JPanel jp_font1 = null;
+  JPanel jp_font2 = null;
+  JPanel jp_font3 = null;
+
   LoginForm loginForm = null;
   CocoaVO cVO = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "setting.png");
+  SettingForm sf = null;
 
   // 폰트 폰트
   Font f1 = new Font("고딕체", Font.PLAIN, 20);
@@ -29,11 +37,11 @@ public class SettingForm extends JPanel implements ActionListener {
   Font f5 = new Font("바탕", Font.PLAIN, 20);
 
   // 환경설정버튼1
-  JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
-  // 버튼
-  JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
-  // 버튼
-  JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
+  // JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
+  // // 버튼
+  // JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
+  // // 버튼
+  // JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
   // 로그아웃버튼
 
   // 환경설정버튼2(폰트수정용)
@@ -41,12 +49,18 @@ public class SettingForm extends JPanel implements ActionListener {
   // // (new ImageIcon(imgPath +"backBtn.png"));// 배경화면 버튼
   // JButton jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
   // JButton jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
+
+  JButton jbtn_a = null;
+  // (new ImageIcon(imgPath +"backBtn.png"));// 배경화면 버튼
+  JButton jbtn_b = null;// 폰트설정 버튼
+  JButton jbtn_c = null; // 로그아웃버튼
   // 하단고정버튼
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
   JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
   JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnsearch.png")); // 세번째버튼 (검색-돋보기)
-  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴)
+  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴) 
 
+  CardLayout cards = new CardLayout();
   // 생성자
   SettingForm(CocoaVO cVO) {
     this.cVO = cVO;
@@ -62,13 +76,12 @@ public class SettingForm extends JPanel implements ActionListener {
   //////////////////////// 화면그리기
   public void initDisplay() {
     // 창
-    jp_color = new JPanel();
-    jp_font = new JPanel();
-    jp_logout = new JPanel();
+    jp_setting = new JPanel();
+    jbtn_a = new JButton("배 경 화 면");
+    jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
+    jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
 
-    this.add("North", jp_color);
-    this.add("North", jp_font);
-    this.add("North", jp_logout);
+    this.add("North", jp_setting);
     this.setVisible(true);
     //// 환경설정 버튼
     jbtn_a.setBorderPainted(false);
@@ -83,18 +96,16 @@ public class SettingForm extends JPanel implements ActionListener {
     jbtn_b.setFocusPainted(false);
     jbtn_c.setFocusPainted(false);
 
-    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    jp_color.add(jbtn_a);
+    jp_setting.setLayout(new BoxLayout(jp_setting, BoxLayout.Y_AXIS));
+    jp_setting.add(jbtn_a);
     jbtn_a.setFont(f5);
-    jp_font.add(Box.createVerticalStrut(150));
-    jp_font.add(jbtn_b);
+    jbtn_b.add(Box.createVerticalStrut(150));
+    jp_setting.add(jbtn_b);
     jbtn_b.setFont(f5);
     this.setOpaque(false);
-    jp_color.setOpaque(false);
-    jp_font.setOpaque(false);
-    jp_logout.setOpaque(false);
+    jp_setting.setOpaque(false);
 
-    jp_logout.add(jbtn_c);
+    jp_setting.add(jbtn_c);
     jbtn_c.setFont(f5);
 
     // 버튼들 액션리스너
@@ -110,18 +121,33 @@ public class SettingForm extends JPanel implements ActionListener {
 
   }////////////// 화면그리기 / initDisplay 끝//////////////////////////////
 
+  // public void clear(JPanel jp){
+
+  //   jp_setting.revalidate();
+  //   jp_setting.repaint();
+
+  //   jp_setting.add(jbtn_a);
+  //   jp_setting.add(jbtn_b);
+  //   jp_setting.add(jbtn_c);
+  //   jbtn_a.setFont(f3);
+  //   jbtn_b.setFont(f3);
+  //   jbtn_c.setFont(f3);
+    
+  //   System.out.println("왔니");
+  // }
   // 폰트변경메소드 =============================작업중===============================
   public void fontchange() {
+    // 패널에서 버튼떼기(remove), 버튼에서 폰트 null
+    sf = new SettingForm(cVO);
     String[] font1 = { "나진지하다궁서체", "땡글땡글굴림체", "맑은고딩같은고딕체" };
     Object fonttype = JOptionPane.showInputDialog(null, "궁서체 좋죠 고딕체도 좋죠", "font setting",
-        JOptionPane.QUESTION_MESSAGE,
-        null, font1, font1[0]);
-        jbtn_a.setFont(null);
-  //버튼 떼기, mainform에 clearcenter 메소드처럼 
+    JOptionPane.QUESTION_MESSAGE,
+    null, font1, font1[0]);
+    // 버튼 떼기, mainform에 clearcenter 메소드처럼
     if (fonttype.equals(font1[0])) {
-
-
-
+          
+        // sf.clear(jp_setting);
+      jp_setting.repaint();
       System.out.println("궁서체됐긔 changed");
 
     } else if (fonttype.equals(font1[1])) {
@@ -138,11 +164,8 @@ public class SettingForm extends JPanel implements ActionListener {
       jbtn_c.setFont(f1);
       System.out.println("고딕font changed");
     }
-
+    // 폰트타입에 값넣고 버튼 붙이기 revalidate, repaint
   } // 폰트변경 메소드 끝
-
-  //public void clearCenter(Jpanel jp)
-  
 
   // 배경 변경 메소드=============================작업중===============================
   public void backchange() {
@@ -176,30 +199,8 @@ public class SettingForm extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    // 하단고정버튼
-    if (obj == jbtn_friend) {
-      MainForm mf = new MainForm(cVO);
-      mf.initDisplay();
-      this.setVisible(false);
-
-    } else if (obj == jbtn_chat) {
-      MainForm mf = new MainForm(cVO);
-      mf.initDisplay();
-      mf.clearCenter(mf.cl);
-      this.setVisible(false);
-
-    } else if (obj == jbtn_search) {
-      SearchMainForm searchMainForm = new SearchMainForm(cVO);
-      searchMainForm.Search_init();
-      this.setVisible(false);
-
-    } else if (obj == jbtn_setting) {
-      SettingForm settingForm = new SettingForm(cVO);
-      settingForm.initDisplay();
-      this.setVisible(false);
-
       // 환경설정 버튼 기능
-    } else if (obj == jbtn_a) { // 배경화면
+    if (obj == jbtn_a) { // 배경화면
       SettingForm settingForm = new SettingForm(cVO);
       settingForm.backchange();
 

@@ -2,7 +2,6 @@ package cocoatalk.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.*;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,12 +21,11 @@ public class MainForm extends JFrame implements ActionListener {
   ChatList cl = null;
   LoginForm lf = new LoginForm();
   SettingForm sf = null;
+  SearchMainForm smf = null;
 
   String id = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
-  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
-  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JPanel centerPanel = null;
   JPanel btnPanel = new JPanel();
   JLabel jlb_id = null;
@@ -55,7 +53,6 @@ public class MainForm extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
-    this.setIconImage(img);// 로고삽입
     fl = new FriendList(cVO);
     cl = new ChatList(cVO);
     clearCenter(fl);
@@ -111,42 +108,40 @@ public class MainForm extends JFrame implements ActionListener {
   }
 
   public void clearCenter(JPanel jp) {
-    Container cont = this.getContentPane();
-    if (centerPanel != null) {
-      cont.remove(centerPanel);
-      cont.revalidate();
-      cont.repaint();
-      // cont.remove(centerPanel);
+    if(jp==sf){
+      Container cont = this.getContentPane();
+      if (centerPanel != null) {
+        cont.remove(centerPanel);
+        cont.revalidate();
+        cont.repaint();
+        // cont.remove(centerPanel);
+      }
+      centerPanel = new JPanel();
+      this.add("North", centerPanel);
+      // centerPanel.setBounds(50, 200, 500, 200);
+      centerPanel.setBounds(0, 120, 400, 400);
+      centerPanel.setBackground(new Color(0, 0, 0, 0));
+      //cont.revalidate();
+      cont.setLayout(new BorderLayout());
+      centerPanel.add(jp);
     }
-    centerPanel = new JPanel();
-    this.add("Center", centerPanel);
-    centerPanel.setBounds(-10, 90, 426, 380);
-    centerPanel.setBackground(new Color(0, 0, 0, 0));
-    // cont.revalidate();
-    cont.setLayout(new BorderLayout());
-    centerPanel.add(jp);
-
-  }
-
-  public void clearCenter2(JPanel jp) {
-    Container cont = this.getContentPane();
-    if (centerPanel != null) {
-      cont.remove(centerPanel);
-      cont.revalidate();
-      cont.repaint();
-      // cont.remove(centerPanel);
+    else {
+      Container cont = this.getContentPane();
+      if (centerPanel != null) {
+        cont.remove(centerPanel);
+        cont.revalidate();
+        cont.repaint();
+        // cont.remove(centerPanel);
+      }
+      centerPanel = new JPanel();
+      this.add("Center", centerPanel);
+      centerPanel.setBounds(-10, 90, 426, 380);
+      centerPanel.setBackground(new Color(0, 0, 0, 0));
+      // cont.revalidate();
+      cont.setLayout(new BorderLayout());
+      centerPanel.add(jp);
     }
-    centerPanel = new JPanel();
-    this.add("North", centerPanel);
-    // centerPanel.setBounds(50, 200, 500, 200);
-    centerPanel.setBounds(0, 120, 400, 400);
-    centerPanel.setBackground(new Color(0, 0, 0, 0));
-    // cont.revalidate();
-    cont.setLayout(new BorderLayout());
-    centerPanel.add(jp);
-
   }
-
   // 메인메소드
   // public static void main(String[] args) {
   // MainForm MainFormcopy = new MainForm();
@@ -160,19 +155,17 @@ public class MainForm extends JFrame implements ActionListener {
     if (obj == jbtn_friend) {
       fl = new FriendList(cVO);
       clearCenter(fl);
-
     } else if (obj == jbtn_chat) {
       cl = new ChatList(cVO);
       clearCenter(cl);
 
     } else if (obj == jbtn_search) {
-      SearchMainForm searchMainForm = new SearchMainForm(cVO);
-      searchMainForm.Search_init();
-      this.setVisible(false);
+      smf = new SearchMainForm(cVO);
+      clearCenter(smf);
 
     } else if (obj == jbtn_setting) {
       sf = new SettingForm(cVO);
-      clearCenter2(sf);
+      clearCenter(sf);
     }
   }
 }
