@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Image;
+import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -47,6 +48,8 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   // 선언
   String imgPath = "D:\\TEMP\\"; // 배경
   ImageIcon imgbgIcon = new ImageIcon(imgPath + "kazha.jpg"); //
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JLabel jlb_bgLabel = new JLabel(imgbgIcon); //
   JPanel jp = new JPanel(); // 텍스트 메인 페널
   JPanel jp_send = new JPanel(); // 텍스트 전송 페널
@@ -77,6 +80,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   }
 
   public void initDisplay() {
+    this.setIconImage(img);// 로고삽입
     jsp.setOpaque(true);
     jsp.setViewport(viewport);
     jtp_chatDisplay.setOpaque(false);

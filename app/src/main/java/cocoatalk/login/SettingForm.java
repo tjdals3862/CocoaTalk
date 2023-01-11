@@ -141,7 +141,7 @@ public class SettingForm extends JPanel implements ActionListener {
 
   } // 폰트변경 메소드 끝
 
-  public void clearCenter(Jpanel jp)
+  //public void clearCenter(Jpanel jp)
   
 
   // 배경 변경 메소드=============================작업중===============================

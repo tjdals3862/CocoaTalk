@@ -1,6 +1,7 @@
 package cocoatalk.login;
 
 import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "wallPaper.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
 
   MainForm MainForm = new MainForm(cVO);
   JPanel jpanel = new JPanel() {
@@ -66,6 +69,7 @@ public class SearchMainForm extends JFrame implements ActionListener {
   public void Search_init() {
     // 창
     this.setTitle("SearchPanel");
+    this.setIconImage(img);// 로고삽입
     this.setBounds(50, 50, 410, 670);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setVisible(true);
@@ -93,13 +97,13 @@ public class SearchMainForm extends JFrame implements ActionListener {
 
     // 메뉴버튼들
 
-    jbtn_friend.setBounds(15, 565, 80, 80);
+    jbtn_friend.setBounds(15, 575, 80, 80);
     jpanel.add(jbtn_friend);
-    jbtn_chat.setBounds(110, 565, 80, 80);
+    jbtn_chat.setBounds(110, 575, 80, 80);
     jpanel.add(jbtn_chat);
-    jbtn_search.setBounds(205, 565, 80, 80);
+    jbtn_search.setBounds(205, 575, 80, 80);
     jpanel.add(jbtn_search);
-    jbtn_setting.setBounds(300, 565, 80, 80);
+    jbtn_setting.setBounds(300, 575, 80, 80);
     jpanel.add(jbtn_setting);
 
     jbtn_friend.setBorderPainted(false);
