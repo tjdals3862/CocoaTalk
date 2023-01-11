@@ -16,7 +16,8 @@ public class ChatClientThread extends Thread {
         String message = "";
         message = (String) cc.ois.readObject();
         System.out.println("서버에서 전송된 message : " + message);
-        cc.jta_display.append(message + "\n");
+        cc.sd_display.insertString(cc.sd_display.getLength(), message + "\n", null);
+        // cc.jta_display.append(message + "\n");
       } catch (Exception e) {
 
       }
