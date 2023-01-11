@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFreeCon;
+import cocoatalk.oracle.DbFunction;
 
 public class Room {
   DbFreeCon dfc = new DbFreeCon();
@@ -35,8 +38,7 @@ public class Room {
         i = rs.getInt("room");
         dfc.freeConnection(conn, pstmt, rs);
       } else {
-        roomCreate(myID);
-        roomCreate(frID);
+        roomCreate(myID, frID);
       }
 
     } catch (Exception e) {
@@ -57,23 +59,97 @@ public class Room {
   // }
 
   // 1:1 채팅방 개설
-  public void roomCreate(String ID) { // 채팅방 개설
+  // public void roomCreate(String myID, String frID) { // 1:1 채팅방 개설
+  // try {
+  // DBCon dbcon = new DBCon();
+  // Connection conn = dbcon.getConnection();
+  // StringBuilder sql = new StringBuilder();
+  // sql.append("insert into room_mem values (( ");
+  // sql.append(" select /*+index_desc(m room_idx)*/ ");
+  // sql.append(" room+1 ");
+  // sql.append(" from room_mem m ");
+  // sql.append(" where (room between 1000 and 1999) AND rownum = 1)");
+  // sql.append(" ,?,?) ");
+  // PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+  // pstmt.setString(1, myID); // id
+  // pstmt.setString(2, getName(myID)); // name
+  // ResultSet rs = pstmt.executeQuery();
+
+  // StringBuilder sql2 = new StringBuilder();
+  // sql2.append("insert into room_mem values (( ");
+  // sql2.append(" select /*+index_desc(m room_idx)*/ ");
+  // sql2.append(" room ");
+  // sql2.append(" from room_mem m ");
+  // sql2.append(" where (room between 1000 and 1999) AND rownum = 1)");
+  // sql2.append(" ,?,?) ");
+  // PreparedStatement pstmt2 = conn.prepareStatement(sql2.toString());
+  // pstmt2.setString(1, frID);
+  // pstmt2.setString(2, getName(frID));
+  // ResultSet rs2 = pstmt2.executeQuery();
+
+  // dfc.freeConnection(conn, pstmt, rs);
+  // rs2.close();
+  // } catch (Exception e) {
+  // e.printStackTrace();
+  // }
+  // }
+  public void roomCreate(String myID, String frID) { // 1:1 채팅방 개설
     try {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
       StringBuilder sql = new StringBuilder();
-      sql.append("insert into room_mem values ((                          ");
-      sql.append("     select /*+index_desc(m room_idx)*/                 ");
-      sql.append("            room+1                                      ");
-      sql.append("       from room_mem m                                  ");
-      sql.append("      where (room between 1000 and 1999) AND rownum = 1)");
-      sql.append("            ,?,?)                                       ");
+      sql.append("select /*+index_desc(m room_idx)*/             ");
+      sql.append("       room+1                                  ");
+      sql.append("  from room_mem m                              ");
+      sql.append(" where (room between 1 and 1999) AND rownum = 1");
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-      pstmt.setString(1, ID); // id
-      pstmt.setString(2, getName(ID)); // name
       ResultSet rs = pstmt.executeQuery();
-
+      rs.next();
+      int room = rs.getInt("room+1");
       dfc.freeConnection(conn, pstmt, rs);
+
+      DbFunction df = new DbFunction();
+      String query = "insert into room_mem values (" + room + ", '" + myID + "', '" + getName(myID) + "')";
+      df.insert(query);
+      dfc.freeConnection(conn, pstmt, rs);
+
+      DbFunction df2 = new DbFunction();
+      String query2 = "insert into room_mem values (" + room + ", '" + frID + "', '" + getName(frID) + "')";
+      df2.insert(query2);
+      dfc.freeConnection(conn, pstmt, rs);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void roomCreate(String myID, String[] frIDs) { // 1:다 채팅방 개설
+    try {
+      DBCon dbcon = new DBCon();
+      Connection conn = dbcon.getConnection();
+      StringBuilder sql = new StringBuilder();
+      sql.append("select /*+index_desc(m room_idx)*/             ");
+      sql.append("       room+1                                  ");
+      sql.append("  from room_mem m                              ");
+      sql.append(" where (room between 2000 and 3999) AND rownum = 1");
+      PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+      ResultSet rs = pstmt.executeQuery();
+      rs.next();
+      int room = rs.getInt("room+1");
+      dfc.freeConnection(conn, pstmt, rs);
+
+      DbFunction df = new DbFunction();
+      String query = "insert into room_mem values (" + room + ", '" + myID + "', '" + getName(myID) + "')";
+      df.insert(query);
+      dfc.freeConnection(conn, pstmt, rs);
+      // dbcon = new DBCon();
+      // conn = dbcon.getConnection();
+      // sql = new StringBuilder();
+      // sql.append(";");
+      // pstmt = conn.prepareStatement(sql.toString());
+      // pstmt.setString(1, myID); // id
+      // pstmt.setString(2, getName(myID)); // name
+      // rs = pstmt.executeQuery();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -81,7 +157,7 @@ public class Room {
 
   String name = null;
 
-  public String getName(String ID) {
+  public String getName(String ID) { // id에 해당하는 name, getter()
     try {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
@@ -129,6 +205,12 @@ public class Room {
     return room;
   }
 
+  public String[] getRoom(String myID, Integer room) { // 1:다 채팅방 불러오기 >> 참여자 목록 반환~> frID[]
+    String[] frID = null;
+
+    return frID;
+  }
+
   public static void main(String[] args) {
     Room r = new Room();
     // System.out.println(r.getName("852"));
@@ -137,6 +219,6 @@ public class Room {
     // for (int i = 0; i < id.length; i++)
     // r.roomCreate("test", id[i]);
 
-    System.out.println(r.roomSearch("123", "이승현"));
+    System.out.println(r.roomSearch("ko", "lsh"));
   }
 }
