@@ -48,7 +48,7 @@ public class ChatServerThread extends Thread {
 
       while (it.hasNext()) {
         ChatServerThread key = it.next();
-        System.out.println("server thread" + key);
+        System.out.println("server thread : " + key);
         keyList.add(key);
       }
 
@@ -56,18 +56,19 @@ public class ChatServerThread extends Thread {
       this.broadCasting(msg);
 
     } catch (Exception e) {
-    } finally {
-      try {
-        if (client != null) {
-          client.close();
-          // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
-          // remove(client);
-        }
-        // ois = null;
-        // oos = null;
-      } catch (IOException ex) {
-      }
     }
+    // finally {
+    // try {
+    // if (client != null) {
+    // client.close();
+    // // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
+    // // remove(client);
+    // }
+    // // ois = null;
+    // // oos = null;
+    // } catch (IOException ex) {
+    // }
+    // }
 
   }
 
