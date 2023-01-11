@@ -21,7 +21,8 @@ public class ChatServer extends Thread {
 
   }
 
-  public void init() {
+  @Override
+  public void run() {
 
     cstlist = new Vector<>();
     try {
@@ -44,7 +45,7 @@ public class ChatServer extends Thread {
 
   public static void main(String[] args) {
     ChatServer cs = new ChatServer();
-    cs.init();
+    cs.start();
   }
 
 }
