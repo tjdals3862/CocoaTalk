@@ -176,7 +176,8 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
         jtf_search.setText("");
       }
     } else if (chat_add == obj) { // 추가 버튼 클릭
-      ca = new ChatAdd(cVO);
+      ChatFriendList cfl = new ChatFriendList(cVO);
+      cfl.InitDisplay();
     }
 
   }
