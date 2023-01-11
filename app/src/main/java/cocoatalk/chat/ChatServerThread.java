@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -16,8 +17,10 @@ public class ChatServerThread extends Thread {
   ObjectInputStream ois = null;
   // 현재 서버에 입장한 클라이언트 스레드의 닉네임 저장
   String chatName = null;
+  String frName = null;
   String nickname = null;
   List<ChatServerThread> keyList = null;
+  List<ChatServerThread> memlist = null;
 
   public ChatServerThread() {
 
@@ -26,22 +29,6 @@ public class ChatServerThread extends Thread {
   public ChatServerThread(ChatServer cs, Socket socket) {
     this.cs = cs;
     this.client = socket;
-
-    System.out.println("map size : " + cs.cstMap.size());
-
-    // finally {
-    // try {
-    // if (client != null) {
-    // client.close();
-    // // 접속 후 나가버린 클라이언트인 경우 ArrayList에서 제거
-    // // remove(client);
-    // }
-    // // ois = null;
-    // // oos = null;
-    // } catch (IOException ex) {
-    // }
-    // }
-
   }
 
   public void con() {
@@ -54,32 +41,38 @@ public class ChatServerThread extends Thread {
       System.out.println(msg);
       StringTokenizer st = new StringTokenizer(msg, "#");
       chatName = st.nextToken();
+      frName = st.nextToken();
       msg = st.nextToken();
-
       System.out.println(chatName + "님이 입장");
+      System.out.println(frName + "님과 채팅방에 입장");
 
-      // cs.cstMap.put(this, chatName);
-      // cs.cstlist.add(cs.cstMap);
-
+      // Map에 key, value를 가져온다.
       keyList = new Vector<>();
+      memlist = new Vector<>();
       Iterator<ChatServerThread> it = cs.cstMap.keySet().iterator();
 
       while (it.hasNext()) {
         ChatServerThread key = it.next();
-        System.out.println("server thread" + key);
+        String value = cs.cstMap.get(key);
         keyList.add(key);
-      }
 
+        if (value.equals(chatName)) {
+          memlist.add(key);
+        }
+      }
       // 입장용 테스트 메세지 ( id 가 입장했습니다.)
       this.broadCasting(msg);
 
-    } catch (Exception e) {
+    } catch (
+
+    Exception e) {
     }
   }
 
   // 현재 입장해 있는 친구들 모두에게 메시지 전송하기 구현
   public void broadCasting(String msg) {
     for (ChatServerThread cst : keyList) {
+
       cst.send(msg);
     }
   }
@@ -94,20 +87,6 @@ public class ChatServerThread extends Thread {
     }
   }
 
-  // ------------------------------------
-  // ArrayList에서 클라이언트 소켓 제거
-  // 접속 후 나가버리는 경우 클릉 쓸 때 오류가 발생
-  // ------------------------------------
-  // public void remove(Socket socketList) {
-
-  // for (Socket s : ChatServer.socketList) {
-  // if (client == s) {
-  // ChatServer.socketList.remove(client);
-  // break;
-  // }
-  // }
-  // }
-
   @Override
   public void run() {
     con();
@@ -121,6 +100,7 @@ public class ChatServerThread extends Thread {
           st = new StringTokenizer(msg, "#");
         }
         String nickName = st.nextToken();
+        String frName = st.nextToken();
         String message = st.nextToken();
 
         System.out.println("run : " + message);

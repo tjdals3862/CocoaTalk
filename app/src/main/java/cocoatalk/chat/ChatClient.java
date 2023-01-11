@@ -40,6 +40,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
   String id = null;
+  String frid = null;
 
   ChatClientThread cct = null;
 
@@ -121,7 +122,8 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    String message = id + "#" + jtf_message.getText();
+    String message = id + "#" + frid + "#" + jtf_message.getText();
+
     // ChatClient chat = new ChatClient();
 
     if (jtf_message == obj) {
@@ -158,6 +160,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
 
   public void chatOpen(String myID, String frID) {
     id = myID;
+    frid = frID;
     r.roomSearch(myID, frID);
     initDisplay();
     init();
@@ -185,6 +188,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기
       System.out.println(e.toString());
     }
+
   }
 
 }
