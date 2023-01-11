@@ -119,6 +119,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
     Object obj = e.getSource();
 
     String message = id + "#" + frid + "#" + jtf_message.getText();
+
     // ChatClient chat = new ChatClient();
 
     if (jtf_message == obj) {
@@ -183,6 +184,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기
       System.out.println(e.toString());
     }
+
   }
 
 }
