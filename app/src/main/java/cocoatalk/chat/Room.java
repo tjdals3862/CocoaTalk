@@ -3,6 +3,7 @@ package cocoatalk.chat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -93,7 +94,8 @@ public class Room {
   // e.printStackTrace();
   // }
   // }
-  public void roomCreate(String myID, String frID) { // 1:1 채팅방 개설
+  public int roomCreate(String myID, String frID) { // 1:1 채팅방 개설
+    int room = 0;
     try {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
@@ -105,7 +107,7 @@ public class Room {
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
       ResultSet rs = pstmt.executeQuery();
       rs.next();
-      int room = rs.getInt("room+1");
+      room = rs.getInt("room+1");
       dfc.freeConnection(conn, pstmt, rs);
 
       DbFunction df = new DbFunction();
@@ -121,38 +123,33 @@ public class Room {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    return room;
   }
 
-  public void roomCreate(String myID, String[] frIDs) { // 1:다 채팅방 개설
+  public int roomCreate(String myID, String[] frIDs) { // 1:다 채팅방 개설 >> 구현해야함************
+    int room = 0;
     try {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
       StringBuilder sql = new StringBuilder();
-      sql.append("select /*+index_desc(m room_idx)*/             ");
-      sql.append("       room+1                                  ");
-      sql.append("  from room_mem m                              ");
+      sql.append("select /*+index_desc(m room_idx)*/                ");
+      sql.append("       room+1                                     ");
+      sql.append("  from room_mem m                                 ");
       sql.append(" where (room between 2000 and 3999) AND rownum = 1");
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
       ResultSet rs = pstmt.executeQuery();
       rs.next();
-      int room = rs.getInt("room+1");
+      room = rs.getInt("room+1");
       dfc.freeConnection(conn, pstmt, rs);
 
       DbFunction df = new DbFunction();
       String query = "insert into room_mem values (" + room + ", '" + myID + "', '" + getName(myID) + "')";
       df.insert(query);
       dfc.freeConnection(conn, pstmt, rs);
-      // dbcon = new DBCon();
-      // conn = dbcon.getConnection();
-      // sql = new StringBuilder();
-      // sql.append(";");
-      // pstmt = conn.prepareStatement(sql.toString());
-      // pstmt.setString(1, myID); // id
-      // pstmt.setString(2, getName(myID)); // name
-      // rs = pstmt.executeQuery();
     } catch (Exception e) {
       e.printStackTrace();
     }
+    return room;
   }
 
   String name = null;
@@ -185,11 +182,14 @@ public class Room {
       StringBuilder sql = new StringBuilder();
       sql.append("select room                       ");
       sql.append("  from room_mem                   ");
-      sql.append(" where room between 1000 and 1999 ");
+      sql.append(" where room between 1 and 1999    ");
       sql.append("   and id = ?                     ");
       sql.append("   and room in (select room       ");
       sql.append("  from room_mem                   ");
       sql.append(" where id = ?     )               ");
+
+      // String[] frIDs = frID;
+      // for (int i = 0; i < frID.length; i++) {
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
       pstmt.setString(1, myID);
       pstmt.setString(2, frID);
@@ -205,10 +205,27 @@ public class Room {
     return room;
   }
 
-  public String[] getRoom(String myID, Integer room) { // 1:다 채팅방 불러오기 >> 참여자 목록 반환~> frID[]
-    String[] frID = null;
+  public List<String> getMember(String myID, int room) { // 방번호로 참여자 목록 반환~> List<String> memberList : 서버에서 쓸거
+    List<String> memberList = new ArrayList();
+    try {
+      DBCon dbcon = new DBCon();
+      Connection conn = dbcon.getConnection();
+      StringBuilder sql = new StringBuilder();
+      sql.append("select id from room_mem where room = ?");
 
-    return frID;
+      PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setInt(1, room);
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        memberList.add(rs.getString("ID"));
+      }
+      dfc.freeConnection(conn, pstmt, rs);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return memberList;
   }
 
   public static void main(String[] args) {
