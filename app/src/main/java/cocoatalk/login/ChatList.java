@@ -24,6 +24,7 @@ import cocoatalk.oracle.DBCon;
 public class ChatList extends JPanel implements MouseListener, ActionListener {
   // 채팅방 목록 출력해주고,
   // 추가 누르면 id값으로 검색해서 체크박스 >> 대화방 생성
+  DBCon dbcon = new DBCon();
 
   ChatAdd ca = null;
   CocoaVO cVO = null;
@@ -127,7 +128,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
     chat_list = new Vector<>();
 
     try {
-      conn = DBCon.getConnection();
+      conn = dbcon.getConnection();
       String sql = String.format("SELECT room FROM room_mem WHERE id = '%s'",
           cVO.getId());
       // String sql = "SELECT * FROM room_mem WHERE id = '?'";

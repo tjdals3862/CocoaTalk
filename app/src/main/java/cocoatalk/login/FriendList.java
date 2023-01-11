@@ -23,6 +23,7 @@ import cocoatalk.oracle.DBCon;
 
 public class FriendList extends JPanel implements MouseListener, ActionListener {
   // 이름 출력해주고, id 값 저장해서 버튼에 id로 다이얼로그 띄우기
+  DBCon dbcon = new DBCon();
 
   FriendAdd fa = null;
   MainForm mf = null;
@@ -97,7 +98,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
           cVO.getId(),
           cVO.getId(),
           str);
-      conn = DBCon.getConnection();
+      conn = dbcon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
 
@@ -126,7 +127,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
     try {
       String sql = "SELECT FR_ID, FR_NAME FROM frlist_" + cVO.getId() + " where ID = '" + cVO.getId() + "'";
-      conn = DBCon.getConnection();
+      conn = dbcon.getConnection();
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
       while (rs.next()) {

@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBCon {
-  public static Connection dbConn;
+  public Connection dbConn;
 
-  public static Connection getConnection() {
+  public Connection getConnection() {
     Connection connect = null;
     try {
       String user = "ssbj";
       String pw = "ssbj";
       String url = "jdbc:oracle:thin:@192.168.10.73:1521:orcl11";
-      //String url = "jdbc:oracle:thin:@localhost:1521:orcl11";
+      // String url = "jdbc:oracle:thin:@localhost:1521:orcl11";
 
       Class.forName("oracle.jdbc.driver.OracleDriver");
       connect = DriverManager.getConnection(url, user, pw);
