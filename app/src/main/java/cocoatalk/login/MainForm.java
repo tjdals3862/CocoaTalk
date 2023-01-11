@@ -2,6 +2,7 @@ package cocoatalk.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.*;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -26,6 +27,8 @@ public class MainForm extends JFrame implements ActionListener {
   String id = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JPanel centerPanel = null;
   JPanel btnPanel = new JPanel();
   JLabel jlb_id = null;
@@ -65,7 +68,7 @@ public class MainForm extends JFrame implements ActionListener {
     this.setResizable(false);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
-
+    this.setIconImage(img);// 로고삽입
     // frinedPanel
 
     ////// 센터패널

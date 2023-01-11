@@ -2,6 +2,7 @@ package cocoatalk.login;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,13 +32,16 @@ public class LoginForm extends JFrame implements ActionListener {
   Register register = new Register(this);
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
+
   JLabel jlb_id = new JLabel("아이디");
   JTextField jtf_id = new JTextField();
   JLabel jlb_pw = new JLabel("비밀번호");
   JPasswordField jpf_pw = new JPasswordField();
   Font font = new Font("굴림체", Font.BOLD, 13);
   JButton jbtn_join = new JButton(new ImageIcon(imgPath + "confirm.png"));
-  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.png"));
+  JButton jbtn_login = new JButton(new ImageIcon(imgPath + "loginbutton.jpg"));
   JLabel jlb_find = new JLabel();
   Font f_join = new Font("맑은 고딕", Font.PLAIN, 12);
   Connection conn = null;
@@ -59,6 +63,7 @@ public class LoginForm extends JFrame implements ActionListener {
 
   // 화면그리기
   public void initDisplay() {
+    this.setIconImage(img);// 로고삽입
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setContentPane(new MyPanel());
     this.setLayout(null);
@@ -70,7 +75,10 @@ public class LoginForm extends JFrame implements ActionListener {
     this.add(jtf_id);
     jlb_pw.setBounds(70, 400, 80, 40);
     jlb_pw.setFont(font);
-
+    jbtn_join.setBorderPainted(false);// 버튼 테두리 변경
+    jbtn_join.setContentAreaFilled(false);
+    jbtn_login.setBorderPainted(false);
+    jbtn_login.setContentAreaFilled(false);
     jlb_pw.setForeground(Color.white);
     jpf_pw.setBounds(135, 400, 185, 40);
     this.add(jlb_pw);

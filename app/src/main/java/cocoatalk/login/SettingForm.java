@@ -37,11 +37,11 @@ public class SettingForm extends JPanel implements ActionListener {
   Font f5 = new Font("바탕", Font.PLAIN, 20);
 
   // 환경설정버튼1
-  // JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
+   JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
   // // 버튼
-  // JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
+   JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
   // // 버튼
-  // JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
+   JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
   // 로그아웃버튼
 
   // 환경설정버튼2(폰트수정용)
@@ -50,10 +50,10 @@ public class SettingForm extends JPanel implements ActionListener {
   // JButton jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
   // JButton jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
 
-  JButton jbtn_a = null;
+  //JButton jbtn_a = null;
   // (new ImageIcon(imgPath +"backBtn.png"));// 배경화면 버튼
-  JButton jbtn_b = null;// 폰트설정 버튼
-  JButton jbtn_c = null; // 로그아웃버튼
+  //JButton jbtn_b = null;// 폰트설정 버튼
+  //JButton jbtn_c = null; // 로그아웃버튼
   // 하단고정버튼
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
   JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
@@ -77,9 +77,9 @@ public class SettingForm extends JPanel implements ActionListener {
   public void initDisplay() {
     // 창
     jp_setting = new JPanel();
-    jbtn_a = new JButton("배 경 화 면");
-    jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
-    jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
+    //jbtn_a = new JButton("배 경 화 면");
+    //jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
+    //jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
 
     this.add("North", jp_setting);
     this.setVisible(true);

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+import java.awt.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,8 @@ public class FriendProfile extends JDialog implements ActionListener {
   FriendList fl = null;
   ChatClient cc = null;
   String imgPath = "D:\\TEMP\\";
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   // ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");
 
   ///////////////////////////////////////////////////////////////////// 이미지 삽입
@@ -35,7 +38,7 @@ public class FriendProfile extends JDialog implements ActionListener {
     new JDialog();
     JPanel jp = new JPanel();// 패널 객체생성
     jlbl_name = new JLabel(who);
-
+    this.setIconImage(img);// 로고삽입
     jp.setLayout(null);
     this.add(jbtn_chat);
     this.add(jbtn_del);
@@ -50,6 +53,10 @@ public class FriendProfile extends JDialog implements ActionListener {
     setSize(330, 550); // 화면사이즈
     setVisible(isOpen);
     setTitle(who);// 채팅창 이름(사용자 별로 다름)
+    jbtn_del.setBorderPainted(false);// 버튼 테두리 변경
+    jbtn_del.setContentAreaFilled(false);
+    jbtn_chat.setBorderPainted(false);
+    jbtn_chat.setContentAreaFilled(false);
 
   }
 
