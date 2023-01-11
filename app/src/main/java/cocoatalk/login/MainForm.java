@@ -20,6 +20,7 @@ public class MainForm extends JFrame implements ActionListener {
   FriendList fl = null;
   ChatList cl = null;
   LoginForm lf = new LoginForm();
+  SettingForm sf = null;
 
   String id = null;
   String imgPath = "D:\\TEMP\\";
@@ -123,6 +124,25 @@ public class MainForm extends JFrame implements ActionListener {
 
   }
 
+  public void clearCenter2(JPanel jp) {
+    Container cont = this.getContentPane();
+    if (centerPanel != null) {
+      cont.remove(centerPanel);
+      cont.revalidate();
+      cont.repaint();
+      // cont.remove(centerPanel);
+    }
+    centerPanel = new JPanel();
+    this.add("North", centerPanel);
+    // centerPanel.setBounds(50, 200, 500, 200);
+    centerPanel.setBounds(0, 120, 400, 400);
+    centerPanel.setBackground(new Color(0, 0, 0, 0));
+    // cont.revalidate();
+    cont.setLayout(new BorderLayout());
+    centerPanel.add(jp);
+
+  }
+
   // 메인메소드
   // public static void main(String[] args) {
   // MainForm MainFormcopy = new MainForm();
@@ -147,9 +167,8 @@ public class MainForm extends JFrame implements ActionListener {
       this.setVisible(false);
 
     } else if (obj == jbtn_setting) {
-      SettingForm settingForm = new SettingForm(cVO);
-      settingForm.initDisplay();
-      setVisible(false);
+      sf = new SettingForm(cVO);
+      clearCenter2(sf);
     }
   }
 }
