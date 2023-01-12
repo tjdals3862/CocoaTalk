@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 // 네이버 검색 API 예제 - 블로그검색 
 

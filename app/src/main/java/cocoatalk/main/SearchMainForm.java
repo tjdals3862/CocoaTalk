@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import cocoatalk.login.CocoaVO;
 
 public class SearchMainForm extends JPanel implements ActionListener {
   public static final String content = null;

@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.dialog;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFunction;
 

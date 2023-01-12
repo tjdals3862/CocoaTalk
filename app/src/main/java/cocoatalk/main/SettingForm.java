@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -16,6 +16,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import cocoatalk.login.CocoaVO;
+import cocoatalk.login.LoginForm;
 
 public class SettingForm extends JPanel implements ActionListener {
 

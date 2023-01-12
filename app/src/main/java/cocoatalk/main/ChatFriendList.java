@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -23,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import cocoatalk.dialog.FriendAdd;
+import cocoatalk.dialog.FriendProfile;
+import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 
 public class ChatFriendList extends JFrame implements MouseListener, ActionListener {

@@ -1,11 +1,12 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.*;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import cocoatalk.login.CocoaVO;
+import cocoatalk.login.LoginForm;
 
 public class MainForm extends JFrame implements ActionListener {
   // 선언부
@@ -41,7 +45,7 @@ public class MainForm extends JFrame implements ActionListener {
   JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴)
 
   // 생성자
-  MainForm(CocoaVO cVO) {
+  public MainForm(CocoaVO cVO) {
     this.cVO = cVO;
   }
 

@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.dialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import cocoatalk.client.ChatClient;
+import cocoatalk.main.FriendList;
 
 public class FriendProfile extends JDialog implements ActionListener {
   FriendList fl = null;

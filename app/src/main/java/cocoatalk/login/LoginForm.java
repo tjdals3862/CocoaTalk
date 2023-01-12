@@ -1,11 +1,16 @@
 package cocoatalk.login;
 
+// 로그인창
+
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.*;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,10 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
+import cocoatalk.main.MainForm;
 import cocoatalk.oracle.DBCon;
 
 public class LoginForm extends JFrame implements ActionListener {
@@ -49,7 +51,7 @@ public class LoginForm extends JFrame implements ActionListener {
   ResultSet rs = null;
 
   // 생성자
-  LoginForm() {
+  public LoginForm() {
   }
 
   // 내부클래스로 배경 이미지 처리
@@ -96,7 +98,7 @@ public class LoginForm extends JFrame implements ActionListener {
     jbtn_join.addActionListener(this);
     jbtn_login.addActionListener(this);
 
-    this.add(jlb_find); //아이디/패스워드 찾기 추가
+    this.add(jlb_find); // 아이디/패스워드 찾기 추가
     jlb_find.setText("아이디/비밀번호 찾기");
     jlb_find.setForeground(Color.WHITE);
     jlb_find.setFont(f_join);

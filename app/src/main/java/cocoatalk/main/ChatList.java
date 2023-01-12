@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import cocoatalk.dialog.ChatAdd;
+import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 
 public class ChatList extends JPanel implements MouseListener, ActionListener {

@@ -1,4 +1,4 @@
-package cocoatalk.login;
+package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import cocoatalk.dialog.FriendAdd;
+import cocoatalk.dialog.FriendProfile;
+import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 
 public class FriendList extends JPanel implements MouseListener, ActionListener {
@@ -27,7 +30,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
   FriendAdd fa = null;
   MainForm mf = null;
-  CocoaVO cVO = null;
+  public CocoaVO cVO = null;
   FriendProfile fp = null;
 
   List<String[]> fr_list;
