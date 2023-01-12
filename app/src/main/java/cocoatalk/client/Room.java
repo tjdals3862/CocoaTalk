@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFreeCon;
 import cocoatalk.oracle.DbFunction;
@@ -49,51 +47,6 @@ public class Room {
     return i;
   }
 
-  // public void roomSearch(Integer room) {
-  // try {
-  // Connection conn = DBCon.getConnection();
-  // StringBuilder sql = new StringBuilder();
-  // sql.append("");
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // }
-
-  // 1:1 채팅방 개설
-  // public void roomCreate(String myID, String frID) { // 1:1 채팅방 개설
-  // try {
-  // DBCon dbcon = new DBCon();
-  // Connection conn = dbcon.getConnection();
-  // StringBuilder sql = new StringBuilder();
-  // sql.append("insert into room_mem values (( ");
-  // sql.append(" select /*+index_desc(m room_idx)*/ ");
-  // sql.append(" room+1 ");
-  // sql.append(" from room_mem m ");
-  // sql.append(" where (room between 1000 and 1999) AND rownum = 1)");
-  // sql.append(" ,?,?) ");
-  // PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-  // pstmt.setString(1, myID); // id
-  // pstmt.setString(2, getName(myID)); // name
-  // ResultSet rs = pstmt.executeQuery();
-
-  // StringBuilder sql2 = new StringBuilder();
-  // sql2.append("insert into room_mem values (( ");
-  // sql2.append(" select /*+index_desc(m room_idx)*/ ");
-  // sql2.append(" room ");
-  // sql2.append(" from room_mem m ");
-  // sql2.append(" where (room between 1000 and 1999) AND rownum = 1)");
-  // sql2.append(" ,?,?) ");
-  // PreparedStatement pstmt2 = conn.prepareStatement(sql2.toString());
-  // pstmt2.setString(1, frID);
-  // pstmt2.setString(2, getName(frID));
-  // ResultSet rs2 = pstmt2.executeQuery();
-
-  // dfc.freeConnection(conn, pstmt, rs);
-  // rs2.close();
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // }
   public int roomCreate(String myID, String frID) { // 1:1 채팅방 개설
     int room = 0;
     try {
@@ -185,8 +138,8 @@ public class Room {
       sql.append(" where room between 1 and 1999    ");
       sql.append("   and id = ?                     ");
       sql.append("   and room in (select room       ");
-      sql.append("  from room_mem                   ");
-      sql.append(" where id = ?     )               ");
+      sql.append("                from room_mem     ");
+      sql.append("                where id = ? )    ");
 
       // String[] frIDs = frID;
       // for (int i = 0; i < frID.length; i++) {
