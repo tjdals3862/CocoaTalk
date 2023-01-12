@@ -1,4 +1,4 @@
-package cocoatalk.chat;
+package cocoatalk.server;
 
 import java.net.ServerSocket;
 import java.net.Socket;

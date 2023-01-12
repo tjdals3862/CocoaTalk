@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-import cocoatalk.chat.ChatClient;
+import cocoatalk.client.ChatClient;
 
 public class FriendProfile extends JDialog implements ActionListener {
   FriendList fl = null;

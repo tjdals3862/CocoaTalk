@@ -1,4 +1,4 @@
-package cocoatalk.chat;
+package cocoatalk.client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

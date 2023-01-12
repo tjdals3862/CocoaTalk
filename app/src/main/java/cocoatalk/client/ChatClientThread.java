@@ -1,4 +1,4 @@
-package cocoatalk.chat;
+package cocoatalk.client;
 
 public class ChatClientThread extends Thread {
 

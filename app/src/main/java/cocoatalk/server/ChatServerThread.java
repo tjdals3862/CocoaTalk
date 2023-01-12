@@ -1,4 +1,4 @@
-package cocoatalk.chat;
+package cocoatalk.server;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
