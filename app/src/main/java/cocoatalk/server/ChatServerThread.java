@@ -73,8 +73,8 @@ public class ChatServerThread extends Thread {
   // 클라이언트에게 말하기 구현
   public void send(String msg) {
     try {
-      oos.writeObject(msg);
-      System.out.println("send : " + msg);
+      String message = chatName + "#" + frName + "#" + msg;
+      oos.writeObject(message);
     } catch (Exception e) {
       e.printStackTrace();// stack에 쌓여 있는 에러메시지 이력 출력함
     }
@@ -95,13 +95,12 @@ public class ChatServerThread extends Thread {
         map = cs.cstMap;
 
         Iterator<ChatServerThread> it = map.keySet().iterator();
-        // it = cs.cstMap.keySet().iterator();
 
         while (it.hasNext()) {
           ChatServerThread key = it.next();
           String value = cs.cstMap.get(key);
           keyList.add(key);
-          System.out.println(chatName + " 의 value : " + value + "추가되어야하는 + " + frName);
+          System.out.println(chatName + " 의 value : " + value + "추가되어야하는 id :  " + frName);
           if (value.equals(chatName) || value.equals(frName)) {
             memlist.add(key);
             System.out.println("추가되는 : " + value);
