@@ -1,19 +1,23 @@
 package cocoatalk.client;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Image;
-import java.awt.*;
-import java.awt.Graphics2D;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.GridLayout;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +25,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -30,8 +33,7 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import java.awt.Font;
-import java.awt.Dimension;
+import cocoatalk.oracle.DBCon;
 
 public class ChatClient extends JFrame implements ActionListener, Runnable {
   //////////////// 통신과 관련한 전역변수 추가 시작//////////////
@@ -130,9 +132,6 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       try {
         oos.writeObject(message);
         jtf_message.setText("");
-        //
-        // sd_display.insertString(sd_display.getLength(), message + "\n", null);
-        //
       } catch (Exception e2) {
 
       }
@@ -144,7 +143,6 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       try {
         oos.writeObject(message);
         jtf_message.setText("");
-        // sd_display.insertString(sd_display.getLength(), message + "\n", null);
       } catch (Exception e2) {
 
       }
@@ -158,13 +156,45 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
     th.start();
   }
 
+  public void chatting() {
+
+    try {
+      DBCon dbcon = new DBCon();
+      Connection conn = dbcon.getConnection();
+      Room room = new Room();
+      int room_num = room.getRoom(id, frid);
+
+      // String query = "select chat from room_chat where room = " + room_num + "";
+      StringBuilder sql = new StringBuilder();
+      sql.append(" SELECT chat FROM ");
+      sql.append(" (select chat,TIME from room_chat ");
+      sql.append(" where room = " + room_num + " order by  TIME DESC ");
+      sql.append("   ) WHERE ROWNUM <= 1 order by TIME");
+
+      PreparedStatement pstm = conn.prepareStatement(sql.toString());
+      ResultSet rs = pstm.executeQuery();
+
+      while (rs.next()) {
+        // System.out.println("abcd");
+        // rs.getString(1);
+        System.out.println(rs.getString("chat"));
+        sd_display.insertString(sd_display.getLength(), rs.getString("chat") + "\n", null);
+      }
+      // cc.sd_display.insertString(cc.sd_display.getLength(), msg + "\n", null);
+
+    } catch (Exception e) {
+      // TODO: handle exception
+    }
+  }
+
   public void chatOpen(String myID, String frID) {
     id = myID;
     frid = frID;
     r.roomSearch(myID, frID);
     initDisplay();
+    chatting();
     init();
-    jtf_message.setText("나:" + myID + ", 너:" + frID);
+    // jtf_message.setText("나:" + myID + ", 너:" + frID);
   }
 
   @Override
