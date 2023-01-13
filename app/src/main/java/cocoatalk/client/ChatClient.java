@@ -1,4 +1,5 @@
 package cocoatalk.client;
+// 클라이언트 채팅방
 
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -164,23 +165,20 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       Room room = new Room();
       int room_num = room.getRoom(id, frid);
 
-      // String query = "select chat from room_chat where room = " + room_num + "";
+      // 최근 10개 채팅 추출
       StringBuilder sql = new StringBuilder();
-      sql.append(" SELECT chat FROM ");
-      sql.append(" (select chat,TIME from room_chat ");
+      sql.append(" SELECT chat FROM                                   ");
+      sql.append(" (select chat,TIME from room_chat                   ");
       sql.append(" where room = " + room_num + " order by  TIME DESC ");
-      sql.append("   ) WHERE ROWNUM <= 1 order by TIME");
+      sql.append(" ) WHERE ROWNUM <= 10 order by TIME                  ");
 
       PreparedStatement pstm = conn.prepareStatement(sql.toString());
       ResultSet rs = pstm.executeQuery();
 
+      // 가져온 10개의 채팅 jtextarea에 업로드
       while (rs.next()) {
-        // System.out.println("abcd");
-        // rs.getString(1);
-        System.out.println(rs.getString("chat"));
         sd_display.insertString(sd_display.getLength(), rs.getString("chat") + "\n", null);
       }
-      // cc.sd_display.insertString(cc.sd_display.getLength(), msg + "\n", null);
 
     } catch (Exception e) {
       // TODO: handle exception

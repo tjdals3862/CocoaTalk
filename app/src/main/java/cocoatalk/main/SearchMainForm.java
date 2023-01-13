@@ -24,18 +24,17 @@ public class SearchMainForm extends JPanel implements ActionListener {
   ChatList cl = new ChatList(cVO);
   NaverConnect nc = new NaverConnect();
   MainForm MainForm = new MainForm(cVO);
-  
+
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "setting.jpg");
-  
-  
+
   public void paintComponent(Graphics g) {
     g.drawImage(ig.getImage(), 0, 0, null);
     setOpaque(false);
     super.paintComponent(g);
-  } // end of MyPanel 
-  
-  JScrollPane jsp ;
+  } // end of MyPanel
+
+  JScrollPane jsp;
   JPanel jp_search;
   JTextField searchTextField;
   JTextArea searchTextArea = new JTextArea();
@@ -49,33 +48,34 @@ public class SearchMainForm extends JPanel implements ActionListener {
   }
 
   public void Search_init() {
-    
+
     jp_search = new JPanel();
     searchBtn = new JButton("검색");
     searchTextField = new JTextField(28);
     jsp = new JScrollPane(searchTextArea);
-    
+
     jp_search.add(searchTextField);
     this.setLayout(new BorderLayout());
-    this.add("North",jp_search);
+    this.add("North", jp_search);
     jp_search.add(searchBtn = new JButton("검색"));
-    jp_search.add("North",searchTextField);
-    jp_search.add("North",searchBtn);
-    this.add("Center",jsp);
-    
+    jp_search.add("North", searchTextField);
+    jp_search.add("North", searchBtn);
+    this.add("Center", jsp);
+
     // 검색버튼
     searchBtn.setBounds(320, 100, 70, 31);
     searchBtn.setBackground(Color.pink);
     searchBtn.addActionListener(this);
     jp_search.setOpaque(false);
-    
-    //검색 결과창
-    jsp.setPreferredSize(new Dimension(390,315));
 
-    this.setSize(426,500);
+    // 검색 결과창
+    jsp.setPreferredSize(new Dimension(390, 315));
+
+    this.setSize(426, 500);
     this.setVisible(true);
 
   }
+
   @Override
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
@@ -91,6 +91,7 @@ public class SearchMainForm extends JPanel implements ActionListener {
           searchTextArea.append(nc.titlelist.get(i) + "\n");
           searchTextArea.append(nc.catelist.get(i) + "\n");
           searchTextArea.append(nc.addlist.get(i) + "\n");
+          searchTextArea.append(nc.linklist.get(i) + "\n");
           searchTextArea.append("================================================" + "\n");
         }
       }

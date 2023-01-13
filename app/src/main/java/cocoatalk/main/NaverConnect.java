@@ -1,8 +1,6 @@
 package cocoatalk.main;
 
-// 네이버 검색 API 예제 - 블로그검색 
-
-///파싱해줄 성민오빠 구함~~~
+// 네이버 검색 API  - 검색
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,8 +19,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-//import org.json.simple.JSONArray;
-
 public class NaverConnect {
 
   JSONParser parser = new JSONParser();
@@ -35,6 +31,7 @@ public class NaverConnect {
   ArrayList<String> titlelist = null;
   ArrayList<String> catelist = null;
   ArrayList<String> addlist = null;
+  ArrayList<String> linklist = null;
 
   private static String get(String apiUrl, Map<String, String> requestHeaders) {
     HttpURLConnection con = connect(apiUrl);
@@ -107,6 +104,7 @@ public class NaverConnect {
     titlelist = new ArrayList<>();
     catelist = new ArrayList<>();
     addlist = new ArrayList<>();
+    linklist = new ArrayList<>();
 
     // json parser로 title, category, address 추출
     try {
@@ -117,6 +115,7 @@ public class NaverConnect {
         titlelist.add((String) getObj.get("title"));
         catelist.add((String) getObj.get("category"));
         addlist.add((String) getObj.get("address"));
+        linklist.add((String) getObj.get("link"));
       }
 
     } catch (Exception e) {
@@ -124,10 +123,10 @@ public class NaverConnect {
     }
   }
 
-  public static void main(String[] args) {
-    NaverConnect nc = new NaverConnect();
-    nc.search("역삼 맛집");
-    System.out.println(nc.titlelist.get(0));
-  }
+  // public static void main(String[] args) {
+  // NaverConnect nc = new NaverConnect();
+  // nc.search("역삼 맛집");
+  // System.out.println(nc.titlelist.get(0));
+  // }
 
 }
