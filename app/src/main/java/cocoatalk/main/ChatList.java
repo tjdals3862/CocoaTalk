@@ -1,14 +1,11 @@
 package cocoatalk.main;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 import java.awt.Font;
@@ -20,17 +17,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import cocoatalk.client.Room;
 import cocoatalk.dialog.ChatAdd;
 import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 
-public class ChatList extends JPanel implements MouseListener, ActionListener {
+public class ChatList extends JPanel implements MouseListener {
   // 채팅방 목록 출력해주고,
   // 추가 누르면 id값으로 검색해서 체크박스 >> 대화방 생성
   DBCon dbcon = new DBCon();
 
   ChatAdd ca = null;
   CocoaVO cVO = null;
+  Room r = new Room();
 
   List<String> chat_list;
   DefaultListModel<String> dlm_chat;
@@ -38,7 +37,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
   JList jl_chat;
 
   String name = null;
-  String userID = null;
+  String myID = null;
 
   Connection conn = null;
   PreparedStatement pstm = null;
@@ -58,22 +57,24 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
   }
 
   public void InitDisplay() {
+    myID = cVO.getId();
+    System.out.println(myID);
     dlm_chat = new DefaultListModel<>();
-    getRoom();
+    getRoomList();
 
     font = cVO.getFontc();
     chat_north = new JPanel();
     jtf_search = new JTextField(23);
     chat_search = new JButton("검색");
     chat_add = new JButton("추가");
-    chat_add.addActionListener(this);
+    chat_add.addMouseListener(this);
 
     jl_chat = new JList(dlm_chat);
     jsp = new JScrollPane(jl_chat);
 
     this.setLayout(new BorderLayout());
 
-    chat_search.addActionListener(this);
+    chat_search.addMouseListener(this);
 
     jl_chat.addMouseListener(this);
     jl_chat.setFixedCellWidth(380);
@@ -94,98 +95,69 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
 
   }
 
-  public void searchChatList(String str) {
-    // dlm_chat.clear();
-    // chat_list = new Vector<>();
-
-    // try {
-    // String sql = String.format("SELECT * FROM friend WHERE id = '%s' AND fr_name
-    // like '%s'", cVO.getId(),
-    // str);
-    // conn = DBCon.getConnection();
-    // pstm = conn.prepareStatement(sql);
-    // rs = pstm.executeQuery();
-
-    // while (rs.next()) {
-    // String room = rs.getString("ROOM")
-    // // String[] data = { name, ID };
-    // chat_list.add(room);
-    // }
-
-    // for (int i = 0; i < chat_list.size(); i++) {
-    // int a = chat_list.size();
-    // // String[] data = new String[a];
-
-    // data = chat_list.get(i);
-
-    // dlm_chat.add(0, data[0]); // data[0] : name, data[1] : ID
-    // }
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-  }
-
-  public void addChatList() {
-
-  }
-
-  private void getRoom() {
+  private void getRoomList() {
     dlm_chat.clear();
     chat_list = new Vector<>();
 
     try {
       conn = dbcon.getConnection();
       String sql = String.format("SELECT room FROM room_mem WHERE id = '%s'",
-          cVO.getId());
-      // String sql = "SELECT * FROM room_mem WHERE id = '?'";
-      // pstm.setString(1, cVO.getId());
-      // System.out.println(cVO.getId());
+          myID);
       pstm = conn.prepareStatement(sql);
       rs = pstm.executeQuery();
 
       while (rs.next()) {
-        String room = rs.getString("room");
-        chat_list.add(room);
+        int room = rs.getInt("room");
+        List<String> ls = r.getMember(myID, room);
+        StringBuilder nameList = new StringBuilder();
+        for (int i = 0; i < ls.size() - 1; i++) {
+          nameList.append(ls.get(i) + ", ");
+        }
+        nameList.append(ls.get(ls.size() - 1));
+
+        chat_list.add(nameList + "/" + room);
       }
       for (int i = 0; i < chat_list.size(); i++) {
-        String room = chat_list.get(i);
-        dlm_chat.addElement(room); // data[0] : name, data[1] : ID
+        String memID = chat_list.get(i);
+        dlm_chat.addElement(memID);
       }
     } catch (Exception e) {
     }
   }
 
-  @Override
-  public void mouseClicked(MouseEvent e) {
-    Object obj = e.getSource();
-    if (obj == jl_chat) {
-      if (e.getClickCount() == 2) {
-        int who = jl_chat.locationToIndex(e.getPoint());
-        // String[] data = chat_list.get((chat_list.size() - 1) - who); // JList에 역순으로
-        // 들어가서
-        // // index가 거꾸로 잡힘
-        // fp.profileDisplay(true, data[0]);
-      }
+  private void loadRoomList(int room) {
+    dlm_chat.clear();
+    chat_list = new Vector<>();
+    List<String> l = r.getMember(myID, room);
+
+    for (int i = 0; i < chat_list.size(); i++) {
+      // room = chat_list.get(i);
+      // dlm_chat.addElement(room); // data[0] : name, data[1] : ID
     }
 
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
+  public void mouseClicked(MouseEvent e) {
     Object obj = e.getSource();
-    if (chat_search == obj) { // 검색 버튼 클릭
+    Room r = new Room();
+    if (obj == jl_chat) {
+      if (e.getClickCount() == 2) {
+        int room = jl_chat.locationToIndex(e.getPoint());
+        r.getMember(myID, room); // return List<String> 1:다 채팅방 멤버 뽑기
+      }
+    } else if (chat_search == obj) { // 검색 버튼 클릭
       if (jtf_search.getText() == null) {
-        getRoom();
+        getRoomList();
         InitDisplay();
       } else {
-        // roomSearch(jtf_search.getText());
+        loadRoomList(r.searchRoomList(myID, jtf_search.getText()));
         jtf_search.setText("");
       }
     } else if (chat_add == obj) { // 추가 버튼 클릭
       ChatFriendList cfl = new ChatFriendList(cVO);
       cfl.InitDisplay();
     }
-
   }
 
   @Override
@@ -203,5 +175,4 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
   @Override
   public void mouseExited(MouseEvent e) {
   }
-
 }

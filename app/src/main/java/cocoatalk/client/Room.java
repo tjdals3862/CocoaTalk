@@ -79,7 +79,7 @@ public class Room {
     return room;
   }
 
-  public int roomCreate(String myID, String[] frIDs) { // 1:다 채팅방 개설 >> 구현해야함************
+  public int roomCreate(String myID, List<String> frIDs) { // 1:다 채팅방 개설 >> 구현해야함************
     int room = 0;
     try {
       DBCon dbcon = new DBCon();
@@ -158,8 +158,38 @@ public class Room {
     return room;
   }
 
-  public List<String> getMember(String myID, int room) { // 방번호로 참여자 목록 반환~> List<String> memberList : 서버에서 쓸거
-    List<String> memberList = new ArrayList();
+  public int searchRoomList(String myID, String frID) { // 1:1 채팅방 번호 조회
+    int room = 0;
+    try {
+      DBCon dbcon = new DBCon();
+      Connection conn = dbcon.getConnection();
+      StringBuilder sql = new StringBuilder();
+      sql.append("select room                       ");
+      sql.append("  from room_mem                   ");
+      sql.append(" where room id = ?                ");
+      sql.append("   and room in (select room       ");
+      sql.append("                from room_mem     ");
+      sql.append("                where id = ? )    ");
+
+      // String[] frIDs = frID;
+      // for (int i = 0; i < frID.length; i++) {
+      PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+      pstmt.setString(1, myID);
+      pstmt.setString(2, frID);
+      ResultSet rs = pstmt.executeQuery();
+      rs.next();
+      room = rs.getInt("ROOM");
+
+      dfc.freeConnection(conn, pstmt, rs);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return room;
+  }
+
+  public List<String> getMember(String myID, int room) { // 방번호로 참여자 목록 반환~> List<String> frIDs : 서버에서 쓸거
+    List<String> frIDs = new ArrayList();
     try {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
@@ -171,14 +201,14 @@ public class Room {
       ResultSet rs = pstmt.executeQuery();
 
       while (rs.next()) {
-        memberList.add(rs.getString("ID"));
+        frIDs.add(rs.getString("ID"));
       }
       dfc.freeConnection(conn, pstmt, rs);
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    return memberList;
+    return frIDs;
   }
 
   public static void main(String[] args) {
