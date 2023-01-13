@@ -1,7 +1,7 @@
 package cocoatalk.main;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,19 +10,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.Vector;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JFrame;
-import java.awt.Font;
-
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import cocoatalk.dialog.FriendAdd;
 import cocoatalk.dialog.FriendProfile;
@@ -37,6 +43,8 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   FriendProfile fp = null;
 
   List<String[]> fr_list;
+  Set<String> friendlist = new HashSet<>();
+
   DefaultListModel<String> dlm_frnd;
   JScrollPane jsp;
   JList jl_frnd;
@@ -75,6 +83,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     font = cVO.getFontc();
 
     fr_search.addActionListener(this);
+    fr_invite.addActionListener(this);
     frnd_north.setLayout(new FlowLayout());
 
     jsp = new JScrollPane(jl_frnd);
@@ -97,25 +106,26 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     this.setSize(426, 380);
     this.setVisible(true);
 
-    fr_invite.addActionListener(new ActionListener() {
+    jl_frnd.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-      @Override
-      public void actionPerformed(ActionEvent ae) {
-        System.out.println("선택완료");
-        ChatFriendList ch = new ChatFriendList(cVO);
-        ch.searchFriend(kkkkk);
+    jl_frnd.addListSelectionListener(new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
+          System.out.println("선택 : " + jl_frnd.getSelectedValue());
 
-        int[] a = jl_frnd.getSelectedIndices();
-        for (int i = 0; i < a.length; i++) {
-          System.out.println("여긴어ㅏ기러ㅏ니우리낭리ㅏ눌이ㅜㄹㅇ" + a[i]);
+          StringTokenizer st = new StringTokenizer((String) jl_frnd.getSelectedValue(), "#");
+          String name = st.nextToken();
+          String id = st.nextToken();
+
+          friendlist.add(id);
+          System.out.println("친구목록 : " + friendlist);
         }
       }
     });
-
   }
 
   public void searchFriend(String str) {
-    // dlm_frnd.clear();
+    dlm_frnd.clear();
     fr_list = new Vector<>();
 
     try {
@@ -139,7 +149,8 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
         String[] data = new String[a];
         data = fr_list.get(i);
 
-        dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
+        dlm_frnd.add(0, data[0] + "#" + data[1]); // data[0] : name, data[1] : ID
+
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -147,7 +158,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   }
 
   public void getDB() {
-    // dlm_frnd.clear();
+    dlm_frnd.clear();
     fr_list = new Vector<>();
 
     try {
@@ -167,7 +178,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
         String[] data = new String[a];
         data = fr_list.get(i);
 
-        dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
+        dlm_frnd.add(0, data[0] + "#" + data[1]); // data[0] : name, data[1] : ID
       }
     } catch (Exception e) {
     }
@@ -176,17 +187,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   @Override
   public void mouseClicked(MouseEvent e) {
     Object obj = e.getSource();
-    /*
-     * if (obj == jl_frnd) {
-     * if (e.getClickCount() == 2) {
-     * int who = jl_frnd.locationToIndex(e.getPoint());
-     * String[] data = fr_list.get((fr_list.size() - 1) - who); // JList에 역순으로 들어가서
-     * // index가 거꾸로 잡힘
-     * // fp = new FriendProfile(this);
-     * fp.profileDisplay(true, data[0]);
-     * }
-     * }
-     */
+
   }
 
   @Override
@@ -203,14 +204,51 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
         jtf_search.setText("");
       }
 
-      // } else if (fr_invite == obj) { // 초대 버튼 클릭
+    } else if (fr_invite == obj) {
+      System.out.println("친구추가했긔");
 
-      // System.out.println("받아온값넣어보쟈");
-      // int[] a = jl_frnd.getSelectedIndices();
+      if (friendlist.size() == 0) {
+        System.out.println("선택한 친구가 없음");
+        String msg = "친구를 선택하세요";
+        JOptionPane.showMessageDialog(this, msg, "ERROR",
+            JOptionPane.INFORMATION_MESSAGE);
+      } else {
+        Iterator it = friendlist.iterator();
 
-      // for (int i = 0; i < a.length; i++) {
-      // System.out.println("ㅎㅇㅎㅇㅎㅇㅎㅇ" + a[i]);
-      // }
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> room = new ArrayList<>();
+        while (it.hasNext()) {
+          System.out.println(it.next());
+          // id 값으로 room방이 있는지 체크
+          list.add((String) it.next());
+        }
+
+        try {
+          DBCon dbcon = new DBCon();
+          Connection conn = dbcon.getConnection();
+          StringBuilder sql = new StringBuilder();
+          sql.append(" select room from room_mem ");
+          sql.append(" group by room ");
+          sql.append(" having count(*) = " + list.size() + " ");
+          PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+          ResultSet rs = pstmt.executeQuery();
+          while (rs.next()) {
+            room.add((String) rs.getString("room"));
+          }
+
+        } catch (Exception se) {
+          se.printStackTrace();
+        }
+
+        // 채팅방생성
+
+        JOptionPane.showMessageDialog(this, "카톡방 생성 완료했습니다.", "info",
+            JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
+        friendlist.clear();
+
+      }
+
     }
 
   }
