@@ -135,7 +135,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
         String[] data = new String[a];
         data = fr_list.get(i);
 
-        dlm_frnd.add(0, data[0]); // data[0] : name, data[1] : ID
+        dlm_frnd.add(0, data[0] + "#" + data[1]); // data[0] : name, data[1] : ID
       }
     } catch (SQLException e) {
       e.printStackTrace();
