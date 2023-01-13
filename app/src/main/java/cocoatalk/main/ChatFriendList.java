@@ -34,6 +34,7 @@ import cocoatalk.dialog.FriendAdd;
 import cocoatalk.dialog.FriendProfile;
 import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
+import cocoatalk.oracle.DbFreeCon;
 
 public class ChatFriendList extends JFrame implements MouseListener, ActionListener {
 
@@ -58,6 +59,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   ResultSet rs = null;
 
   DBCon db = new DBCon();
+  DbFreeCon dfc = null;
 
   JPanel frnd_north;
   JTextField jtf_search;
@@ -205,7 +207,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
     } else if (fr_invite == obj) {
       System.out.println("친구추가했긔");
-
+      System.out.println("추가할 친구 몇명?  : " + friendlist.size());
       if (friendlist.size() == 0) {
         System.out.println("선택한 친구가 없음");
         String msg = "친구를 선택하세요";
@@ -213,38 +215,83 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
             JOptionPane.INFORMATION_MESSAGE);
       } else {
         Iterator it = friendlist.iterator();
+        ArrayList<String> list = new ArrayList<>(); // 친구 id 리스트
+        ArrayList<Integer> room = new ArrayList<>(); // 방번호 리스트
 
-        ArrayList<String> list = new ArrayList<>();
-        ArrayList<String> room = new ArrayList<>();
         while (it.hasNext()) {
-          System.out.println(it.next());
+
+          // System.out.println(it.next());
           // id 값으로 room방이 있는지 체크
           list.add((String) it.next());
         }
-
+        System.out.println("친구id리스트 추가 완료");
         try {
           DBCon dbcon = new DBCon();
-          Connection conn = dbcon.getConnection();
+          conn = dbcon.getConnection();
           StringBuilder sql = new StringBuilder();
+          dfc = new DbFreeCon();
           sql.append(" select room from room_mem ");
           sql.append(" group by room ");
           sql.append(" having count(*) = " + list.size() + " ");
+          System.out.println("리스트 사이즈 : " + list.size());
           PreparedStatement pstmt = conn.prepareStatement(sql.toString());
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
-            room.add((String) rs.getString("room"));
+            room.add((Integer) rs.getInt("room"));
           }
-
         } catch (Exception se) {
           se.printStackTrace();
+        } finally {
+          try {
+            dfc.freeConnection(conn, pstm, rs);
+          } catch (Exception ie) {
+            throw new RuntimeException(ie.getMessage());
+          }
+        }
+
+        System.out.println("카톡방 있는지 확인 시작");
+        boolean isTrue = true;
+        boolean isChk = false;
+        while (isTrue) {
+          System.out.println("room 사이즈 : " + room.size());
+          for (int i = 0; i < room.size(); i++) {
+            System.out.println(i + "번째 테스트 진행");
+            try {
+              DBCon dbcon = new DBCon();
+              conn = dbcon.getConnection();
+              StringBuilder sql = new StringBuilder();
+              dfc = new DbFreeCon();
+              sql.append(" select id from room_mem ");
+              sql.append(" where room = " + room.get(i) + " ");
+              PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+              ResultSet rs = pstmt.executeQuery();
+              run_start: while (rs.next()) {
+                for (int j = 0; j < list.size(); j++)
+                  if (!rs.getString("id").equals(list.get(j))) {
+                    dfc.freeConnection(conn, pstm, rs);
+                    break run_start;
+                  }
+              }
+            } catch (Exception se) {
+              se.printStackTrace();
+            }
+            isChk = true;
+            isTrue = false;
+          }
         }
 
         // 채팅방생성
-
-        JOptionPane.showMessageDialog(this, "카톡방 생성 완료했습니다.", "info",
-            JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
-        friendlist.clear();
+        if (isChk) {
+          JOptionPane.showMessageDialog(this, "카톡방 생성 완료했습니다.", "info",
+              JOptionPane.INFORMATION_MESSAGE);
+          this.dispose();
+          friendlist.clear();
+        } else {
+          JOptionPane.showMessageDialog(this, "이미 존재하는 카톡방 있습니다.", "info",
+              JOptionPane.INFORMATION_MESSAGE);
+          this.dispose();
+          friendlist.clear();
+        }
 
       }
 
