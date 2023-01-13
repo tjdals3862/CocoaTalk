@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,10 +21,10 @@ public class SearchMainForm extends JPanel implements ActionListener {
   public static final String content = null;
   // 선언
   CocoaVO cVO = null;
-  FriendList fl = new FriendList(cVO);
-  ChatList cl = new ChatList(cVO);
+  //FriendList fl = new FriendList(cVO);
+  //ChatList cl = new ChatList(cVO);
   NaverConnect nc = new NaverConnect();
-  MainForm MainForm = new MainForm(cVO);
+  //MainForm MainForm = new MainForm(cVO);
 
   String imgPath = "D:\\TEMP\\";
   ImageIcon ig = new ImageIcon(imgPath + "setting.jpg");
@@ -39,6 +40,7 @@ public class SearchMainForm extends JPanel implements ActionListener {
   JTextField searchTextField;
   JTextArea searchTextArea = new JTextArea();
   JButton searchBtn;
+  Font font;
 
   // 생성자
   SearchMainForm(CocoaVO cVO) {
@@ -49,6 +51,7 @@ public class SearchMainForm extends JPanel implements ActionListener {
 
   public void Search_init() {
 
+    font = cVO.getFontc();
     jp_search = new JPanel();
     searchBtn = new JButton("검색");
     searchTextField = new JTextField(28);
@@ -61,6 +64,7 @@ public class SearchMainForm extends JPanel implements ActionListener {
     jp_search.add("North", searchTextField);
     jp_search.add("North", searchBtn);
     this.add("Center", jsp);
+    searchTextArea.setFont(font);
 
     // 검색버튼
     searchBtn.setBounds(320, 100, 70, 31);

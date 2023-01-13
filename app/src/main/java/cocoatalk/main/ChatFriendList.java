@@ -18,6 +18,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JFrame;
+import java.awt.Font;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -54,6 +55,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   JTextField jtf_search;
   JButton fr_search;
   JButton fr_invite;
+  Font font;
 
   // 생성자
   public ChatFriendList(CocoaVO cVO) {
@@ -70,6 +72,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     fr_search = new JButton("검색");
     fr_invite = new JButton("초대");
     jl_frnd = new JList(dlm_frnd);
+    font = cVO.getFontc();
 
     fr_search.addActionListener(this);
     frnd_north.setLayout(new FlowLayout());
@@ -81,6 +84,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     jl_frnd.setFixedCellHeight(50);
     jl_frnd.setVisibleRowCount(6);
     jl_frnd.setSize(390, 200);
+    jl_frnd.setFont(font);
     jl_frnd.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     frnd_north.add(jtf_search);

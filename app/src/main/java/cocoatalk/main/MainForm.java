@@ -27,6 +27,7 @@ public class MainForm extends JFrame implements ActionListener {
   LoginForm lf = new LoginForm();
   SettingForm sf = null;
   SearchMainForm smf = null;
+  Container con = this.getContentPane();
 
   String id = null;
   String imgPath = "D:\\TEMP\\";
@@ -37,7 +38,7 @@ public class MainForm extends JFrame implements ActionListener {
   JPanel btnPanel = new JPanel();
   JLabel jlb_id = null;
   // JLabel jlb_id = new JLabel("아이디");
-  Font font = new Font("굴림체", Font.BOLD, 13);
+  Font font;
 
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
   JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
@@ -101,7 +102,9 @@ public class MainForm extends JFrame implements ActionListener {
     jbtn_setting.setContentAreaFilled(false);
 
     // id 라벨
+    font = cVO.getFontc();
     jlb_id = new JLabel("ID : " + cVO.getId());
+    //jlb_id.setFont(new Font("궁서",Font.PLAIN,13));
     jlb_id.setBounds(330, 60, 80, 40);
     jlb_id.setBackground(Color.BLACK);
     jlb_id.setForeground(Color.WHITE);
@@ -171,7 +174,7 @@ public class MainForm extends JFrame implements ActionListener {
       clearCenter(smf);
 
     } else if (obj == jbtn_setting) {
-      sf = new SettingForm(cVO);
+      sf = new SettingForm(cVO, con);
       clearCenter(sf);
     }
   }

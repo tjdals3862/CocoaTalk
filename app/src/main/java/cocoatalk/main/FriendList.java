@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
+import java.awt.Font;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -52,6 +53,8 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
   JButton fr_search;
   JButton fr_add;
 
+  Font font;
+
   public FriendList(CocoaVO cVO) {
     this.cVO = cVO;
     InitDisplay();
@@ -67,6 +70,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     fr_add = new JButton("추가");
     fr_add.addActionListener(this);
 
+    font = cVO.getFontc();
     jl_frnd = new JList(dlm_frnd);
     jsp = new JScrollPane(jl_frnd);
 
@@ -79,6 +83,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     jl_frnd.setFixedCellHeight(50);
     jl_frnd.setVisibleRowCount(6);
     jl_frnd.setSize(390, 200);
+    jl_frnd.setFont(font);
 
     frnd_north.add("North", jtf_search);
     frnd_north.add("North", fr_search);

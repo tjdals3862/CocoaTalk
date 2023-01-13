@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
+import java.awt.Font;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -49,6 +50,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
   JTextField jtf_search;
   JButton chat_search;
   JButton chat_add;
+  Font font;
 
   public ChatList(CocoaVO cVO) {
     this.cVO = cVO;
@@ -59,6 +61,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
     dlm_chat = new DefaultListModel<>();
     getRoom();
 
+    font = cVO.getFontc();
     chat_north = new JPanel();
     jtf_search = new JTextField(23);
     chat_search = new JButton("검색");
@@ -77,6 +80,7 @@ public class ChatList extends JPanel implements MouseListener, ActionListener {
     jl_chat.setFixedCellHeight(50);
     jl_chat.setVisibleRowCount(6);
     jl_chat.setSize(390, 200);
+    jl_chat.setFont(font);
 
     chat_north.add("North", jtf_search);
     chat_north.add("North", chat_search);
