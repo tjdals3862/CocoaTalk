@@ -1,6 +1,7 @@
 package cocoatalk.login;
 
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class CocoaVO {
 
@@ -31,6 +32,16 @@ public class CocoaVO {
 
   public void setFontc(Font fontc) {
     this.fontc = fontc;
+  }
+
+  ImageIcon theme;
+
+  public ImageIcon getTheme() {
+    return this.theme;
+  }
+
+  public void setTheme(ImageIcon theme) {
+    this.theme = theme;
   }
 
 }

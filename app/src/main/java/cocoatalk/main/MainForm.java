@@ -32,6 +32,7 @@ public class MainForm extends JFrame implements ActionListener {
   String id = null;
   String imgPath = "D:\\TEMP\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
+  // ImageIcon imageIcon;
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JPanel centerPanel = null;
@@ -39,6 +40,7 @@ public class MainForm extends JFrame implements ActionListener {
   JLabel jlb_id = null;
   // JLabel jlb_id = new JLabel("아이디");
   Font font;
+  ImageIcon theme = null;
 
   JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
   JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
@@ -64,6 +66,8 @@ public class MainForm extends JFrame implements ActionListener {
     fl = new FriendList(cVO);
     cl = new ChatList(cVO);
     clearCenter(fl);
+    // imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
+
     // 창
     this.setTitle("COCOA TALK");
     this.setLocation(500, 100);
@@ -104,7 +108,7 @@ public class MainForm extends JFrame implements ActionListener {
     // id 라벨
     font = cVO.getFontc();
     jlb_id = new JLabel("ID : " + cVO.getId());
-    //jlb_id.setFont(new Font("궁서",Font.PLAIN,13));
+    // jlb_id.setFont(new Font("궁서",Font.PLAIN,13));
     jlb_id.setBounds(330, 60, 80, 40);
     jlb_id.setBackground(Color.BLACK);
     jlb_id.setForeground(Color.WHITE);
@@ -115,10 +119,15 @@ public class MainForm extends JFrame implements ActionListener {
     jbtn_chat.addActionListener(this);
     jbtn_setting.addActionListener(this);
     jbtn_search.addActionListener(this);
+
   }
 
   public void clearCenter(JPanel jp) {
-    if(jp==sf){
+    theme = cVO.getTheme();
+    if (theme != null) {
+      imageIcon = theme;
+    }
+    if (jp == sf) {
       Container cont = this.getContentPane();
       if (centerPanel != null) {
         cont.remove(centerPanel);
@@ -131,11 +140,10 @@ public class MainForm extends JFrame implements ActionListener {
       // centerPanel.setBounds(50, 200, 500, 200);
       centerPanel.setBounds(0, 120, 400, 400);
       centerPanel.setBackground(new Color(0, 0, 0, 0));
-      //cont.revalidate();
+      // cont.revalidate();
       cont.setLayout(new BorderLayout());
       centerPanel.add(jp);
-    }
-    else {
+    } else {
       Container cont = this.getContentPane();
       if (centerPanel != null) {
         cont.remove(centerPanel);
@@ -152,11 +160,6 @@ public class MainForm extends JFrame implements ActionListener {
       centerPanel.add(jp);
     }
   }
-  // 메인메소드
-  // public static void main(String[] args) {
-  // MainForm MainFormcopy = new MainForm();
-  // MainFormcopy.initDisplay();
-  // }
 
   @Override
   public void actionPerformed(ActionEvent e) {
