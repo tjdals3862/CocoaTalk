@@ -158,7 +158,7 @@ public class Room {
     return room;
   }
 
-  public int searchRoomList(String myID, String frID) { // 1:1 채팅방 번호 조회
+  public int searchRoomList(String myID, String frID) { // 채팅방 번호 조회
     int room = 0;
     try {
       DBCon dbcon = new DBCon();
