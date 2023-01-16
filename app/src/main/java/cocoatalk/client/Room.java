@@ -16,7 +16,7 @@ import cocoatalk.oracle.DbFunction;
 public class Room {
   DbFreeCon dfc = new DbFreeCon();
 
-  public int roomSearch(String myID, String frID) { // 1:1 채팅방 찾기 (1000~1999번)
+  public int roomSearch(String myID, String frID) { // 1:1 채팅방 찾기 (1~1999번)
     int i = 0;
     try {
       DBCon dbcon = new DBCon();
@@ -28,7 +28,7 @@ public class Room {
       sql.append("                  from room_mem    ");
       sql.append("                 where id = ?)     ");
       sql.append("   and ID = ?                      ");
-      sql.append("   and (room between 1000 and 1999)");
+      sql.append("   and (room between 1 and 1999)   ");
       sql.append(" group by room                     ");
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
       pstmt.setString(1, myID);
