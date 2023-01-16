@@ -19,6 +19,7 @@ public class ChatServerThread extends Thread {
   String chatName = null;
   String frName = null;
   String nickname = null;
+  String room_num = null;
   List<ChatServerThread> keyList = null;
   List<ChatServerThread> memlist = null;
 
@@ -43,12 +44,13 @@ public class ChatServerThread extends Thread {
       System.out.println(msg);
       StringTokenizer st = new StringTokenizer(msg, "#");
       chatName = st.nextToken();
-      frName = st.nextToken();
+      // roomNum = st.nextToken(); // 룸 번호
+      room_num = st.nextToken();
       msg = st.nextToken();
       System.out.println(chatName + "님이 입장");
-      System.out.println(frName + "님과 채팅방에 입장");
+      System.out.println(room_num + "방 채팅방에 입장");
 
-      cs.cstMap.put(this, chatName);
+      cs.cstMap.put(this, room_num);
       cs.cstlist.add(cs.cstMap);
       this.send(msg);
 
@@ -73,7 +75,7 @@ public class ChatServerThread extends Thread {
   // 클라이언트에게 말하기 구현
   public void send(String msg) {
     try {
-      String message = chatName + "#" + frName + "#" + msg;
+      String message = chatName + "#" + room_num + "#" + msg;
       oos.writeObject(message);
     } catch (Exception e) {
       e.printStackTrace();// stack에 쌓여 있는 에러메시지 이력 출력함
@@ -100,13 +102,14 @@ public class ChatServerThread extends Thread {
           ChatServerThread key = it.next();
           String value = cs.cstMap.get(key);
           keyList.add(key);
-          System.out.println(chatName + " 의 value : " + value + "추가되어야하는 id :  " + frName);
-          if (value.equals(chatName) || value.equals(frName)) {
+          System.out.println(room_num + " 의 value : " + value + "추가되어야하는 id :  " + frName);
+
+          if (value.equals(room_num)) {
             memlist.add(key);
             System.out.println("추가되는 : " + value);
           }
         }
-        System.out.println(chatName + "의 리스트 사이즈 : " + memlist.size());
+        System.out.println(room_num + "의 리스트 사이즈 : " + memlist.size());
         // this.broadCasting(msg);
 
         msg = (String) ois.readObject();
@@ -115,7 +118,7 @@ public class ChatServerThread extends Thread {
           st = new StringTokenizer(msg, "#");
         }
         String nickName = st.nextToken();
-        String frName = st.nextToken();
+        String room_num = st.nextToken();
         String message = st.nextToken();
 
         System.out.println("run : " + message);

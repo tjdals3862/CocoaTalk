@@ -13,6 +13,7 @@ public class ChatClientThread extends Thread {
   ChatClient cc = null;
   String id = null;
   String fr_id = null;
+  int room_num;
   LocalDate now = null;
   SimpleDateFormat dateFormat = null;
   DbFunction dbf = null;
@@ -33,12 +34,12 @@ public class ChatClientThread extends Thread {
         StringTokenizer st = new StringTokenizer(message, "#");
         String msg = null;
         id = st.nextToken();
-        fr_id = st.nextToken();
+        room_num = Integer.parseInt(st.nextToken());
         msg = st.nextToken();
 
         Room room = new Room();
         // 받아온 id와 친구id로 채팅방 번호를 가져온다.
-        int room_num = room.getRoom(id, fr_id);
+        // int room_num = room.getRoom(id, fr_id);
 
         // 현재 시간 구하기
         Date date = new Date();

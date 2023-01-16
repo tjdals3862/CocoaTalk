@@ -44,6 +44,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   String nickName = null;// 닉네임 등록
   String id = null;
   String frid = null;
+  int room_num;
 
   ChatClientThread cct = null;
 
@@ -125,7 +126,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    String message = id + "#" + frid + "#" + jtf_message.getText();
+    String message = id + "#" + room_num + "#" + jtf_message.getText();
 
     // ChatClient chat = new ChatClient();
 
@@ -163,7 +164,6 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       DBCon dbcon = new DBCon();
       Connection conn = dbcon.getConnection();
       Room room = new Room();
-      int room_num = room.getRoom(id, frid);
 
       // 최근 10개 채팅 추출
       StringBuilder sql = new StringBuilder();
@@ -188,7 +188,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   public void chatOpen(String myID, String frID) {
     id = myID;
     frid = frID;
-    r.roomSearch(myID, frID);
+    room_num = r.roomSearch(myID, frID);
     initDisplay();
     chatting();
     init();
