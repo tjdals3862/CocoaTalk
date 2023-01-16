@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFreeCon;
@@ -79,7 +81,7 @@ public class Room {
     return room;
   }
 
-  public int roomCreate(String myID, List<String> frIDs) { // 1:다 채팅방 개설 >> 구현해야함************
+  public int roomCreate(String myID, Set<String> frIDs) { // 1:다 채팅방 개설 >> 구현해야함************
     int room = 0;
     try {
       DBCon dbcon = new DBCon();
@@ -99,7 +101,17 @@ public class Room {
       String query = "insert into room_mem values (" + room + ", '" + myID + "', '" + getName(myID) + "')";
       df.insert(query);
       dfc.freeConnection(conn, pstmt, rs);
-    } catch (Exception e) {
+
+      while (frIDs.iterator().hasNext()) {
+        String frID = frIDs.iterator().next();
+        df = new DbFunction();
+        String query2 = "insert into room_mem values (" + room + ", '" + frID + "', '" + getName(frID) + "')";
+        df.insert(query2);
+      }
+      dfc.freeConnection(conn, pstmt, rs);
+    } catch (
+
+    Exception e) {
       e.printStackTrace();
     }
     return room;
@@ -211,14 +223,15 @@ public class Room {
     return frIDs;
   }
 
-  public static void main(String[] args) {
-    Room r = new Room();
-    // System.out.println(r.getName("852"));
+  // public static void main(String[] args) {
+  // Room r = new Room();
+  // // System.out.println(r.getName("852"));
 
-    // String[] id = { "1", "2", "3" };
-    // for (int i = 0; i < id.length; i++)
-    // r.roomCreate("test", id[i]);
+  // // String[] id = { "1", "2", "3" };
+  // // for (int i = 0; i < id.length; i++)
+  // // r.roomCreate("test", id[i]);
+  // System.out.println(r.frID);
+  // System.out.println(r.roomSearch("ko", "lsh"));
+  // }
 
-    System.out.println(r.roomSearch("ko", "lsh"));
-  }
 }
