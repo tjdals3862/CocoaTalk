@@ -1,14 +1,15 @@
 package cocoatalk.main;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
-import java.awt.Font;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import cocoatalk.client.ChatClient;
 import cocoatalk.client.Room;
 import cocoatalk.dialog.ChatAdd;
 import cocoatalk.login.CocoaVO;
@@ -28,6 +30,7 @@ public class ChatList extends JPanel implements MouseListener {
   // 추가 누르면 id값으로 검색해서 체크박스 >> 대화방 생성
   ChatAdd ca = null;
   CocoaVO cVO = null;
+  ChatClient cc = null;
   Room r = new Room();
 
   List<String> chat_list;
@@ -170,8 +173,14 @@ public class ChatList extends JPanel implements MouseListener {
     Room r = new Room();
     if (obj == jl_chat) {
       if (e.getClickCount() == 2) {
-        int room = jl_chat.locationToIndex(e.getPoint());
-        r.getMember(myID, room); // return List<String> 1:다 채팅방 멤버 뽑기
+        String data = jl_chat.getSelectedValue().toString();
+        StringTokenizer st = new StringTokenizer(data, "/");
+        String a = st.nextToken();
+        String room = st.nextToken();
+
+        cc = new ChatClient();
+        cc.chatOpen(cVO.getId(), room);
+
       }
     } else if (chat_search == obj) { // 검색 버튼 클릭
       if (jtf_search.getText() == null) {

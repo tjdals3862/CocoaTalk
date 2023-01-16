@@ -30,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import cocoatalk.client.ChatClient;
 import cocoatalk.client.Room;
 import cocoatalk.dialog.FriendAdd;
 import cocoatalk.dialog.FriendProfile;
@@ -43,6 +44,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   MainForm mf = null;
   CocoaVO cVO = null;
   FriendProfile fp = null;
+  ChatClient cc = null;
 
   List<String[]> fr_list;
   Set<String> friendlist = new HashSet<>();
@@ -188,7 +190,6 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    Object obj = e.getSource();
 
   }
 
