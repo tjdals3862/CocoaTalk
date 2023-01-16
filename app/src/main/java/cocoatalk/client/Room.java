@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -102,8 +103,10 @@ public class Room {
       df.insert(query);
       dfc.freeConnection(conn, pstmt, rs);
 
-      while (frIDs.iterator().hasNext()) {
-        String frID = frIDs.iterator().next();
+      Iterator<String> iter = frIDs.iterator();
+
+      while (iter.hasNext()) {
+        String frID = iter.next();
         df = new DbFunction();
         String query2 = "insert into room_mem values (" + room + ", '" + frID + "', '" + getName(frID) + "')";
         df.insert(query2);
