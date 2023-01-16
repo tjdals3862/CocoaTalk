@@ -176,7 +176,7 @@ public class ChatList extends JPanel implements MouseListener {
         String data = jl_chat.getSelectedValue().toString();
         StringTokenizer st = new StringTokenizer(data, "/");
         String a = st.nextToken();
-        String room = st.nextToken();
+        int room = Integer.parseInt(st.nextToken());
 
         cc = new ChatClient();
         cc.chatOpen(cVO.getId(), room);

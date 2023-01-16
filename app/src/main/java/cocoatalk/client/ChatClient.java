@@ -30,6 +30,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
@@ -189,6 +190,17 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
     id = myID;
     frid = frID;
     room_num = r.roomSearch(myID, frID);
+    System.out.println(room_num);
+    initDisplay();
+    chatting();
+    init();
+    // jtf_message.setText("나:" + myID + ", 너:" + frID);
+  }
+
+  public void chatOpen(String myID, int room) {
+    id = myID;
+    System.out.println("방번호 : " + room);
+    room_num = room;
     initDisplay();
     chatting();
     init();

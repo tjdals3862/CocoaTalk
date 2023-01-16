@@ -40,7 +40,7 @@ public class Room {
         i = rs.getInt("room");
         dfc.freeConnection(conn, pstmt, rs);
       } else {
-        roomCreate(myID, frID);
+        i = roomCreate(myID, frID);
       }
 
     } catch (Exception e) {
