@@ -30,6 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import cocoatalk.client.Room;
 import cocoatalk.dialog.FriendAdd;
 import cocoatalk.dialog.FriendProfile;
 import cocoatalk.login.CocoaVO;
@@ -232,12 +233,13 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
           dfc = new DbFreeCon();
           sql.append(" select room from room_mem ");
           sql.append(" group by room ");
-          sql.append(" having count(*) = " + list.size() + " ");
+          sql.append(" having count(*) = " + list.size() + "+1 ");
           System.out.println("리스트 사이즈 : " + list.size());
           PreparedStatement pstmt = conn.prepareStatement(sql.toString());
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
             room.add((Integer) rs.getInt("room"));
+            System.out.println(rs.getInt("room"));
           }
         } catch (Exception se) {
           se.printStackTrace();
@@ -251,10 +253,12 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
         System.out.println("카톡방 있는지 확인 시작");
         boolean isTrue = true;
-        boolean isChk = false;
+        boolean isChk = true;
+        System.out.println("room 사이즈 : " + room.size());
+        int a = list.size() + 1;
         while (isTrue) {
-          System.out.println("room 사이즈 : " + room.size());
-          for (int i = 0; i < room.size(); i++) {
+
+          run_stop: for (int i = 0; i < room.size(); i++) {
             System.out.println(i + "번째 테스트 진행");
             try {
               DBCon dbcon = new DBCon();
@@ -265,31 +269,53 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
               sql.append(" where room = " + room.get(i) + " ");
               PreparedStatement pstmt = conn.prepareStatement(sql.toString());
               ResultSet rs = pstmt.executeQuery();
-              run_start: while (rs.next()) {
-                for (int j = 0; j < list.size(); j++)
-                  if (!rs.getString("id").equals(list.get(j))) {
-                    dfc.freeConnection(conn, pstm, rs);
+
+              while (rs.next()) {
+                run_start: for (int j = 0; j < list.size(); j++) {
+                  System.out.println("========================");
+                  System.out.println("fr id는 : " + rs.getString("id"));
+                  System.out.println("id는 : " + cVO.getId());
+                  System.out.println("list id는 : " + list.get(j));
+
+                  if (rs.getString("id").equals(list.get(j))
+                      || cVO.getId().equals(list.get(j))) {
+
+                    System.out.println("break run start ID 동일");
+                    a--;
                     break run_start;
                   }
+                }
+                System.out.println("a는 : " + a);
+                // 해당 방이 있으면 isChk false
+                if (a == 0) {
+                  isChk = false;
+                  isTrue = false;
+                  System.out.println("break run stop");
+                  break run_stop;
+                }
               }
             } catch (Exception se) {
               se.printStackTrace();
+            } finally {
+              dfc.freeConnection(conn, pstm, rs);
             }
-            isChk = true;
-            isTrue = false;
           }
+          // for문이 다돌아도 체크되지 않으면 while 종료 후 채팅방생성
+          isTrue = false;
         }
 
         // 채팅방생성
         if (isChk) {
-          JOptionPane.showMessageDialog(this, "카톡방 생성 완료했습니다.", "info",
+
+          JOptionPane.showMessageDialog(this, "채팅방 생성 완료했습니다.", "info",
               JOptionPane.INFORMATION_MESSAGE);
+          Room r = new Room();
+          r.roomCreate(cVO.getId(), friendlist);
           this.dispose();
           friendlist.clear();
         } else {
-          JOptionPane.showMessageDialog(this, "이미 존재하는 카톡방 있습니다.", "info",
+          JOptionPane.showMessageDialog(this, "이미 존재하는 채팅방 있습니다.", "info",
               JOptionPane.INFORMATION_MESSAGE);
-          this.dispose();
           friendlist.clear();
         }
 
