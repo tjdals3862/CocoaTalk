@@ -1,4 +1,5 @@
 package cocoatalk.login;
+// 회원가입 화면
 
 import java.awt.Color;
 import java.awt.Font;
@@ -37,7 +38,7 @@ public class Register extends JFrame implements ActionListener, ItemListener {
   boolean isTrue = false;
   boolean check = false;
 
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입

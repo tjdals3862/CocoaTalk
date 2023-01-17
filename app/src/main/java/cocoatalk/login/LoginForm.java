@@ -32,7 +32,8 @@ public class LoginForm extends JFrame implements ActionListener {
   // 선언부
   CocoaVO cVO = new CocoaVO();
   Register register = new Register(this);
-  String imgPath = "D:\\TEMP\\";
+  // String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입

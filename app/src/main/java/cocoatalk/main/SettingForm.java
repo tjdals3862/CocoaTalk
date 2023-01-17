@@ -26,7 +26,7 @@ public class SettingForm extends JPanel implements ActionListener {
 
   LoginForm loginForm = null;
   CocoaVO cVO = null;
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon ig = new ImageIcon(imgPath + "setting.png");
   SettingForm sf = null;
 

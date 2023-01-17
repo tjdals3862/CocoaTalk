@@ -1,16 +1,16 @@
 package cocoatalk.dialog;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.Color;
-import java.awt.*;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
 
 import cocoatalk.client.ChatClient;
 import cocoatalk.main.FriendList;
@@ -18,7 +18,7 @@ import cocoatalk.main.FriendList;
 public class FriendProfile extends JDialog implements ActionListener {
   FriendList fl = null;
   ChatClient cc = null;
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   // ImageIcon imageIcon = new ImageIcon(imgPath + "join.jpg");

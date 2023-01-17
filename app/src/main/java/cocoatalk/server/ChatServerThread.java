@@ -47,8 +47,6 @@ public class ChatServerThread extends Thread {
       // roomNum = st.nextToken(); // 룸 번호
       room_num = st.nextToken();
       msg = st.nextToken();
-      System.out.println(chatName + "님이 입장");
-      System.out.println(room_num + "방 채팅방에 입장");
 
       cs.cstMap.put(this, room_num);
       cs.cstlist.add(cs.cstMap);
@@ -102,15 +100,11 @@ public class ChatServerThread extends Thread {
           ChatServerThread key = it.next();
           String value = cs.cstMap.get(key);
           keyList.add(key);
-          System.out.println(room_num + " 의 value : " + value + "추가되어야하는 id :  " + frName);
 
           if (value.equals(room_num)) {
             memlist.add(key);
-            System.out.println("추가되는 : " + value);
           }
         }
-        System.out.println(room_num + "의 리스트 사이즈 : " + memlist.size());
-        // this.broadCasting(msg);
 
         msg = (String) ois.readObject();
         StringTokenizer st = null;
@@ -121,12 +115,10 @@ public class ChatServerThread extends Thread {
         String room_num = st.nextToken();
         String message = st.nextToken();
 
-        System.out.println("run : " + message);
         broadCasting(message);
 
       }
     } catch (Exception e) {
-      // TODO: handle exception
     }
 
   }

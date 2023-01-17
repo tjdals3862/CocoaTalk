@@ -30,7 +30,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
@@ -43,17 +42,16 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   ObjectOutputStream oos = null;// 말 하고 싶을 때
   ObjectInputStream ois = null;// 듣기 할 때
   String nickName = null;// 닉네임 등록
-  String id = null;
-  String frid = null;
-  int room_num;
+  String id = null; // id
+  String frid = null; // 친구 id
+  int room_num; // 채팅방 번호
 
   ChatClientThread cct = null;
-
   Room r = new Room();
 
   // 선언
-  String imgPath = "D:\\TEMP\\"; // 배경
-  ImageIcon imgbgIcon = new ImageIcon(imgPath + "kazha.jpg"); //
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\"; // 배경
+  ImageIcon imgbgIcon = new ImageIcon(imgPath + "winter.gif"); //
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   JLabel jlb_bgLabel = new JLabel(imgbgIcon); //
@@ -63,9 +61,10 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
   JTextField jtf_message = new JTextField(); // 텍스트 입력
   JTextArea jta_display = new JTextArea();
 
-  //
   StyledDocument sd_display = new DefaultStyledDocument(new StyleContext());
   JTextPane jtp_chatDisplay = new JTextPane(sd_display);
+
+  // 배경 화면 이미지 삽입
   JViewport viewport = new JViewport() {
     public void paintComponent(Graphics g) {
       Image img = imgbgIcon.getImage(); //
@@ -76,7 +75,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       super.paintComponent(g);
     }
   };
-  //
+
   Font font = new Font("Paryrus", Font.BOLD, 20);
   JScrollPane jsp = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); //
@@ -85,6 +84,7 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
 
   }
 
+  // 화면 initDisplay 메소드
   public void initDisplay() {
     this.setIconImage(img);// 로고삽입
     jsp.setOpaque(true);
@@ -129,19 +129,8 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
 
     String message = id + "#" + room_num + "#" + jtf_message.getText();
 
-    // ChatClient chat = new ChatClient();
-
-    if (jtf_message == obj) {
-      try {
-        oos.writeObject(message);
-        jtf_message.setText("");
-      } catch (Exception e2) {
-
-      }
-    }
-
     // 채팅 이벤트 처리
-    else if (obj == jbtn_send || obj == jtf_message) {
+    if (obj == jbtn_send || obj == jtf_message) {
       // 입력된 메시지 얻기
       try {
         oos.writeObject(message);
@@ -149,7 +138,6 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
       } catch (Exception e2) {
 
       }
-
     }
   }
 
@@ -168,8 +156,8 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
 
       // 최근 10개 채팅 추출
       StringBuilder sql = new StringBuilder();
-      sql.append(" SELECT chat FROM                                   ");
-      sql.append(" (select chat,TIME from room_chat                   ");
+      sql.append(" SELECT id, chat FROM                                   ");
+      sql.append(" (select id,chat,TIME from room_chat                   ");
       sql.append(" where room = " + room_num + " order by  TIME DESC ");
       sql.append(" ) WHERE ROWNUM <= 10 order by TIME                  ");
 
@@ -178,7 +166,8 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
 
       // 가져온 10개의 채팅 jtextarea에 업로드
       while (rs.next()) {
-        sd_display.insertString(sd_display.getLength(), rs.getString("chat") + "\n", null);
+        sd_display.insertString(sd_display.getLength(),
+            room.getName(rs.getString("id")) + " : " + rs.getString("chat") + "\n", null);
       }
 
     } catch (Exception e) {
@@ -186,49 +175,39 @@ public class ChatClient extends JFrame implements ActionListener, Runnable {
     }
   }
 
+  // 1대1 채팅방 호출시의 메소드
   public void chatOpen(String myID, String frID) {
     id = myID;
     frid = frID;
     room_num = r.roomSearch(myID, frID);
-    System.out.println(room_num);
     initDisplay();
     chatting();
     init();
-    // jtf_message.setText("나:" + myID + ", 너:" + frID);
   }
 
+  // 채팅방 리스트에서 호출되는 메소드(method overloading)
   public void chatOpen(String myID, int room) {
     id = myID;
-    System.out.println("방번호 : " + room);
     room_num = room;
     initDisplay();
     chatting();
     init();
-    // jtf_message.setText("나:" + myID + ", 너:" + frID);
   }
 
   @Override
   public void run() {
-    System.out.println("run start");
     try {
       // 서버측의 ip주소 작성하기
       socket = new Socket("192.168.10.74", 3000);
-      // new ServerSocket(3000)이 받아서 accept()통해서 client소켓에 저장됨.
-      // socket = new Socket("192.168.10.74", 3000);
-      // socket = new Socket("localhost", 3000);
       oos = new ObjectOutputStream(socket.getOutputStream());
       ois = new ObjectInputStream(socket.getInputStream());
       // initDisplay에서 닉네임이 결정된 후 init메소드가 호출되므로
       // 서버에게 내가 입장한 사실을 알린다.(말하기)
-      // String message = jtf_message.getText();
-      // oos.writeObject(message);
       cct = new ChatClientThread(this);
+      // 클라이언트 쓰레드 시작
       cct.start();
     } catch (Exception e) {
-      // 예외가 발생했을 때 직접적인 원인되는 클래스명 출력하기
-      System.out.println(e.toString());
+
     }
-
   }
-
 }

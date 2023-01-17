@@ -9,8 +9,6 @@ import java.util.Vector;
 
 public class ChatServer extends Thread {
 
-  // static List<Socket> socketList = new Vector<>(); // 소켓 리스트
-  // List<ChatServerThread> cstlist = null; // 채팅방 리스트
   List<Map<ChatServerThread, String>> cstlist = new Vector<>();
   Map<ChatServerThread, String> cstMap = new HashMap<>();
   Socket socket = null;
@@ -30,15 +28,8 @@ public class ChatServer extends Thread {
       System.out.println("접속 대기중");
       while (true) {
         socket = server.accept();
-
-        // socketList.add(socket);
         ChatServerThread cst = new ChatServerThread(this, socket);
-
-        // cstMap.put(cst, "id");
-        // cstlist.add(cstMap);
-
         cst.start();
-
       }
 
     } catch (Exception e) {
