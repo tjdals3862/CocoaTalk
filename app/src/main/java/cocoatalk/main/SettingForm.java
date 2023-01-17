@@ -37,7 +37,7 @@ public class SettingForm extends JPanel implements ActionListener {
   Font f4;
 
   // 환경설정버튼1
-  JButton jbtn_a = new JButton(new ImageIcon(imgPath + "backBtn.png"));// 배경화면
+  JButton jbtn_a = new JButton(new ImageIcon(imgPath + "themeBtn.png"));// 배경화면
   // // 버튼
   JButton jbtn_b = new JButton(new ImageIcon(imgPath + "fontBtn.png"));// 폰트설정
   // // 버튼
@@ -137,19 +137,19 @@ public class SettingForm extends JPanel implements ActionListener {
 
   // 테마 변경 메소드=============================작업중===============================
   public void backchange() {
-    String[] theme1 = { "바나나는 원래 하얀색", "치키차카 초코색" };
+    String[] theme1 = { "바나나는 원래 하얀색", "민트 초코색" };
     Object backtype = JOptionPane.showInputDialog(null, "원하는 테마를 선택하세요.", "theme setting",
         JOptionPane.PLAIN_MESSAGE,
         null, theme1, theme1[0]);
 
     if (backtype.equals(theme1[0])) {
-      ig = new ImageIcon(imgPath + "yellowback.jpg");
+      ig = new ImageIcon(imgPath + "yellowback.png");
       cVO.setTheme(ig);
       System.out.println("하얀색 됐긔 changed");
 
     } else if (backtype.equals(theme1[1])) {
 
-      ig = new ImageIcon(imgPath + "chocoback.jpg");
+      ig = new ImageIcon(imgPath + "chocoback.png");
       cVO.setTheme(ig);
       System.out.println("초코색 됐긔font changed");
 

@@ -31,7 +31,7 @@ public class MainForm extends JFrame implements ActionListener {
 
   String id = null;
   String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
+  ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.png");
   // ImageIcon imageIcon;
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
@@ -89,11 +89,11 @@ public class MainForm extends JFrame implements ActionListener {
     ///// 버튼
     jbtn_friend.setBounds(10, 470, 80, 80);
     this.add(jbtn_friend);
-    jbtn_chat.setBounds(100, 470, 80, 80);
+    jbtn_chat.setBounds(108, 470, 80, 80);
     this.add(jbtn_chat);
-    jbtn_search.setBounds(200, 470, 80, 80);
+    jbtn_search.setBounds(215, 470, 80, 80);
     this.add(jbtn_search);
-    jbtn_setting.setBounds(290, 470, 80, 80);
+    jbtn_setting.setBounds(320, 470, 80, 80);
     this.add(jbtn_setting);
 
     jbtn_friend.setBorderPainted(false);

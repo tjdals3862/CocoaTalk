@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -66,8 +67,11 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
 
     frnd_north = new JPanel();
     jtf_search = new JTextField("", 23);
-    fr_search = new JButton("검색");
-    fr_add = new JButton("추가");
+    fr_search = new JButton("검 색");
+    fr_search.setBackground(Color.pink);
+    fr_add = new JButton("추 가");
+    fr_add.setBackground(Color.pink);
+
     fr_add.addActionListener(this);
 
     font = cVO.getFontc();
@@ -79,16 +83,17 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     fr_search.addActionListener(this);
 
     jl_frnd.addMouseListener(this);
-    jl_frnd.setFixedCellWidth(380);
-    jl_frnd.setFixedCellHeight(50);
+    jl_frnd.setFixedCellWidth(392);
+    jl_frnd.setFixedCellHeight(57);
     jl_frnd.setVisibleRowCount(6);
-    jl_frnd.setSize(390, 200);
+      jl_frnd.setSize(390, 200);
+
     jl_frnd.setFont(font);
 
     frnd_north.add("North", jtf_search);
     frnd_north.add("North", fr_search);
     frnd_north.add("North", fr_add);
-
+  frnd_north.setBackground(new Color(155, 138, 124));
     this.add("North", frnd_north);
     this.add("Center", jsp);
 

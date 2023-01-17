@@ -2,6 +2,7 @@ package cocoatalk.main;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -63,8 +64,10 @@ public class ChatList extends JPanel implements MouseListener {
     font = cVO.getFontc();
     chat_north = new JPanel();
     jtf_search = new JTextField("", 23);
-    chat_search = new JButton("검색");
-    chat_add = new JButton("추가");
+    chat_search = new JButton("검 색");
+    chat_search.setBackground(Color.pink);
+    chat_add = new JButton("추 가");
+    chat_add.setBackground(Color.pink);
     chat_add.addMouseListener(this);
 
     jl_chat = new JList(dlm_chat);
@@ -75,16 +78,16 @@ public class ChatList extends JPanel implements MouseListener {
     chat_search.addMouseListener(this);
 
     jl_chat.addMouseListener(this);
-    jl_chat.setFixedCellWidth(380);
-    jl_chat.setFixedCellHeight(50);
+    jl_chat.setFixedCellWidth(407);
+    jl_chat.setFixedCellHeight(57);
     jl_chat.setVisibleRowCount(6);
-    jl_chat.setSize(390, 200);
+    jl_chat.setSize(392, 200);
     jl_chat.setFont(font);
 
     chat_north.add("North", jtf_search);
     chat_north.add("North", chat_search);
     chat_north.add("North", chat_add);
-
+    chat_north.setBackground(new Color(155, 138, 124));
     this.add("North", chat_north);
     this.add("Center", jsp);
 

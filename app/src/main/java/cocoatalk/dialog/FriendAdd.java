@@ -1,7 +1,7 @@
 package cocoatalk.dialog;
 
 import java.awt.Color;
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -12,29 +12,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+import javax.swing.ImageIcon;
 import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFunction;
 
 public class FriendAdd extends JFrame implements ActionListener {
-
-  JLabel jlb_id = new JLabel("아이디");
-  JTextField jtf_id = new JTextField("");
-  JButton jbtn_add = new JButton("추가");// 친구 추가 버튼
-  Font f_label = new Font("맑은 고딕", Font.PLAIN, 12);
-
-  String imgPath = "images\\";
-  ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
+String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
+  ImageIcon imageIcon = new ImageIcon(imgPath + "profileback.png");
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
-
+  JLabel jlb_id = new JLabel("아이디");
+  JTextField jtf_id = new JTextField("");
+  JButton jbtn_add = new JButton("추 가");// 친구 추가 버튼
+  Font f_label = new Font("맑은 고딕", Font.PLAIN, 12);
   CocoaVO cVO = null;
   DBCon db = null;
   DbFunction dbf = null;

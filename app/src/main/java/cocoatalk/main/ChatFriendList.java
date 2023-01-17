@@ -1,5 +1,6 @@
 package cocoatalk.main;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,9 +38,14 @@ import cocoatalk.dialog.FriendProfile;
 import cocoatalk.login.CocoaVO;
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFreeCon;
-
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 public class ChatFriendList extends JFrame implements MouseListener, ActionListener {
-
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
+  ImageIcon imageIcon = new ImageIcon(imgPath + "login.jpg");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
   FriendAdd fa = null;
   MainForm mf = null;
   CocoaVO cVO = null;
@@ -77,13 +83,16 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
   }
 
   public void InitDisplay() {
+    this.setIconImage(img);// 로고삽입
     dlm_frnd = new DefaultListModel<>();
     getDB();
     frnd_north = new JPanel();
     add(frnd_north);
     jtf_search = new JTextField(23);
-    fr_search = new JButton("검색");
-    fr_invite = new JButton("초대");
+    fr_search = new JButton("검 색");
+    fr_invite = new JButton("초 대");
+    fr_invite.setBackground(Color.pink); 
+    fr_search.setBackground(Color.pink); 
     jl_frnd = new JList(dlm_frnd);
     font = cVO.getFontc();
 
@@ -99,6 +108,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     jl_frnd.setVisibleRowCount(6);
     jl_frnd.setSize(390, 200);
     jl_frnd.setFont(font);
+    
     jl_frnd.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     frnd_north.add(jtf_search);
@@ -107,10 +117,10 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
     this.add("North", frnd_north);
     this.add("Center", jsp);
-
+    frnd_north.setBackground(new Color(155, 138, 124));
     this.setSize(426, 380);
     this.setVisible(true);
-
+    this.setTitle("친구추가");
     jl_frnd.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
     jl_frnd.addListSelectionListener(new ListSelectionListener() {
