@@ -33,8 +33,7 @@ public class ChatList extends JPanel implements MouseListener {
   ChatClient cc = null;
   Room r = new Room();
 
-  List<String> chat_list;
-  DefaultListModel<String> dlm_chat;
+  DefaultListModel<String> dlm_chat = new DefaultListModel<>();
   JScrollPane jsp;
   JList jl_chat;
 
@@ -58,12 +57,12 @@ public class ChatList extends JPanel implements MouseListener {
   public void InitDisplay() {
     myID = cVO.getId();
     System.out.println(myID);
-    dlm_chat = new DefaultListModel<>();
+
     getRoomList();
 
     font = cVO.getFontc();
     chat_north = new JPanel();
-    jtf_search = new JTextField(23);
+    jtf_search = new JTextField("", 23);
     chat_search = new JButton("검색");
     chat_add = new JButton("추가");
     chat_add.addMouseListener(this);
@@ -97,7 +96,7 @@ public class ChatList extends JPanel implements MouseListener {
   private void getRoomList() {
     DBCon dbcon = new DBCon();
     dlm_chat.clear();
-    chat_list = new Vector<>();
+    List<String> chat_list = new Vector<>();
 
     try {
       Connection conn = dbcon.getConnection();
@@ -116,6 +115,7 @@ public class ChatList extends JPanel implements MouseListener {
         nameList.append(ls.get(ls.size() - 1));
 
         chat_list.add(nameList + "/" + room);
+        System.out.println(chat_list.toString());
       }
       for (int i = 0; i < chat_list.size(); i++) {
         String chatRoom = chat_list.get(i);
@@ -129,7 +129,7 @@ public class ChatList extends JPanel implements MouseListener {
   private void searchRoomList(String myID, String fr) { // 친구 이름으로 검색
     DBCon dbcon = new DBCon();
     dlm_chat.clear();
-    chat_list = new Vector<>();
+    List<String> chat_list = new Vector<>();
     // List<String> l = r.getMember(myID, room);
     try {
       Connection conn = dbcon.getConnection();
@@ -139,7 +139,7 @@ public class ChatList extends JPanel implements MouseListener {
       sql.append("select room                                            "); // 조회 쿼리 테이블 조인********
       sql.append("  from room_mem                                        ");
       sql.append(" where room in (select room from room_mem where id = ?)");
-      sql.append("   and (id = ? or name = ?)                            ");
+      sql.append("   and (id like ? or name like ?)                      ");
       PreparedStatement pstmt = conn.prepareStatement(sql.toString());
       pstmt.setString(1, myID);
       pstmt.setString(2, fr);
@@ -183,9 +183,10 @@ public class ChatList extends JPanel implements MouseListener {
 
       }
     } else if (chat_search == obj) { // 검색 버튼 클릭
-      if (jtf_search.getText() == null) {
+      if (jtf_search.getText() == "") {
         getRoomList();
         InitDisplay();
+        System.out.println(jtf_search.getText());
       } else {
         searchRoomList(myID, jtf_search.getText());
         jtf_search.setText("");

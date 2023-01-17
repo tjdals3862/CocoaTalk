@@ -65,7 +65,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
     getDB();
 
     frnd_north = new JPanel();
-    jtf_search = new JTextField(23);
+    jtf_search = new JTextField("", 23);
     fr_search = new JButton("검색");
     fr_add = new JButton("추가");
     fr_add.addActionListener(this);
@@ -175,7 +175,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
     if (fr_search == obj) { // 검색 버튼 클릭
-      if (jtf_search.getText() == null) {
+      if (jtf_search.getText() == "") {
         System.out.println(jtf_search.getText());
         getDB();
       } else {
