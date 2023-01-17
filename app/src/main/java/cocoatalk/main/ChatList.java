@@ -183,10 +183,9 @@ public class ChatList extends JPanel implements MouseListener {
 
       }
     } else if (chat_search == obj) { // 검색 버튼 클릭
-      if (jtf_search.getText() == "") {
+      if ("".equals(jtf_search.getText())) {
         getRoomList();
         InitDisplay();
-        System.out.println(jtf_search.getText());
       } else {
         searchRoomList(myID, jtf_search.getText());
         jtf_search.setText("");

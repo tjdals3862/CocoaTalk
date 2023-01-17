@@ -175,8 +175,7 @@ public class FriendList extends JPanel implements MouseListener, ActionListener 
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
     if (fr_search == obj) { // 검색 버튼 클릭
-      if (jtf_search.getText() == "") {
-        System.out.println(jtf_search.getText());
+      if ("".equals(jtf_search.getText())) {
         getDB();
       } else {
         searchFriend(jtf_search.getText());
