@@ -5,13 +5,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.*;
+
 //프로그램 실행시 첫 화면
 public class First extends JFrame {
 
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "loadingWalll.jpg");
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
+
   class MyPanel extends JPanel {
     // 내부클래스로 배경 이미지 처리
     public void paintComponent(Graphics g) {

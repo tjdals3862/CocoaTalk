@@ -8,14 +8,12 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -30,7 +28,7 @@ public class ChatAdd extends JDialog implements ActionListener {
   JButton jbtn_add = new JButton("추가");// 친구 추가 버튼
   Font f_label = new Font("맑은 고딕", Font.PLAIN, 12);
 
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
 
   CocoaVO cVO = null;
@@ -45,6 +43,7 @@ public class ChatAdd extends JDialog implements ActionListener {
     initDisplay();
   }
 
+  // 배경 이미지 삽입
   class MyPanel extends JPanel {
     public void paintComponent(Graphics g) {
       g.drawImage(imageIcon.getImage(), 0, 0, null);
@@ -53,6 +52,7 @@ public class ChatAdd extends JDialog implements ActionListener {
     } // end of MyPanel - 사용자 패널 정의 - LoginForm$1.class
   }
 
+  // 화면 initDisplay 메소드
   public void initDisplay() {
     jbtn_add.addActionListener(this);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +85,6 @@ public class ChatAdd extends JDialog implements ActionListener {
     if (obj == jbtn_add) {
 
       String id = cVO.getId();
-      System.out.println(id);
       String fr_id = jtf_id.getText();
 
     }

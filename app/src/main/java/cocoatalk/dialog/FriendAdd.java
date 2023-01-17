@@ -30,7 +30,7 @@ public class FriendAdd extends JFrame implements ActionListener {
   JButton jbtn_add = new JButton("추가");// 친구 추가 버튼
   Font f_label = new Font("맑은 고딕", Font.PLAIN, 12);
 
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "wallPaper.jpg");
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
   Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입

@@ -21,12 +21,12 @@ public class SearchMainForm extends JPanel implements ActionListener {
   public static final String content = null;
   // 선언
   CocoaVO cVO = null;
-  //FriendList fl = new FriendList(cVO);
-  //ChatList cl = new ChatList(cVO);
+  // FriendList fl = new FriendList(cVO);
+  // ChatList cl = new ChatList(cVO);
   NaverConnect nc = new NaverConnect();
-  //MainForm MainForm = new MainForm(cVO);
+  // MainForm MainForm = new MainForm(cVO);
 
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon ig = new ImageIcon(imgPath + "setting.jpg");
 
   public void paintComponent(Graphics g) {

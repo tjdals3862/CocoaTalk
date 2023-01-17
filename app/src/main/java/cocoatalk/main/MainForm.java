@@ -30,7 +30,7 @@ public class MainForm extends JFrame implements ActionListener {
   Container con = this.getContentPane();
 
   String id = null;
-  String imgPath = "D:\\TEMP\\";
+  String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
   ImageIcon imageIcon = new ImageIcon(imgPath + "cocoatalkmain.jpg");
   // ImageIcon imageIcon;
   Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입

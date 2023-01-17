@@ -28,9 +28,10 @@ public class ChatClientThread extends Thread {
     while (true) {
       try {
         String message = "";
+        // 서버로 부터 받은 메세지 저장
         message = (String) cc.ois.readObject();
 
-        // 서버로 받은 메세지를 잘라 id, 친구id, 메세지로 구분
+        // 서버로 받은 메세지를 잘라 id, 채팅방 번호, 메세지로 구분
         StringTokenizer st = new StringTokenizer(message, "#");
         String msg = null;
         id = st.nextToken();
@@ -38,17 +39,17 @@ public class ChatClientThread extends Thread {
         msg = st.nextToken();
 
         Room room = new Room();
-        // 받아온 id와 친구id로 채팅방 번호를 가져온다.
-        // int room_num = room.getRoom(id, fr_id);
 
         // 현재 시간 구하기
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strdate = formatter.format(date);
+        // Date date = new Date();
+        // SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // String strdate = formatter.format(date);
+
+        long date = System.currentTimeMillis();
 
         // 메세지를 db에 전송
         String query = "insert into room_chat values ( " + room_num + " , '" + id + "', '" +
-            msg + "', TO_DATE( '" + strdate + "','YYYY-MM-DD HH24:MI:SS' ))";
+            msg + "',  " + date + " )";
         dbf = new DbFunction();
         dbf.insert(query);
 
