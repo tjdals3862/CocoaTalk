@@ -20,11 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-
+import javax.swing.ImageIcon;
 import cocoatalk.oracle.DBCon;
 import cocoatalk.oracle.DbFunction;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 public class FindIdPwView extends JFrame {
+   String imgPath = "app\\src\\main\\java\\cocoatalk\\images\\";
+  ImageIcon imageIcon = new ImageIcon(imgPath + "profileback.png");
+  Toolkit toolkit = Toolkit.getDefaultToolkit();// 로고삽입
+  Image img = toolkit.getImage(imgPath + "logo.png");// 로고삽입
    String id_data = null;
    String mid = null;
    JDialog jdl_infomiss = new JDialog();// 아이디/비밀번호찾기 프레임
@@ -94,6 +100,7 @@ public class FindIdPwView extends JFrame {
    public void initDisplay() {
 
       // 상단 메뉴바의 도화지에 버튼 두 개 붙이기+버튼정의
+      jdl_infomiss.setIconImage(img);
       jbtn_pwmiss.setBorderPainted(false);
       jbtn_pwmiss.setBackground(Color.white);
       jbtn_pwmiss.setFont(f);
@@ -102,7 +109,8 @@ public class FindIdPwView extends JFrame {
       jbtn_idmiss.setFont(f);
       jp_north.add(jbtn_idmiss);
       jp_north.add(jbtn_pwmiss);
-
+      this.setIconImage(img);// 로고삽입
+      
       // 상단 메뉴바를 위한 도화지 붙이기
       jp_north.setLayout(new GridLayout());
       jdl_infomiss.add("North", jp_north);

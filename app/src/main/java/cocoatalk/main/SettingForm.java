@@ -2,11 +2,11 @@ package cocoatalk.main;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Container;
 
-import javax.lang.model.util.ElementScanner14;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -44,16 +44,7 @@ public class SettingForm extends JPanel implements ActionListener {
   JButton jbtn_c = new JButton(new ImageIcon(imgPath + "logoutBtn.png")); //
   // 로그아웃버튼
 
-  // //환경설정버튼2(폰트수정용)
-  // JButton jbtn_a = new JButton("배 경 화 면");
-  // JButton jbtn_b = new JButton("폰 트 변 경");// 폰트설정 버튼
-  // JButton jbtn_c = new JButton("로 그 아 웃"); // 로그아웃버튼
-
-  // 하단고정버튼
-  JButton jbtn_friend = new JButton(new ImageIcon(imgPath + "btnfriends.png")); // 첫번째 (사람모양-친구목록)
-  JButton jbtn_chat = new JButton(new ImageIcon(imgPath + "btnmsg.png")); // 두번째 (채팅목록-하트메세지)
-  JButton jbtn_search = new JButton(new ImageIcon(imgPath + "btnsearch.png")); // 세번째버튼 (검색-돋보기)
-  JButton jbtn_setting = new JButton(new ImageIcon(imgPath + "btnsetting.png")); // 네번째버튼 (설정-톱니바퀴)
+  
   Container con = null;
 
   // 생성자
@@ -89,10 +80,18 @@ public class SettingForm extends JPanel implements ActionListener {
     jbtn_c.setFocusPainted(false);
 
     jp_setting.setLayout(new BoxLayout(jp_setting, BoxLayout.Y_AXIS));
+
     jp_setting.add(jbtn_a);
-    jbtn_b.add(Box.createVerticalStrut(150));
+
+    jp_setting.add(Box.createRigidArea(new Dimension(0, 50)));
+    jp_setting.add(Box.createHorizontalGlue());
+
+    jp_setting.add(Box.createHorizontalGlue());
     jp_setting.add(jbtn_b);
     this.setOpaque(false);
+
+    jp_setting.add(Box.createRigidArea(new Dimension(0, 50)));
+    jp_setting.add(Box.createHorizontalGlue());
     jp_setting.setOpaque(false);
     jp_setting.add(jbtn_c);
 
@@ -102,10 +101,6 @@ public class SettingForm extends JPanel implements ActionListener {
     jbtn_b.addActionListener(this);
     jbtn_c.addActionListener(this);
 
-    jbtn_friend.addActionListener(this);
-    jbtn_search.addActionListener(this);
-    jbtn_chat.addActionListener(this);
-    jbtn_setting.addActionListener(this);
 
   }////////////// 화면그리기 / initDisplay 끝//////////////////////////////
 
@@ -144,6 +139,7 @@ public class SettingForm extends JPanel implements ActionListener {
 
     if (backtype.equals(theme1[0])) {
       ig = new ImageIcon(imgPath + "yellowback.png");
+    
       cVO.setTheme(ig);
       System.out.println("하얀색 됐긔 changed");
 
