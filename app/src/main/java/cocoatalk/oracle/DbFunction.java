@@ -1,5 +1,6 @@
 package cocoatalk.oracle;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,6 +42,30 @@ public class DbFunction {
       }
     }
   }
+
+  public void delete(String query) {
+    db = new DBCon();
+    dfc = new DbFreeCon();
+
+    try {
+      conn = db.getConnection();
+      pstm = conn.prepareStatement(query);
+      int r = pstm.executeUpdate();
+    } catch (SQLException sqle) {
+      sqle.printStackTrace();
+    }
+
+    finally {
+      try {
+        dfc.freeConnection(conn, pstm);
+      } catch (Exception ie) {
+        throw new RuntimeException(ie.getMessage());
+      }
+    }
+  }
+
+
+
 
   public void create(String query) {
 

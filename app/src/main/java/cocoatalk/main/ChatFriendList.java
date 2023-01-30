@@ -126,14 +126,14 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
     jl_frnd.addListSelectionListener(new ListSelectionListener() {
       public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
-          System.out.println("선택 : " + jl_frnd.getSelectedValue());
+          //System.out.println("선택 : " + jl_frnd.getSelectedValue());
 
           StringTokenizer st = new StringTokenizer((String) jl_frnd.getSelectedValue(), "#");
           String name = st.nextToken();
           String id = st.nextToken();
 
           friendlist.add(id);
-          System.out.println("친구목록 : " + friendlist);
+          //System.out.println("친구목록 : " + friendlist);
         }
       }
     });
@@ -209,7 +209,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
     if (fr_search == obj) { // 검색 버튼 클릭
       if (jtf_search.getText() == null) {
-        System.out.println(jtf_search.getText());
+        //System.out.println(jtf_search.getText());
         getDB();
 
       } else {
@@ -218,10 +218,10 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
       }
 
     } else if (fr_invite == obj) {
-      System.out.println("친구추가했긔");
-      System.out.println("추가할 친구 몇명?  : " + friendlist.size());
+      //System.out.println("친구추가했긔");
+      //System.out.println("추가할 친구 몇명?  : " + friendlist.size());
       if (friendlist.size() == 0) {
-        System.out.println("선택한 친구가 없음");
+        //System.out.println("선택한 친구가 없음");
         String msg = "친구를 선택하세요";
         JOptionPane.showMessageDialog(this, msg, "ERROR",
             JOptionPane.INFORMATION_MESSAGE);
@@ -236,7 +236,7 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
           // id 값으로 room방이 있는지 체크
           list.add((String) it.next());
         }
-        System.out.println("친구id리스트 추가 완료");
+        //System.out.println("친구id리스트 추가 완료");
         try {
           DBCon dbcon = new DBCon();
           conn = dbcon.getConnection();
@@ -245,12 +245,12 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
           sql.append(" select room from room_mem ");
           sql.append(" group by room ");
           sql.append(" having count(*) = " + list.size() + "+1 ");
-          System.out.println("리스트 사이즈 : " + list.size());
+          //System.out.println("리스트 사이즈 : " + list.size());
           PreparedStatement pstmt = conn.prepareStatement(sql.toString());
           ResultSet rs = pstmt.executeQuery();
           while (rs.next()) {
             room.add((Integer) rs.getInt("room"));
-            System.out.println(rs.getInt("room"));
+           // System.out.println(rs.getInt("room"));
           }
         } catch (Exception se) {
           se.printStackTrace();
@@ -262,15 +262,15 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
           }
         }
 
-        System.out.println("카톡방 있는지 확인 시작");
+        //System.out.println("카톡방 있는지 확인 시작");
         boolean isTrue = true;
         boolean isChk = true;
-        System.out.println("room 사이즈 : " + room.size());
+        //System.out.println("room 사이즈 : " + room.size());
         int a = list.size() + 1;
         while (isTrue) {
 
           run_stop: for (int i = 0; i < room.size(); i++) {
-            System.out.println(i + "번째 테스트 진행");
+            //System.out.println(i + "번째 테스트 진행");
             try {
               DBCon dbcon = new DBCon();
               conn = dbcon.getConnection();
@@ -283,25 +283,25 @@ public class ChatFriendList extends JFrame implements MouseListener, ActionListe
 
               while (rs.next()) {
                 run_start: for (int j = 0; j < list.size(); j++) {
-                  System.out.println("========================");
-                  System.out.println("fr id는 : " + rs.getString("id"));
-                  System.out.println("id는 : " + cVO.getId());
-                  System.out.println("list id는 : " + list.get(j));
+                  // System.out.println("========================");
+                  // System.out.println("fr id는 : " + rs.getString("id"));
+                  // System.out.println("id는 : " + cVO.getId());
+                  // System.out.println("list id는 : " + list.get(j));
 
                   if (rs.getString("id").equals(list.get(j))
                       || cVO.getId().equals(list.get(j))) {
 
-                    System.out.println("break run start ID 동일");
+                    // System.out.println("break run start ID 동일");
                     a--;
                     break run_start;
                   }
                 }
-                System.out.println("a는 : " + a);
+                // System.out.println("a는 : " + a);
                 // 해당 방이 있으면 isChk false
                 if (a == 0) {
                   isChk = false;
                   isTrue = false;
-                  System.out.println("break run stop");
+                  // System.out.println("break run stop");
                   break run_stop;
                 }
               }

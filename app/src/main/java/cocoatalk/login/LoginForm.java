@@ -168,7 +168,7 @@ public class LoginForm extends JFrame implements ActionListener {
       } catch (SQLException ex) {
 
         JOptionPane.showMessageDialog(this, "Login Failed", "로그인 실패", 1);
-        System.out.println("SQLException" + ex);
+        //System.out.println("SQLException" + ex);
 
       } finally {
         try {

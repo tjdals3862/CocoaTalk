@@ -281,12 +281,12 @@ public class FindIdPwView extends JFrame {
 
                } else {// 그 외에는 찾기 실패
                   JOptionPane.showMessageDialog(null, "일치하는 정보가 없습니다", "아이디 찾기 실패", 1);
-                  System.out.println(name);
+                  //System.out.println(name);
                }
 
             } catch (SQLException ex) {
                JOptionPane.showMessageDialog(null, "일치하는 정보가 없습니다", "아이디 찾기 실패", 1);
-               System.out.println("SQLException" + ex);
+               //System.out.println("SQLException" + ex);
 
             } finally {
                try {
@@ -344,7 +344,7 @@ public class FindIdPwView extends JFrame {
 
             } catch (SQLException ex) {
                JOptionPane.showMessageDialog(null, "일치하는 정보가 없습니다", "비밀번호 찾기 실패", 1);
-               System.out.println("SQLException" + ex);
+               //System.out.println("SQLException" + ex);
 
             } finally {
                try {

@@ -57,7 +57,7 @@ public class ChatList extends JPanel implements MouseListener {
 
   public void InitDisplay() {
     myID = cVO.getId();
-    System.out.println(myID);
+    //System.out.println(myID);
 
     getRoomList();
 
@@ -118,7 +118,7 @@ public class ChatList extends JPanel implements MouseListener {
         nameList.append(ls.get(ls.size() - 1));
 
         chat_list.add(nameList + "/" + room);
-        System.out.println(chat_list.toString());
+        //System.out.println(chat_list.toString());
       }
       for (int i = 0; i < chat_list.size(); i++) {
         String chatRoom = chat_list.get(i);
@@ -148,7 +148,7 @@ public class ChatList extends JPanel implements MouseListener {
       pstmt.setString(2, fr);
       pstmt.setString(3, fr);
       ResultSet rs = pstmt.executeQuery();
-      System.out.println(myID);
+      //System.out.println(myID);
       while (rs.next()) {
         int room = rs.getInt("room");
         List<String> ls = r.getMember(myID, room);
